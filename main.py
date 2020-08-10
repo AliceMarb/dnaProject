@@ -5,7 +5,7 @@ from codec.decoding import decode
 
 app = Flask(__name__)
 
-@app.route("/", methods=['POST'])
+@app.route("/", methods=['GET','POST'])
 def home():
     if request.method == 'POST':
         if 'word' in request.form:
