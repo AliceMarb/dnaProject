@@ -18,3 +18,6 @@ is rendered. The input string, the output string, and for string to DNA, the let
 
 ## Frontend
 The two buttons (DNA to string, and string to DNA), are part of a form element, and are input elements with type "submit". Whenever a button is pressed, a post request is sent to the app (backend), and the page re-renders with another template. Arguments passed to the frontend in render_template are accessed using Jinja curly brackets, e.g. {{word}}. dnaOutput.html uses d3 to display a bar chart for the letter frequency dictionary, which is written {{ letter_dict | safe}} to avoid malicious user input.
+
+## To note: 
+Make sure to input DNA with no spaces.
