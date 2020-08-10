@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+ <head>
+   <meta charset="utf-8">
+   <title>Kern Systems</title>
+   <link rel="stylesheet" href="{{ url_for('static',     filename='css/template.css') }}">
+ </head>
+ <script>
+ </script>
+ <body>
+    <header>
+        <h1 class="logo">Kern Systems</h1>
+    </header>
+    <div class="inputbox">
+      <h1 class="dna_header">String - DNA Converter</h1>
+      <form method="post">
+         <textarea id="word1" name="word" placeholder="Type your string here... e.g. hello"></textarea>
+        <input type="submit" name="submit_button_str" value="String to DNA encoding">
+      </form>
+      <form method="post">
+         <textarea id="word2" name="word" placeholder="Type your DNA here... e.g. TCACA,TCAGC,TAGAG,TAGAG,TAGTC"></textarea>
+        <input type="submit" name="submit_button_dna" value="DNA encoding to string">
+      </form>
+    </div>    
+    {% block content %}
+    {% endblock %}
+    
+ </body>
+</html>

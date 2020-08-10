@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <title>Kern Systems String Converted</title>
+</head>
+
+<body>
+
+  {% extends "template.html" %}
+  {% block content %}
+  <h2 class="output_header">Results for {{inputword}}</h2>
+  <textarea class="output_word" readonly>{{word}}</textarea>
+  <div class="graph"></div>
+
+  <script>
+    var input = {{ letter_dict | safe}};
+    var data = d3.entries(input);
+    var margin = 200;
+    var barWidth = 80;
+    var marginBetweenBars = 5;
+    var groupXOffset = 100;
+    var groupYOffset = 50;
+
+    var maxBarHeight = d3.max(data, function (d) { return d.value; });
+    var yAxisHeight = 400;
+    var numBars = Object.keys(input).length;
+    var xAxisWidth = (barWidth + marginBetweenBars) * numBars;
+
+    var svgWidth = xAxisWidth + groupXOffset;
+    var svgHeight = yAxisHeight + margin;
+
+    var svg = d3.select(".graph").append("svg")
+      .attr("width", svgWidth)
+      .attr("height", svgHeight)
+
+    // y axis has the frequency of letters appearing in the DNA template
+    var yScale = d3.scaleLinear()
+      .range([yAxisHeight, 0])
+      .domain([0, maxBarHeight]);
+    // X axis has the four letters
+    var xScale = d3.scaleBand()
+      .range([0, xAxisWidth])
+      .domain(Object.keys(input));
+    var g = svg.append("g")
+      // transformation applied to all chldren of the group
+      .attr("transform", "translate(" + groupXOffset + "," + groupYOffset + ")");
+
+    g.append("g")
+      .attr("transform", "translate(0," + yAxisHeight + ")")
+      .call(d3.axisBottom(xScale))
+      .append("text")
+      .style("font", "20px times")
+      .style("fill", "black")
+      .attr("y", 40)
+      .attr("x", xAxisWidth / 2)
+      .text("DNA letter");
+    g.append("g")
+      .attr("transform", "translate(0," + 0 + ")")
+      .call(d3.axisLeft(yScale))
+      .append("text")
+      .style("font", "20px times")
+      .attr("transform", "rotate(-90)")
+      .style("fill", "black")
+      .attr("y", -50)
+      .attr("x", -120)
+      .text("Frequency of letter in DNA");
+    g.selectAll(".bar")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("class", "bar")
+      .attr("x", function (d) { return xScale(d.key) })
+      .attr("y", function (d) { return yScale(d.value); })
+      .attr("width", barWidth - marginBetweenBars)
+      .attr("height", function (d) { return yAxisHeight - yScale(d.value); });
+
+
+
+  </script>
+  {% endblock %}
+
+</body>
+
+</html>

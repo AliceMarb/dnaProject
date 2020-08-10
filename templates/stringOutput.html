@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Kern Systems DNA Converted</title>
+  </head>
+  <body>
+    {% extends "template.html" %}
+    {% block content %}
+    <h2 class="output_header">Results for {{inputword}}</h2>
+    <textarea class="output_word" id="stringoutput" readonly>{{word}}</textarea>
+
+    {% endblock %}
+  </body>
+</html>
