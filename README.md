@@ -17,7 +17,13 @@ Defines one route, the root. Strings to convert are sent by POST request. If the
 is rendered. The input string, the output string, and for string to DNA, the letter dictionary, are passed to the template as arguments. By default, template.html is rendered, which contains the title and the input boxes and buttons. The other templates inherit from template.html. 
 
 ## Frontend
-The two buttons (DNA to string, and string to DNA), are part of a form element, and are input elements with type "submit". Whenever a button is pressed, a post request is sent to the app (backend), and the page re-renders with another template. Arguments passed to the frontend in render_template are accessed using Jinja curly brackets, e.g. {{word}}. dnaOutput.html uses d3 to display a bar chart for the letter frequency dictionary, which is written {{ letter_dict | safe}} to avoid malicious user input.
+Includes 4 files:
+- template.html, the base template
+- stringOutput.html, the template for DNA being converted to strings (displays string output)
+- dnaOutput.html, the template for strings being converted to DNA (displays DNA output + graph)
+- template.css, styling for all html
+
+The two buttons in template.html (DNA to string, and string to DNA), are part of a form element, and are input elements with type "submit". Whenever a button is pressed, a post request is sent to the app (backend), and the page re-renders with another template. Arguments passed to the frontend in render_template are accessed using Jinja curly brackets, e.g. {{word}}. dnaOutput.html uses d3 to display a bar chart for the letter frequency dictionary, which is written {{ letter_dict | safe}} to avoid malicious user input.
 
 ## To note: 
 Make sure to input DNA with no spaces.
