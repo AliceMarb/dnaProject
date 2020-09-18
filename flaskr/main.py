@@ -23,7 +23,8 @@ def home():
             
     return render_template("template.html")
 
-# if __name__ == "__main__":
-#     # This is to set FLASK_ENV=development if this is being 
-#     # run using python app.py 
-#     app.run(debug=True)
+if __name__ == "__main__":
+    # This is to set FLASK_ENV=development if this is being 
+    # run using python app.py 
+    # app.run(debug=True)
+    app.run(host="0.0.0.0", port=80)
