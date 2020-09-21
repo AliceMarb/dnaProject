@@ -97,3 +97,292 @@ NameError: name 'flash' is not defined
 2020-09-18 19:28:38,662 INFO: Processing request for home.
 2020-09-18 19:28:38,697 INFO: 127.0.0.1 - - [18/Sep/2020 19:28:38] "[37mGET / HTTP/1.1[0m" 200 -
 2020-09-18 19:28:38,894 INFO: 127.0.0.1 - - [18/Sep/2020 19:28:38] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 09:50:09,073 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 09:50:29,166 INFO: Processing request for home.
+2020-09-21 09:50:29,230 INFO: 127.0.0.1 - - [21/Sep/2020 09:50:29] "[37mGET / HTTP/1.1[0m" 200 -
+2020-09-21 09:50:29,366 INFO: 127.0.0.1 - - [21/Sep/2020 09:50:29] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 09:50:29,559 ERROR: Page not found /favicon.ico
+2020-09-21 09:50:29,565 INFO: 127.0.0.1 - - [21/Sep/2020 09:50:29] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 09:54:18,169 INFO: 127.0.0.1 - - [21/Sep/2020 09:54:18] "[37mPOST /upload_file HTTP/1.1[0m" 200 -
+2020-09-21 09:56:37,500 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 09:56:59,564 INFO: Processing request for home.
+2020-09-21 09:56:59,602 INFO: 127.0.0.1 - - [21/Sep/2020 09:56:59] "[37mPOST / HTTP/1.1[0m" 200 -
+2020-09-21 09:56:59,875 ERROR: Page not found /favicon.ico
+2020-09-21 09:56:59,885 INFO: 127.0.0.1 - - [21/Sep/2020 09:56:59] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 09:57:44,876 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 09:57:52,473 INFO: Processing request for home.
+2020-09-21 10:01:18,015 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:01:19,334 INFO: Processing request for home.
+2020-09-21 10:01:19,384 INFO: 127.0.0.1 - - [21/Sep/2020 10:01:19] "[37mPOST / HTTP/1.1[0m" 200 -
+2020-09-21 10:01:19,715 ERROR: Page not found /favicon.ico
+2020-09-21 10:01:19,723 INFO: 127.0.0.1 - - [21/Sep/2020 10:01:19] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:01:25,491 INFO: Processing request for home.
+2020-09-21 10:01:25,497 INFO: 127.0.0.1 - - [21/Sep/2020 10:01:25] "[37mGET /?word=sdfdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:01:25,676 ERROR: Page not found /favicon.ico
+2020-09-21 10:01:25,678 INFO: 127.0.0.1 - - [21/Sep/2020 10:01:25] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:01:52,021 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:01:59,574 INFO: Processing request for home.
+2020-09-21 10:02:15,458 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:02:18,765 INFO: Processing request for home.
+2020-09-21 10:02:18,832 INFO: 127.0.0.1 - - [21/Sep/2020 10:02:18] "[37mGET /?word=sdds&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:02:19,277 ERROR: Page not found /favicon.ico
+2020-09-21 10:02:19,285 INFO: 127.0.0.1 - - [21/Sep/2020 10:02:19] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:02:23,263 INFO: Processing request for home.
+2020-09-21 10:02:23,275 INFO: 127.0.0.1 - - [21/Sep/2020 10:02:23] "[37mGET /?word=sdfdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:02:23,640 ERROR: Page not found /favicon.ico
+2020-09-21 10:02:23,642 INFO: 127.0.0.1 - - [21/Sep/2020 10:02:23] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:02:55,166 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:02:56,021 INFO: Processing request for home.
+2020-09-21 10:02:56,047 INFO: 127.0.0.1 - - [21/Sep/2020 10:02:56] "[37mGET /?word=sdfdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:02:56,140 ERROR: Page not found /favicon.ico
+2020-09-21 10:02:56,149 INFO: 127.0.0.1 - - [21/Sep/2020 10:02:56] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:02:57,357 INFO: Processing request for home.
+2020-09-21 10:02:57,362 INFO: 127.0.0.1 - - [21/Sep/2020 10:02:57] "[37mGET /?word=sdfdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:02:57,480 ERROR: Page not found /favicon.ico
+2020-09-21 10:02:57,482 INFO: 127.0.0.1 - - [21/Sep/2020 10:02:57] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:03:00,341 INFO: Processing request for home.
+2020-09-21 10:03:00,344 INFO: 127.0.0.1 - - [21/Sep/2020 10:03:00] "[37mGET /?word=dffg&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:03:00,651 ERROR: Page not found /favicon.ico
+2020-09-21 10:03:00,653 INFO: 127.0.0.1 - - [21/Sep/2020 10:03:00] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:03:05,480 INFO: 127.0.0.1 - - [21/Sep/2020 10:03:05] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:03:47,314 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:04:27,433 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:04:38,537 INFO: Processing request for home.
+2020-09-21 10:04:38,602 INFO: 127.0.0.1 - - [21/Sep/2020 10:04:38] "[37mGET /?word=sdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:04:38,721 ERROR: Page not found /favicon.ico
+2020-09-21 10:04:38,726 INFO: 127.0.0.1 - - [21/Sep/2020 10:04:38] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:04:50,184 INFO: 127.0.0.1 - - [21/Sep/2020 10:04:50] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:05:32,361 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:05:36,163 INFO: Processing request for home.
+2020-09-21 10:05:36,236 INFO: 127.0.0.1 - - [21/Sep/2020 10:05:36] "[37mGET /?word=sdfdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:05:36,463 INFO: 127.0.0.1 - - [21/Sep/2020 10:05:36] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:05:36,537 ERROR: Page not found /favicon.ico
+2020-09-21 10:05:36,545 INFO: 127.0.0.1 - - [21/Sep/2020 10:05:36] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:05:51,939 INFO: 127.0.0.1 - - [21/Sep/2020 10:05:51] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:07:01,053 INFO: Processing request for home.
+2020-09-21 10:07:01,060 INFO: 127.0.0.1 - - [21/Sep/2020 10:07:01] "[37mGET /?word=sdfdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:07:01,162 INFO: 127.0.0.1 - - [21/Sep/2020 10:07:01] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:07:01,332 ERROR: Page not found /favicon.ico
+2020-09-21 10:07:01,334 INFO: 127.0.0.1 - - [21/Sep/2020 10:07:01] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:07:03,783 INFO: 127.0.0.1 - - [21/Sep/2020 10:07:03] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:07:09,091 INFO: Processing request for home.
+2020-09-21 10:07:09,094 INFO: 127.0.0.1 - - [21/Sep/2020 10:07:09] "[37mGET /?word=ggggg&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:07:09,399 INFO: 127.0.0.1 - - [21/Sep/2020 10:07:09] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:07:09,463 ERROR: Page not found /favicon.ico
+2020-09-21 10:07:09,464 INFO: 127.0.0.1 - - [21/Sep/2020 10:07:09] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:07:13,810 INFO: 127.0.0.1 - - [21/Sep/2020 10:07:13] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:10:01,769 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:10:04,908 INFO: Processing request for home.
+2020-09-21 10:10:04,993 INFO: 127.0.0.1 - - [21/Sep/2020 10:10:04] "[37mGET /?word=sdfdsf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:10:05,267 INFO: 127.0.0.1 - - [21/Sep/2020 10:10:05] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:10:05,361 ERROR: Page not found /favicon.ico
+2020-09-21 10:10:05,372 INFO: 127.0.0.1 - - [21/Sep/2020 10:10:05] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:10:08,651 INFO: 127.0.0.1 - - [21/Sep/2020 10:10:08] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:10:22,693 INFO: 127.0.0.1 - - [21/Sep/2020 10:10:22] "[31m[1mGET /call_cli?{%22input%22:%22Hi%20this%20is%20Alice%20%22} HTTP/1.1[0m" 405 -
+2020-09-21 10:10:22,708 INFO: Processing request for home.
+2020-09-21 10:10:22,710 INFO: 127.0.0.1 - - [21/Sep/2020 10:10:22] "[37mGET /?word=Hi+this+is+Alice+&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:10:35,516 INFO: 127.0.0.1 - - [21/Sep/2020 10:10:35] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:10:35,697 ERROR: Page not found /favicon.ico
+2020-09-21 10:10:35,698 INFO: 127.0.0.1 - - [21/Sep/2020 10:10:35] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:13:40,382 INFO: Processing request for home.
+2020-09-21 10:13:40,385 INFO: 127.0.0.1 - - [21/Sep/2020 10:13:40] "[37mGET /?word=Hi+this+is+Alice+&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:13:40,461 INFO: 127.0.0.1 - - [21/Sep/2020 10:13:40] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:13:40,524 ERROR: Page not found /favicon.ico
+2020-09-21 10:13:40,526 INFO: 127.0.0.1 - - [21/Sep/2020 10:13:40] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:13:44,943 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:13:55,296 INFO: 127.0.0.1 - - [21/Sep/2020 10:13:55] "[31m[1mGET /call_cli?{%22input%22:%22sdfdf%22} HTTP/1.1[0m" 405 -
+2020-09-21 10:13:55,319 INFO: Processing request for home.
+2020-09-21 10:13:55,372 INFO: 127.0.0.1 - - [21/Sep/2020 10:13:55] "[37mGET /?word=sdfdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:14:00,247 INFO: 127.0.0.1 - - [21/Sep/2020 10:14:00] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:14:00,368 ERROR: Page not found /favicon.ico
+2020-09-21 10:14:00,375 INFO: 127.0.0.1 - - [21/Sep/2020 10:14:00] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:14:25,052 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:14:32,608 INFO: Processing request for home.
+2020-09-21 10:14:32,662 INFO: 127.0.0.1 - - [21/Sep/2020 10:14:32] "[37mGET /?word=hi+theref&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:14:32,858 INFO: 127.0.0.1 - - [21/Sep/2020 10:14:32] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:14:33,031 ERROR: Page not found /favicon.ico
+2020-09-21 10:14:33,036 INFO: 127.0.0.1 - - [21/Sep/2020 10:14:33] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:14:56,814 INFO: 127.0.0.1 - - [21/Sep/2020 10:14:56] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:15:31,371 INFO: Processing request for home.
+2020-09-21 10:15:31,376 INFO: 127.0.0.1 - - [21/Sep/2020 10:15:31] "[37mGET /?word=sdfdffffff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:15:31,481 INFO: 127.0.0.1 - - [21/Sep/2020 10:15:31] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:15:31,688 ERROR: Page not found /favicon.ico
+2020-09-21 10:15:31,691 INFO: 127.0.0.1 - - [21/Sep/2020 10:15:31] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:15:40,005 INFO: 127.0.0.1 - - [21/Sep/2020 10:15:40] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:16:37,677 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:16:41,421 INFO: Processing request for home.
+2020-09-21 10:16:41,462 INFO: 127.0.0.1 - - [21/Sep/2020 10:16:41] "[37mGET /?word=sdfdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:16:41,586 INFO: 127.0.0.1 - - [21/Sep/2020 10:16:41] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:16:41,627 ERROR: Page not found /favicon.ico
+2020-09-21 10:16:41,634 INFO: 127.0.0.1 - - [21/Sep/2020 10:16:41] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:16:44,606 INFO: 127.0.0.1 - - [21/Sep/2020 10:16:44] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:18:02,281 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:18:05,272 INFO: Processing request for home.
+2020-09-21 10:18:05,322 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:05] "[37mGET /?word=sdfdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:18:05,381 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:05] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:18:05,513 ERROR: Page not found /favicon.ico
+2020-09-21 10:18:05,526 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:05] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:18:09,967 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:09] "[31m[1mGET /call_cli?{%22input%22:%22sdf%22} HTTP/1.1[0m" 405 -
+2020-09-21 10:18:10,006 INFO: Processing request for home.
+2020-09-21 10:18:10,009 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:10] "[37mGET /?word=sdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:18:17,405 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:17] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:18:17,540 ERROR: Page not found /favicon.ico
+2020-09-21 10:18:17,541 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:17] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:18:28,329 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:18:35,518 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:35] "[31m[1mGET /call_cli?{%22input%22:%22sdfsdff%22} HTTP/1.1[0m" 405 -
+2020-09-21 10:18:35,540 INFO: Processing request for home.
+2020-09-21 10:18:35,601 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:35] "[37mGET /?word=sdfsdff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:18:38,186 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:38] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:18:38,325 ERROR: Page not found /favicon.ico
+2020-09-21 10:18:38,332 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:38] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:18:44,550 INFO: Processing request for home.
+2020-09-21 10:18:44,555 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:44] "[37mGET /?word=hello+there&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:18:44,676 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:44] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:18:44,876 ERROR: Page not found /favicon.ico
+2020-09-21 10:18:44,877 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:44] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:18:52,926 INFO: 127.0.0.1 - - [21/Sep/2020 10:18:52] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:21:50,194 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:22:27,484 INFO: Processing request for home.
+2020-09-21 10:22:27,540 INFO: 127.0.0.1 - - [21/Sep/2020 10:22:27] "[37mGET /?word=sdfdff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:22:27,638 INFO: 127.0.0.1 - - [21/Sep/2020 10:22:27] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:22:27,763 ERROR: Page not found /favicon.ico
+2020-09-21 10:22:27,772 INFO: 127.0.0.1 - - [21/Sep/2020 10:22:27] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:22:32,889 INFO: 127.0.0.1 - - [21/Sep/2020 10:22:32] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:22:55,228 INFO: Processing request for home.
+2020-09-21 10:22:55,231 INFO: 127.0.0.1 - - [21/Sep/2020 10:22:55] "[37mGET /?word=sdf&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:22:55,314 INFO: 127.0.0.1 - - [21/Sep/2020 10:22:55] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:22:55,608 ERROR: Page not found /favicon.ico
+2020-09-21 10:22:55,610 INFO: 127.0.0.1 - - [21/Sep/2020 10:22:55] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:23:00,771 INFO: 127.0.0.1 - - [21/Sep/2020 10:23:00] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:26:47,328 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:27:00,265 INFO: Processing request for home.
+2020-09-21 10:27:00,336 INFO: 127.0.0.1 - - [21/Sep/2020 10:27:00] "[37mGET /?word=sfff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:27:00,592 INFO: 127.0.0.1 - - [21/Sep/2020 10:27:00] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:27:00,678 ERROR: Page not found /favicon.ico
+2020-09-21 10:27:00,687 INFO: 127.0.0.1 - - [21/Sep/2020 10:27:00] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:27:06,926 INFO: 127.0.0.1 - - [21/Sep/2020 10:27:06] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:27:56,890 INFO: 127.0.0.1 - - [21/Sep/2020 10:27:56] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:28:31,220 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:28:36,564 INFO: 127.0.0.1 - - [21/Sep/2020 10:28:36] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:28:46,761 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:28:47,695 INFO: Processing request for home.
+2020-09-21 10:28:47,739 INFO: 127.0.0.1 - - [21/Sep/2020 10:28:47] "[37mGET /?word=sfff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:28:47,797 INFO: 127.0.0.1 - - [21/Sep/2020 10:28:47] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:28:47,896 ERROR: Page not found /favicon.ico
+2020-09-21 10:28:47,905 INFO: 127.0.0.1 - - [21/Sep/2020 10:28:47] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:28:54,988 INFO: 127.0.0.1 - - [21/Sep/2020 10:28:54] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:34:32,270 INFO: Processing request for home.
+2020-09-21 10:34:32,274 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:32] "[37mGET /?word=sfff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:34:32,360 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:32] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:34:32,441 ERROR: Page not found /favicon.ico
+2020-09-21 10:34:32,443 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:32] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:34:37,440 INFO: Processing request for home.
+2020-09-21 10:34:37,442 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:37] "[37mGET /?word=sfff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:34:37,525 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:37] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:34:37,611 ERROR: Page not found /favicon.ico
+2020-09-21 10:34:37,615 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:37] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:34:38,736 INFO: Processing request for home.
+2020-09-21 10:34:38,738 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:38] "[37mGET /?word=sfff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:34:38,807 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:38] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:34:38,877 ERROR: Page not found /favicon.ico
+2020-09-21 10:34:38,878 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:38] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:34:43,911 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:34:45,760 INFO: Processing request for home.
+2020-09-21 10:34:45,801 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:45] "[37mGET /?word=sfff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:34:45,894 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:45] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:34:45,999 ERROR: Page not found /favicon.ico
+2020-09-21 10:34:46,006 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:46] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:34:46,921 INFO: Processing request for home.
+2020-09-21 10:34:46,923 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:46] "[37mGET /?word=sfff&submit_button_str=String+to+DNA+encoding HTTP/1.1[0m" 200 -
+2020-09-21 10:34:47,001 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:47] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:34:47,070 ERROR: Page not found /favicon.ico
+2020-09-21 10:34:47,072 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:47] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:34:50,258 INFO: Processing request for home.
+2020-09-21 10:34:50,260 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:50] "[37mGET / HTTP/1.1[0m" 200 -
+2020-09-21 10:34:50,343 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:50] "[37mGET /static/css/template.css HTTP/1.1[0m" 200 -
+2020-09-21 10:34:50,442 ERROR: Page not found /favicon.ico
+2020-09-21 10:34:50,444 INFO: 127.0.0.1 - - [21/Sep/2020 10:34:50] "[37mGET /favicon.ico HTTP/1.1[0m" 200 -
+2020-09-21 10:35:02,144 INFO: 127.0.0.1 - - [21/Sep/2020 10:35:02] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:35:15,246 INFO: 127.0.0.1 - - [21/Sep/2020 10:35:15] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 10:58:06,654 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:58:13,189 ERROR: Exception on /call_cli [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/flaskr/main.py", line 43, in call_cli
+    with open(path, 'w+') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'codec_files/test_dff.txt'
+2020-09-21 10:58:13,200 INFO: 127.0.0.1 - - [21/Sep/2020 10:58:13] "[35m[1mPOST /call_cli HTTP/1.1[0m" 500 -
+2020-09-21 10:58:45,672 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 10:58:54,354 ERROR: Exception on /call_cli [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/flaskr/main.py", line 43, in call_cli
+    with open(path, 'w+') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'codec_files/test_alice.txt'
+2020-09-21 10:58:54,372 INFO: 127.0.0.1 - - [21/Sep/2020 10:58:54] "[35m[1mPOST /call_cli HTTP/1.1[0m" 500 -
+2020-09-21 10:59:49,729 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 11:00:15,556 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 11:00:30,071 ERROR: Exception on /call_cli [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/flaskr/main.py", line 43, in call_cli
+    with open(path, 'w+') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './codec_files/test_f.txt'
+2020-09-21 11:00:30,085 INFO: 127.0.0.1 - - [21/Sep/2020 11:00:30] "[35m[1mPOST /call_cli HTTP/1.1[0m" 500 -
+2020-09-21 11:00:52,072 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 11:01:55,360 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 11:02:37,137 INFO: 127.0.0.1 - - [21/Sep/2020 11:02:37] "[37mPOST /call_cli HTTP/1.1[0m" 200 -
+2020-09-21 11:05:30,457 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 11:05:48,724 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+2020-09-21 11:05:57,614 ERROR: Exception on /call_cli [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/envs/venv-dna/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/flaskr/main.py", line 49, in call_cli
+    with open(enc_path, 'r') as f:
+FileNotFoundError: [Errno 2] No such file or directory: './flaskr/codec_files/test_ffaa.fa'
+2020-09-21 11:05:57,625 INFO: 127.0.0.1 - - [21/Sep/2020 11:05:57] "[35m[1mPOST /call_cli HTTP/1.1[0m" 500 -
+2020-09-21 11:06:21,250 INFO:  * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)

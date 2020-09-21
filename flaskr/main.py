@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
-from codec.encoding import encode
-from codec.decoding import decode
+from flaskr.codec.encoding import encode
+from flaskr.codec.decoding import decode
 from flask import jsonify
 import json 
 import logging
@@ -34,16 +34,21 @@ def home():
 
 @app.route("/call_cli", methods=['POST'])
 def call_cli():
-    # if request.method == 'POST':
-    # json_data = json.loads(request.data)
-    # wordy = request.json['word']
-    # input_word = request.data.get("word")
-    # data = json.loads(request.form.get('data'))
     jsonData = request.get_json()
-
-    # word = request.get_data()
-    input_word = "hi there"
-    return jsonify(status="success", word=input_word+"rabbit") 
+    input_word = jsonData['input']
+    # make a file with the word
+    folder = './flaskr/codec_files/'
+    fname = 'test_' + input_word[:10] 
+    in_path = folder + fname + '.txt'
+    enc_path = folder + fname + '.fa'
+    with open(in_path, 'w+') as f:
+    # call encoding on the input word thru command line
+        f.write(input_word)
+    enc_command = "./dnad_encode --in {path} --out {enc_path} --encoding lee19_hw"
+    enc_string = ""
+    with open(enc_path, 'r') as f:
+        enc_string = '\n'.join(f.readlines())
+    return jsonify(status="success", word=enc_string) 
 
 @app.route("/upload_file", methods=['POST'])
 def upload_file():
