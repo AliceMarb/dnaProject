@@ -3,13 +3,17 @@ from flask import Flask, render_template, request, redirect, url_for
 # from flaskr.codec.decoding import decode
 from flask import jsonify
 import json 
-from app.factory import app
-
+import logging
+from flask.logging import default_handler
 import os
 import subprocess
 from Bio import SeqIO
 
-# app = Flask(__name__)
+app = Flask(__name__)
+# format=’%(asctime)s %(levelname)s %(name)s %(threadName)s : %(message)s’)
+
+logging.basicConfig(filename='logs.log', level=logging.DEBUG,
+    format="%(asctime)s %(levelname)s: %(message)s")
 
 # add C files to path (??), OR docker/virtual environment
 

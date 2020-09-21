@@ -1,0 +1,147 @@
+[2020-09-21 18:36:00,403] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
+[2020-09-21 18:36:00,608] 127.0.0.1 requested http://127.0.0.1:5002/favicon.ico
+ERROR in /Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py:1892 - Exception on /favicon.ico [GET]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1926, in dispatch_request
+    self.raise_routing_exception(req)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1908, in raise_routing_exception
+    raise request.routing_exception
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/ctx.py", line 350, in match_request
+    result = self.url_adapter.match(return_rule=True)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/werkzeug/routing.py", line 1945, in match
+    raise NotFound()
+werkzeug.exceptions.NotFound: 404 Not Found: The requested URL was not found on the server. If you entered the URL manually please check your spelling and try again.
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1816, in handle_user_exception
+    return self.handle_http_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1744, in handle_http_exception
+    return handler(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/errors.py", line 7, in render_status
+    return render_template('errors/{0}.html'.format(code)), code
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/templating.py", line 138, in render_template
+    ctx.app.jinja_env.get_or_select_template(template_name_or_list),
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/jinja2/environment.py", line 930, in get_or_select_template
+    return self.get_template(template_name_or_list, parent, globals)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/jinja2/environment.py", line 883, in get_template
+    return self._load_template(name, self.make_globals(globals))
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/jinja2/environment.py", line 857, in _load_template
+    template = self.loader.load(self, name, globals)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/jinja2/loaders.py", line 115, in load
+    source, filename, uptodate = self.get_source(environment, name)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/templating.py", line 60, in get_source
+    return self._get_source_fast(environment, template)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/templating.py", line 89, in _get_source_fast
+    raise TemplateNotFound(template)
+jinja2.exceptions.TemplateNotFound: errors/404.html
+[2020-09-21 18:40:45,913] 127.0.0.1 requested http://127.0.0.1:5002/call_cli
+ERROR in /Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py:1892 - Exception on /call_cli [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py", line 41, in call_cli
+    with open(in_path, 'w+') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'flaskr/codec_files/test_hi_thefe.txt'
+[2020-09-21 18:41:52,135] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
+[2020-09-21 18:41:55,194] 127.0.0.1 requested http://127.0.0.1:5002/call_cli
+ERROR in /Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py:1892 - Exception on /call_cli [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py", line 41, in call_cli
+    with open(in_path, 'w+') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'flaskr/codec_files/test_hello.txt'
+[2020-09-21 18:45:36,665] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
+[2020-09-21 18:45:40,776] 127.0.0.1 requested http://127.0.0.1:5002/call_cli
+ERROR in /Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py:1892 - Exception on /call_cli [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py", line 41, in call_cli
+    with open(in_path, 'w+') as f:
+FileNotFoundError: [Errno 2] No such file or directory: 'codec_files/test_sdfsd;lfk;.txt'
+[2020-09-21 18:47:46,947] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
+[2020-09-21 18:47:48,709] 127.0.0.1 requested http://127.0.0.1:5002/call_cli
+ERROR in /Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py:1892 - Exception on /call_cli [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py", line 42, in call_cli
+    with open(in_path, 'w+') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '../../codec_files/test_sdf.txt'
+[2020-09-21 18:48:13,286] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
+[2020-09-21 18:48:14,888] 127.0.0.1 requested http://127.0.0.1:5002/call_cli
+ERROR in /Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py:1892 - Exception on /call_cli [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py", line 43, in call_cli
+    with open(in_path, 'w+') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '../../codec_files/test_dsf.txt'
+[2020-09-21 18:48:39,879] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
+[2020-09-21 18:50:04,376] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
