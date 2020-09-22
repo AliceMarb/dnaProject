@@ -28,7 +28,7 @@ def home():
     subprocess.Popen("make", cwd="./Codec/c")
     return render_template("template.html")
 
-@home_bp.route("/call_cli/", methods=['POST'])
+@home_bp.route("/call_cli", methods=['POST'])
 def call_cli():
     jsonData = request.get_json()
     input_word = jsonData['input']
