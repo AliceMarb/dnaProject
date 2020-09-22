@@ -14,7 +14,7 @@
   <link rel="stylesheet" href="{{ url_for('static',     filename='css/template.css') }}">
 </head>
 <script>
-  function callCLI(e) {
+  function stringToDNA(e) {
     // post to the Flask endpoint that makes a call to the CLI
     // check jquery
     // if (typeof jQuery != 'undefined') {  
@@ -40,10 +40,15 @@
       data: JSON.stringify(data),
       // need a callback after success because ajax is async
       success: function (result) {
+        console.log('success');
         callback(result);
       },
       error: function (result) {
-        callback("failure");
+        console.log('failure');
+        console.log(result);
+        console.log(result['status']);
+        // raise the error
+        // callback("failure");
       }
     });
 
@@ -95,7 +100,7 @@
   <div class="inputbox">
     <h1 class="dna_header">String - DNA Converter</h1>
     <!-- <form method="post" onsubmit="callCLI()"> -->
-    <form onsubmit="callCLI(event)">
+    <form onsubmit="stringToDNA(event)">
       <textarea id="word1" name="word" placeholder="Type your string here... e.g. hello"></textarea>
       <input type="submit" name="submit_button_str" value="String to DNA encoding">
     </form>
@@ -118,6 +123,7 @@
       function generateGraph(input) {
       console.log('Generating the graph');
       console.log(input);
+      d3.select(".graphSvg").remove();
       var data = d3.entries(input);
       var margin = 200;
       var barWidth = 80;
@@ -138,6 +144,7 @@
       var svg = d3.select("#graph").append("svg")
         .attr("width", svgWidth)
         .attr("height", svgHeight)
+        .attr("class", "graphSvg")
 
       // y axis has the frequency of letters appearing in the DNA template
       var yScale = d3.scaleLinear()

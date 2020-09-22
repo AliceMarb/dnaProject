@@ -10,7 +10,7 @@
             "request": "launch",
             "module": "flask",
             "env": {
-                "FLASK_APP": "app/factory.py",
+                "FLASK_APP": "app.factory",
                 "FLASK_ENV": "development",
                 "FLASK_DEBUG": "0"
             },

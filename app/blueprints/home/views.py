@@ -8,7 +8,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from flask import jsonify
 import json 
 from flask import current_app
-
+from flask import abort
 # from app.factory import app
 
 import os
@@ -28,7 +28,7 @@ def home():
     subprocess.Popen("make", cwd="./Codec/c")
     return render_template("template.html")
 
-@home_bp.route("/call_cli", methods=['POST'])
+@home_bp.route("/call_cli/", methods=['POST'])
 def call_cli():
     jsonData = request.get_json()
     input_word = jsonData['input']
@@ -36,18 +36,19 @@ def call_cli():
     # make a file with the word
     os.system('cd ./Codec/c')
     from_c_folder = '../../app/'
-    from_views_folder = 'app/'
+    from_root = 'app/'
     fname = 'codec_files/test_' + '_'.join(input_word[:10].split(' '))
-    in_path = from_views_folder + fname + '.txt'
-    enc_path = from_views_folder + fname + '.fa'
-    with open(in_path, 'w+') as f:
+    in_path = fname + '.txt'
+    enc_path = fname + '.fa'
+    with open(from_root + in_path, 'w+') as f:
     # call encoding on the input word thru command line
         f.write(input_word)
     enc_command = f"./dnad_encode --in {from_c_folder + in_path} --out {from_c_folder + enc_path} --encoding lee19_hw"
-    subprocess.Popen(enc_command.split(' '), cwd="./Codec/c")
+    # automatically waits for end of the process
+    subprocess.call(enc_command.split(' '), cwd="./Codec/c")
     enc_string = ""
-    if os.path.isfile(enc_path):
-        for seq_record in SeqIO.parse(enc_path, "fasta"):
+    if os.path.isfile(from_root + enc_path):
+        for seq_record in SeqIO.parse(from_root + enc_path, "fasta"):
             # remove the lowercase g at the start of the 
             # sequence
             enc_string += str(seq_record.seq)[1:]
@@ -57,9 +58,15 @@ def call_cli():
             "T": enc_string.count("T"),
             "C": enc_string.count("C"),
         }
+        # print('got to the end')
     else:
-        return render_template('error.html', title='404 Error', msg="File not found: " + enc_path)
-    return jsonify(status="success", word=enc_string, letter_dict=letter_dict) 
+        print('This file not found: ', from_root + enc_path)
+        print('This file found: ', os.path.isfile(from_root + enc_path))
+        current_app.logger.error(f"File not found: {from_root + enc_path}")
+        # (response, status, headers)
+        return jsonify(status="error", word="", letter_dict={}), 404
+        # return render_template('error.html', title='404 Error', msg="File not found!: " + enc_path)
+    return jsonify(status="success", word=enc_string, letter_dict=letter_dict)
 
 @home_bp.route("/upload_file", methods=['POST'])
 def upload_file():
