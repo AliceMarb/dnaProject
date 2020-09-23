@@ -90,3 +90,11 @@ INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 -
 INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
 [2020-09-23 12:33:24,885] 127.0.0.1 requested http://127.0.0.1:5002/
 INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:44:43,191] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:46:01,433] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 14:06:22,095] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 14:07:50,477] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.

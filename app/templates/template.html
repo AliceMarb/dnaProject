@@ -56,7 +56,10 @@
       document.getElementById("output_word").innerHTML = data["word"];
       document.getElementById("payload_trits").innerHTML = "Payload Trits: " + data["payload_trits"];
       document.getElementById("address_bits").innerHTML = "Address Length: " + data["address_length"];
+      document.getElementById("payload_trits").style.display = "block";
       generateGraph(data["letter_dict"]);
+      document.getElementById("graph").style.display = "block";
+      document.getElementById("synthesis_length").style.display = "none";
     }
   }
   window.onload = function () {
@@ -88,7 +91,7 @@
     for (c of testInput) {
       if (c == ',' && strandLength == -1) {
         if (seen == 0) {
-          alert('Cant start with comma');
+          alert("Can't start with comma");
           return;
         }
         cleanInput += c;
@@ -145,6 +148,7 @@
         document.getElementById("output_word").innerHTML = data["word"];
         document.getElementById("payload_trits").style.display = "none";
         document.getElementById("graph").style.display = "none";
+        document.getElementById("synthesis_length").style.display = "block";
       })
       .catch((error) => {
         alert('An error has occurred returning the data. Check console for data log.');
