@@ -1,12 +1,92 @@
-[2020-09-22 11:25:47,850] 127.0.0.1 requested http://127.0.0.1:5002/
-INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
-[2020-09-22 11:25:51,306] 127.0.0.1 requested http://127.0.0.1:5002/call_cli/
-ERROR in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:65 - File not found: app/codec_files/test_sldkfs.fa
-[2020-09-22 11:26:24,001] 127.0.0.1 requested http://127.0.0.1:5002/call_cli/
-ERROR in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:65 - File not found: app/codec_files/test_Hola_there.fa
-[2020-09-22 11:26:50,733] 127.0.0.1 requested http://127.0.0.1:5002/
-INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
-[2020-09-22 11:29:37,373] 127.0.0.1 requested http://127.0.0.1:5002/
-INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
-[2020-09-22 11:29:53,967] 127.0.0.1 requested http://127.0.0.1:5002/
-INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:24 - Processing request for home.
+[2020-09-23 11:46:58,304] 127.0.0.1 requested http://127.0.0.1:5000/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:47:23,266] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:47:41,542] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:47:55,708] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:47:58,994] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:48:04,036] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:48:06,298] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:48:07,974] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:48:14,108] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:51:22,284] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:54:50,036] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:55:39,277] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:55:55,289] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:57:53,176] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:58:19,799] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 11:58:29,531] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:01:25,575] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:04:01,378] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:06:15,493] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:06:31,347] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:07:18,776] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:08:05,458] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:08:18,541] 127.0.0.1 requested http://127.0.0.1:5002/decode_string
+ERROR in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:130 - Error in decodingAT, TG, CA - problem finding payload/address info: 
+ b'synthesis length: 4\nAddress length: 0\ndecoding\n' 
+ b'' 
+[2020-09-23 12:08:19,236] 127.0.0.1 requested http://127.0.0.1:5002/decode_string
+ERROR in /Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py:1892 - Exception on /decode_string [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py", line 135, in decode_string
+    return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)
+UnboundLocalError: local variable 'synthesis_length' referenced before assignment
+[2020-09-23 12:11:39,010] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:11:39,131] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:12:31,150] 127.0.0.1 requested http://127.0.0.1:5002/decode_string
+ERROR in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:128 - Error in decodingATT, TAC, TTG - problem finding payload/address info: 
+ b'synthesis length: 5\nAddress length: 0\ndecoding\n' 
+ b'' 
+[2020-09-23 12:17:49,607] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:18:23,688] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:18:58,766] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:19:28,485] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:20:41,340] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:22:36,409] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:26:44,029] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:32:01,065] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-09-23 12:33:24,885] 127.0.0.1 requested http://127.0.0.1:5002/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.

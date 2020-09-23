@@ -14,6 +14,11 @@ from flask import abort
 import os
 import subprocess
 from Bio import SeqIO
+from Bio.Seq import Seq
+from Bio.SeqRecord import SeqRecord
+
+import re
+import datetime
 
 # app = Flask(__name__)
 
@@ -28,30 +33,67 @@ def home():
     subprocess.Popen("make", cwd="./Codec/c")
     return render_template("template.html")
 
-@home_bp.route("/call_cli", methods=['POST'])
-def call_cli():
-    jsonData = request.get_json()
-    input_word = jsonData['input']
-    print(os.getcwd())
-    # make a file with the word
-    os.system('cd ./Codec/c')
+def string_en_decode(string, encode=True):
     from_c_folder = '../../app/'
     from_root = 'app/'
-    fname = 'codec_files/test_' + '_'.join(input_word[:10].split(' '))
-    in_path = fname + '.txt'
-    enc_path = fname + '.fa'
-    with open(from_root + in_path, 'w+') as f:
-    # call encoding on the input word thru command line
-        f.write(input_word)
-    enc_command = f"./dnad_encode --in {from_c_folder + in_path} --out {from_c_folder + enc_path} --encoding lee19_hw"
+    time = datetime.datetime.utcnow()
+    fname = 'codec_files/' + '_'.join(str(time)[:19].replace(':', '-').split(' ')) + '_' +  '_'.join(string[:10].split(' '))
+    if encode:
+        in_path = fname + '.txt'
+        out_path = fname + '_encoded.fa'
+        # make a file with the word
+        with open(from_root + in_path, 'w+') as f:
+        # call encoding on the input word thru command line
+            f.write(string)
+        command = f"./dnad_encode --in {from_c_folder + in_path} --out {from_c_folder + out_path} --encoding lee19_hw"
+    else:
+        in_path = fname + '.fa'
+        out_path = fname + '_decoded.txt'
+        # write a fasta  file
+        try:
+            # record = SeqRecord(Seq(string), id=string, name="DNAtoString", description="Conversion from input string DNA to decoded string")
+            # SeqIO.write(record, from_root + in_path, "fasta")
+            # with open('seq_test_DNAinput.txt', 'w+') as f:
+            with open(from_root + in_path, 'w+') as f:
+                seq_list = string.split(',')
+                print('decoded process DNA')
+                for seq in seq_list:
+                    f.write('>seq\n')
+                    f.write('g' + seq + '\n')
+                # f.write(f'>{str(time)[:19]} Conversion from input string DNA to decoded string\n{string}\n')
+        except:
+            print('conversion didnt work')
+        command = f"./dnad_decode --in {from_c_folder + in_path} --out {from_c_folder + out_path} --encoding lee19_hw"
+
+    process = subprocess.Popen(command.split(' '), cwd="./Codec/c", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    out, err = process.communicate()
+    return process, out, err, from_root + out_path
+
+# DON'T PUT A SLASH, does not work
+@home_bp.route("/encode_string", methods=['POST'])
+def encode_string():
+    jsonData = request.get_json()
+    input_word = jsonData['input']
     # automatically waits for end of the process
-    subprocess.call(enc_command.split(' '), cwd="./Codec/c")
+    payload_trits = -1
+    address_length = -1
+    (process, out, err, out_path) = string_en_decode(input_word)
+    # stdout_list = out.decode("utf-8").strip().split('\n')
+    srch = re.search('Payload trits:.*?(\d+)\nAddress length:.*?(\d+)', out.decode("utf-8"))
+    try:
+        payload_trits = int(srch[1])
+        address_length = int(srch[2])
+    except:
+        # didn't return as expected
+        current_app.logger.error(f"Error in encoding " + input_word + f" - problem finding payload/address info: \n {str(out)} \n {str(err)} ")
+    process.wait()
     enc_string = ""
-    if os.path.isfile(from_root + enc_path):
-        for seq_record in SeqIO.parse(from_root + enc_path, "fasta"):
+    if os.path.isfile(out_path):
+        print('encoded process DNA')
+        for seq_record in SeqIO.parse(out_path, "fasta"):
             # remove the lowercase g at the start of the 
             # sequence
-            enc_string += str(seq_record.seq)[1:]
+            enc_string += (str(seq_record.seq)[1:] + ',')
         letter_dict = {
             "A": enc_string.count("A"),
             "G": enc_string.count("G"),
@@ -60,13 +102,33 @@ def call_cli():
         }
         # print('got to the end')
     else:
-        print('This file not found: ', from_root + enc_path)
-        print('This file found: ', os.path.isfile(from_root + enc_path))
-        current_app.logger.error(f"File not found: {from_root + enc_path}")
+        print('This file not found: ', out_path)
+        print('This file found: ', os.path.isfile(out_path))
+        current_app.logger.error(f"File not found: {out_path}")
         # (response, status, headers)
         return jsonify(status="error", word="", letter_dict={}), 404
         # return render_template('error.html', title='404 Error', msg="File not found!: " + enc_path)
-    return jsonify(status="success", word=enc_string, letter_dict=letter_dict)
+    return jsonify(status="success", word=enc_string, letter_dict=letter_dict, payload_trits=payload_trits, address_length=address_length)
+
+@home_bp.route("/decode_string", methods=['POST'])
+def decode_string():
+    jsonData = request.get_json(force=True)
+    input_word = jsonData['input']
+    (process, out, err, out_path) = string_en_decode(input_word, False)
+    print(out, err)
+    srch = re.search('synthesis length:.*?(\d+)\n*.*?\n*Address length:.*?(\d+)', out.decode("utf-8"))
+    try:
+        synthesis_length = int(srch[1])
+        address_length = int(srch[2])
+    except:
+        # didn't return as expected
+        current_app.logger.error(f"Error in decoding" + input_word + f" - problem finding payload/address info: \n {str(out)} \n {str(err)} ")
+        return jsonify(status="error")
+    with open(out_path, 'r') as f:
+        decoded_list = f.readlines()
+        decoded_str = '\n'.join(decoded_list)
+        pass
+    return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)
 
 @home_bp.route("/upload_file", methods=['POST'])
 def upload_file():
@@ -93,10 +155,10 @@ def upload_file():
 #     app.logger.error('Page not found %s', (request.path))
 #     return render_template('error.html', title='404 Error', msg=request.path)
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # This is to set FLASK_ENV=development if this is being 
     # run using python app.py 
     # app.run(debug=True)
     # app.run()
     # app.run(host="0.0.0.0", port=80)
-    app.run(port=5000)
+    # app.run(port=5000)
