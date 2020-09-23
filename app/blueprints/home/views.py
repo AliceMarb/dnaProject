@@ -67,7 +67,7 @@ def string_en_decode(string, encode=True):
 
     process = subprocess.Popen(command.split(' '), cwd="./Codec/c", stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = process.communicate()
-    return process, out, err, from_root + out_path
+    return process, out, err, from_root + in_path, from_root + out_path
 
 # DON'T PUT A SLASH, does not work
 @home_bp.route("/encode_string", methods=['POST'])
@@ -77,7 +77,7 @@ def encode_string():
     # automatically waits for end of the process
     payload_trits = -1
     address_length = -1
-    (process, out, err, out_path) = string_en_decode(input_word)
+    (process, out, err, in_path, out_path) = string_en_decode(input_word)
     # stdout_list = out.decode("utf-8").strip().split('\n')
     srch = re.search('Payload trits:.*?(\d+)\nAddress length:.*?(\d+)', out.decode("utf-8"))
     try:
@@ -85,7 +85,7 @@ def encode_string():
         address_length = int(srch[2])
     except:
         # didn't return as expected
-        current_app.logger.error(f"Error in encoding " + input_word + f" - problem finding payload/address info: \n {str(out)} \n {str(err)} ")
+        current_app.logger.error(f"ENCODING typed {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {input_word}")
     process.wait()
     enc_string = ""
     if os.path.isfile(out_path):
@@ -104,17 +104,18 @@ def encode_string():
     else:
         print('This file not found: ', out_path)
         print('This file found: ', os.path.isfile(out_path))
-        current_app.logger.error(f"File not found: {out_path}")
+        current_app.logger.error(f"ENCODING typed {in_path} {out_path} --- File not found error ::: Input: {input_word} Encoding: {enc_string}")
         # (response, status, headers)
         return jsonify(status="error", word="", letter_dict={}), 404
         # return render_template('error.html', title='404 Error', msg="File not found!: " + enc_path)
+    current_app.logger.info(f"ENCODING typed {in_path} {out_path} --- All good! ::: Input: {input_word} Encoding: {enc_string}")
     return jsonify(status="success", word=enc_string, letter_dict=letter_dict, payload_trits=payload_trits, address_length=address_length)
 
 @home_bp.route("/decode_string", methods=['POST'])
 def decode_string():
     jsonData = request.get_json(force=True)
     input_word = jsonData['input']
-    (process, out, err, out_path) = string_en_decode(input_word, False)
+    (process, out, err, in_path, out_path) = string_en_decode(input_word, False)
     print(out, err)
     srch = re.search('synthesis length:.*?(\d+)\n*.*?\n*Address length:.*?(\d+)', out.decode("utf-8"))
     try:
@@ -122,12 +123,15 @@ def decode_string():
         address_length = int(srch[2])
     except:
         # didn't return as expected
-        current_app.logger.error(f"Error in decoding" + input_word + f" - problem finding payload/address info: \n {str(out)} \n {str(err)} ")
+        current_app.logger.error(f"DECODING typed {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {input_word}")
         return jsonify(status="error")
-    with open(out_path, 'r') as f:
-        decoded_list = f.readlines()
-        decoded_str = '\n'.join(decoded_list)
-        pass
+    try:
+        with open(out_path, 'r') as f:
+            decoded_list = f.readlines()
+            decoded_str = '\n'.join(decoded_list)
+    except:
+        current_app.logger.error(f"DECODING typed {in_path} {out_path} --- File not found error ::: Input: {input_word}")
+    current_app.logger.info(f"DECODING typed {in_path} {out_path} --- All good! ::: Input: {input_word} Decoding: {decoded_str}")
     return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)
 
 @home_bp.route("/upload_file", methods=['POST'])
