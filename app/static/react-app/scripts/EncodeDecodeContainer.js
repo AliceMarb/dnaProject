@@ -54,7 +54,6 @@ const EncodeDecodeContainer = () => {
               dataType: "json",
             }),
         };
-        alert('attempting to fetch');
         var url = "encode_string"
         if (window.location.href.includes('dev')) {
             url = "/dev/" + url;
