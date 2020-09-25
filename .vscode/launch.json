@@ -16,10 +16,13 @@
             },
             "args": [
                 "run",
-                // "--no-debugger",
-                "--no-reload",
+                // this is the browser-based debugger,
+                // whcih we don't want
+                "--no-debugger",
+                // "--no-reload",
+                // "--no-cache",
                 // "--host=0.0.0.0",
-                "--port=5002"
+                "--port=5001"
             ],
             "jinja": true
         }

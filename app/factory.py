@@ -3,7 +3,7 @@ from flask import Flask
 # from app.config import RequestFormatter
 from app.errors import error_templates
 from flask import has_request_context, request
-from app.blueprints import home_bp
+from app.blueprints import dev_bp, master_bp, home_bp
 import logging
 
 
@@ -11,6 +11,9 @@ import logging
 def create_app(settings_override=None):
     # allows us to load files relative to the instance folder
     app = Flask(__name__, instance_relative_config=True)
+
+    # no caching
+    app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 0
 
     # default configuration
     app.config.from_object('config.settings')
@@ -23,9 +26,10 @@ def create_app(settings_override=None):
 
     logger(app)
     # middleware(app)
-
-    app.register_blueprint(home_bp)
-
+    # app.register_blueprint(home_bp)
+    app.register_blueprint(dev_bp, url_prefix='/dev')
+    app.register_blueprint(master_bp, url_prefix='/master')
+    print(app.url_map)
     error_templates(app)
 
     return app

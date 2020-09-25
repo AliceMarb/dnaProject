@@ -64,6 +64,7 @@
   }
   window.onload = function () {
     const form = document.getElementById('dna_form');
+    // necessary because otherwise the form wasn't ready
     form.addEventListener('submit', (e) => {
       // prevents the form from submitting by user click, waits for 
       // promise to resolve before submitting
