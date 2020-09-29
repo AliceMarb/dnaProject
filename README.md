@@ -1,4 +1,4 @@
-### Kern Systems Applicant String to DNA code 
+### Kern Systems Web UI
 
 ## Codec
 Contains two folders, encoding and decoding. 
