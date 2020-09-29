@@ -2,6 +2,8 @@ const NodemonPlugin = require('nodemon-webpack-plugin')
 const path = require('path');
 
 const webpack = require('webpack');
+const { SourceMapDevToolPlugin } = require("webpack");
+
 const config = {
     // plugins: [new NodemonPlugin()],
     context: path.join(__dirname, 'scripts'),
@@ -11,8 +13,9 @@ const config = {
     ],
     output: {
         path: path.join(__dirname,'/dist'),
-        // publicPath: "/dist/",
+        publicPath: "/",
         filename: 'bundle2.js',
+        sourceMapFilename: "bundle2.js.map"
     },
     resolve: {
         extensions: ['.js', '.jsx', '.css'],
@@ -27,7 +30,7 @@ const config = {
             {
             test: /\.(js|jsx)?/,
                 exclude: /node_modules/,
-                use: 'babel-loader'     
+                use: ['source-map-loader', 'babel-loader']     
             },
             {
                 test:  /\.css$/,

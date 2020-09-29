@@ -123,7 +123,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         input_word = jsonData['input']
         (process, out, err, in_path, out_path) = string_en_decode(input_word, False)
         print(out, err)
-        srch = re.search('synthesis length:.*?(\d+)\n*.*?\n*Address length:.*?(\d+)', out.decode("utf-8"))
+        srch = re.search('Synthesis length:.*?(\d+)\n*.*?\n*Address length:.*?(\d+)', out.decode("utf-8"))
         try:
             synthesis_length = int(srch[1])
             address_length = int(srch[2])
@@ -131,12 +131,14 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             # didn't return as expected
             current_app.logger.error(f"DECODING typed {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {input_word}")
             return jsonify(status="error")
+        decoded_str = ""
         try:
             with open(out_path, 'r') as f:
                 decoded_list = f.readlines()
                 decoded_str = '\n'.join(decoded_list)
         except:
             current_app.logger.error(f"DECODING typed {in_path} {out_path} --- File not found error ::: Input: {input_word}")
+            return jsonify(status="error", word="", letter_dict={}), 404
         current_app.logger.info(f"DECODING typed {in_path} {out_path} --- All good! ::: Input: {input_word} Decoding: {decoded_str}")
         return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)
 

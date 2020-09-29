@@ -26,10 +26,10 @@ def create_app(settings_override=None):
 
     logger(app)
     # middleware(app)
-    # app.register_blueprint(home_bp)
+    app.register_blueprint(home_bp)
     app.register_blueprint(dev_bp, url_prefix='/dev')
     app.register_blueprint(master_bp, url_prefix='/master')
-    print(app.url_map)
+    # print(app.url_map)
     error_templates(app)
 
     return app

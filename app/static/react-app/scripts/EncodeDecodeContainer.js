@@ -1,8 +1,10 @@
 import React, { useState, useRef } from 'react';
 import * as d3 from 'd3';
+import { useLocation } from 'react-router-dom'
 
 const EncodeDecodeContainer = () => {
     const [mode, setMode] = useState("default");
+    const location = useLocation();
     const [toEncode, setToEncode] = useState("");
     const [toDecode, setToDecode] = useState("");
     const [payloadTrits, setPayloadTrits] = useState("");
@@ -18,6 +20,8 @@ const EncodeDecodeContainer = () => {
 
 
     const InfoBox  = () => {
+        
+
         let card;
         if (mode === "default") {
             console.log('Does this keep changing?')
@@ -46,6 +50,8 @@ const EncodeDecodeContainer = () => {
     }
     const encodeText = (event) => {
         event.preventDefault();
+        // const location = useLocation();
+        // console.log(location.pathname);
         const options = {
             method: "POST",
             body: JSON.stringify({"input": toEncode}),
@@ -55,12 +61,12 @@ const EncodeDecodeContainer = () => {
             }),
         };
         var url = "encode_string"
-        if (window.location.href.includes('dev')) {
+        if (location.pathname.includes('dev')) {
             url = "/dev/" + url;
-        } else if (window.location.href.includes('master')){
+        } else if (location.pathname.includes('master')){
             url = "/master/" + url;
         }
-        console.log(url);
+        // console.log(url);
         fetch(url, options)
         .then((data) => {
             if (data.ok) {
@@ -88,6 +94,7 @@ const EncodeDecodeContainer = () => {
     }
     const decodeText = (event) => {
         event.preventDefault();
+        // const location = useLocation();
         var cleanDNA = errorCheckDNA(toDecode);
         if (!cleanDNA) {
             return;
@@ -101,12 +108,12 @@ const EncodeDecodeContainer = () => {
             }),
         };
         var url = "decode_string"
-        if (window.location.href.includes('dev')) {
+        if (location.pathname.includes('dev')) {
             url = "/dev/" + url;
-        } else if (window.location.href.includes('master')){
+        } else if (location.pathname.includes('master')){
             url = "/master/" + url;
         }
-        console.log(url);
+        // console.log(url);
         fetch(url, options)
         .then((data) => {
             if (data.ok) {
@@ -195,7 +202,7 @@ const EncodeDecodeContainer = () => {
           .style("fill", "black")
           .attr("y", -50)
           .attr("x", -120)
-          .text("Frequency of letter in DNA");
+          .text("Number of letters");
         g.selectAll(".bar")
           .data(data)
           .enter()
