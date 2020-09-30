@@ -1,35 +1,44 @@
 import React from "react";
 import EncodeDecodeContainer from "./EncodeDecodeContainer";
+// import './kern-dna-synth.css';
+// order of imports matters - style should override components
+import './normalize.css';
+import './components.css';
 import './style.css';
+import image from '../public/images/Kern_logo.png';
+
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+  NavLink
 } from "react-router-dom";
 
 const App = () => {
   return (
     <Router>
       <div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/dev">Development Branch</Link>
-            </li>
-            <li>
-              <Link to="/master">Master Branch</Link>
-            </li>
-          </ul>
-        </nav>
-      <Switch>
-        <Route path="/dev">
-          <EncodeDecodeContainer />
-        </Route>
-        <Route path="/master">
-          <EncodeDecodeContainer />
-        </Route> 
-      </Switch>
+        <div data-collapse="small" data-animation="default" data-duration="400" role="banner" className="navigation w-nav">
+          <div className="navigation-wrap">
+            <div className="menu">
+              <a href="/" aria-current="page" className="link-block w-inline-block w--current"></a>
+              <nav role="navigation" className="nav-menu w-nav-menu">
+                <div className="text-block-4">Version:</div>
+                <NavLink to="/master" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link">Master</NavLink>
+                <NavLink to="/dev" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link">Development</NavLink>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <Switch>
+          <Route path="/dev">
+            <EncodeDecodeContainer />
+          </Route>
+          <Route path="/master">
+            <EncodeDecodeContainer />
+          </Route>
+        </Switch>
       </div>
     </Router>
   );

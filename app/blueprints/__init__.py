@@ -75,6 +75,33 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         out, err = process.communicate()
         return process, out, err, from_root + in_path, from_root + out_path
 
+    def get_encoding_info(in_path, out_path):
+        enc_string = ""
+        gc_content = []
+        if os.path.isfile(out_path):
+            print('encoded process DNA')
+            for seq_record in SeqIO.parse(out_path, "fasta"):
+                # remove the lowercase g at the start of the 
+                # sequence
+                seq_str = str(seq_record.seq)[1:] 
+                gc_content.append((seq_str.count("G") + seq_str.count("C"))/len(seq_str))
+                enc_string += (seq_str + ',')
+            letter_dict = {
+                "A": enc_string.count("A"),
+                "G": enc_string.count("G"),
+                "T": enc_string.count("T"),
+                "C": enc_string.count("C"),
+            }
+            # print('got to the end')
+        else:
+            print('This file not found: ', out_path)
+            print('This file found: ', os.path.isfile(out_path))
+            current_app.logger.error(f"ENCODING typed {in_path} {out_path} --- File not found error ::: Input: {input_word} Encoding: {enc_string}")
+            raise FileNotFoundError
+        return enc_string, letter_dict, gc_content
+            # (response, status, headers)
+            
+    
     # DON'T PUT A SLASH, does not work
     @home_bp.route("/encode_string", methods=['POST'])
     def encode_string():
@@ -92,30 +119,22 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         except:
             # didn't return as expected
             current_app.logger.error(f"ENCODING typed {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {input_word}")
+            return jsonify(status="error", word=""), 404
         process.wait()
-        enc_string = ""
-        if os.path.isfile(out_path):
-            print('encoded process DNA')
-            for seq_record in SeqIO.parse(out_path, "fasta"):
-                # remove the lowercase g at the start of the 
-                # sequence
-                enc_string += (str(seq_record.seq)[1:] + ',')
-            letter_dict = {
-                "A": enc_string.count("A"),
-                "G": enc_string.count("G"),
-                "T": enc_string.count("T"),
-                "C": enc_string.count("C"),
-            }
-            # print('got to the end')
-        else:
-            print('This file not found: ', out_path)
-            print('This file found: ', os.path.isfile(out_path))
-            current_app.logger.error(f"ENCODING typed {in_path} {out_path} --- File not found error ::: Input: {input_word} Encoding: {enc_string}")
-            # (response, status, headers)
-            return jsonify(status="error", word="", letter_dict={}), 404
+        try:
+            (enc_string, letter_dict, gc_content) = get_encoding_info(in_path, out_path)
+        except:
             # return render_template('error.html', title='404 Error', msg="File not found!: " + enc_path)
+            return jsonify(status="error", word=""), 404
         current_app.logger.info(f"ENCODING typed {in_path} {out_path} --- All good! ::: Input: {input_word} Encoding: {enc_string}")
-        return jsonify(status="success", word=enc_string, letter_dict=letter_dict, payload_trits=payload_trits, address_length=address_length)
+        return jsonify(
+            status="success",
+            word=enc_string,
+            letter_dict=letter_dict,
+            payload_trits=payload_trits,
+            address_length=address_length,
+            gc_content=gc_content,
+        )
 
     @home_bp.route("/decode_string", methods=['POST'])
     def decode_string():

@@ -10,6 +10,9 @@ const config = {
     entry: [
         './index.js',
         './style.css',
+        // './kern-dna-synth.css',
+        './components.css',
+        './normalize.css',
     ],
     output: {
         path: path.join(__dirname,'/dist'),
@@ -37,7 +40,20 @@ const config = {
                     // exclude: /node_modules/,
                     use: ["style-loader", "css-loader"],   
                     // loader: "style-loader!css-loader",  
-            }
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/i,
+                // loaders: [
+                //   'file-loader',
+                //   'image-webpack-loader',
+                //   'url-loader',
+                // ],
+                loaders: 'file-loader?name=static/react-app/dist/[name].[ext]',
+                include: [path.join(__dirname, 'public', 'images')],
+                // options: {
+                //     name: '[path][name].[ext]',
+                // },
+            }, 
             // {
             //     test: /\.css$/,
             //     use: getStyleLoaders({
