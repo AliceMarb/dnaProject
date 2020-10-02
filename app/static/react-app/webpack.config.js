@@ -17,8 +17,8 @@ const config = {
     output: {
         path: path.join(__dirname,'/dist'),
         publicPath: "/",
-        filename: 'bundle2.js',
-        sourceMapFilename: "bundle2.js.map"
+        filename: 'bundle.js',
+        sourceMapFilename: "bundle.js.map"
     },
     resolve: {
         extensions: ['.js', '.jsx', '.css'],

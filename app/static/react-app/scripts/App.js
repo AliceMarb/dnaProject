@@ -23,6 +23,7 @@ const App = () => {
           <div className="navigation-wrap">
             <div className="menu">
               <a href="/" aria-current="page" className="link-block w-inline-block w--current"></a>
+              <a href="#" class="nav-link w-nav-link">1.3</a>
               <nav role="navigation" className="nav-menu w-nav-menu">
                 <div className="text-block-4">Version:</div>
                 <NavLink to="/master" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link">Master</NavLink>
