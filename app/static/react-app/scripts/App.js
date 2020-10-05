@@ -5,7 +5,9 @@ import EncodeDecodeContainer from "./EncodeDecodeContainer";
 import './normalize.css';
 import './components.css';
 import './style.css';
-import image from '../public/images/Kern_logo.png';
+// import image from '../public/images/Kern_logo.png';
+import $ from 'jquery'; 
+// import './kern-dna-synth.js';
 
 import {
   BrowserRouter as Router,
@@ -23,7 +25,7 @@ const App = () => {
           <div className="navigation-wrap">
             <div className="menu">
               <a href="/" aria-current="page" className="link-block w-inline-block w--current"></a>
-              <a href="#" class="nav-link w-nav-link">1.3</a>
+              {/* <a href="#" class="nav-link w-nav-link">1.3</a> */}
               <nav role="navigation" className="nav-menu w-nav-menu">
                 <div className="text-block-4">Version:</div>
                 <NavLink to="/master" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link">Master</NavLink>

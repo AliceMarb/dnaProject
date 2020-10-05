@@ -1,6 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import * as d3 from 'd3';
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router-dom';
+// import './jquery.js';
+// import $ from './jquery.js'; 
+import $ from 'jquery';
+// console.log('Hello:!' + $);
+// import plugin from 'jquery-plugin';
+window.jQuery = $;
+import arrow from './arrow-mid-blue-down-96x96.png';
+// import otherArrow from '../dist/arrow-mid-blue-down-96x96.png';
+
 
 const EncodeDecodeContainer = () => {
     const [mode, setMode] = useState("default");
@@ -33,33 +42,33 @@ const EncodeDecodeContainer = () => {
             );
         } else if (mode === "encode") {
             card = <p>Payload Trits: {payloadTrits}<br /></p>;
-         
+
         } else {
             card = <p>Synthesis Length: {synthesisLength}<br /></p>;
         }
         return (
-                <div className="output-sub-block">
-                    <div className="label">DATA</div>
-                    {card}
-                    <p>Address Length: {addressLength}<br /></p>
-                </div>
+            <div className="output-sub-block">
+                <div className="label">DATA</div>
+                {card}
+                <p>Address Length: {addressLength}<br /></p>
+            </div>
         );
     }
     const GraphBox = () => {
         return (
             <div
-            
+
             >
                 <div
                     ref={d3Container}
                     svg-container="true"
                     className="graphContainer"
                     id="graph1"
-                    // svg-container="true"
-                    // preserveAspectRatio="xMinYMin"
-                    // viewBox= "0 0 600 400"
-                    // svg-content-responsive="true"
-                    
+                // svg-container="true"
+                // preserveAspectRatio="xMinYMin"
+                // viewBox= "0 0 600 400"
+                // svg-content-responsive="true"
+
                 />
                 <div
                     ref={gcContainer}
@@ -67,7 +76,7 @@ const EncodeDecodeContainer = () => {
                     id="graph2"
                     svg-container="true"
                     preserveAspectRatio="xMinYMin"
-                    viewBox= "0 0 600 400"
+                    viewBox="0 0 600 400"
                     svg-content-responsive="true"
                 />
             </div>
@@ -197,82 +206,115 @@ const EncodeDecodeContainer = () => {
         }
     }
     return (
-        <div className="body-4">
-            <div>
-                <div className="section-heading-wrap">
-                    <h2 className="heading-2">DNA Synthesizer<br /></h2>
-                    <div className="label cc-light">Encode your data into our synthetic dna<br /></div>
-                </div>
-                <div className="main-body-section">
-                
-                    <div className="columns w-row">
-                        <div className="column w-col w-col-3">
-                            <div className="input-block">
-                                <h4 className="heading-4">Input</h4>
-                                <div className="w-form">
-                                    <form onSubmit={encodeText} id="wf-form-Encode-Text-Form" name="wf-form-Encode-Text-Form"
-                                        data-name="Encode Text Form">
-                                        <label htmlFor="TextInput"
-                                            className="field-label">
-                                            Text string
-                                        </label>
-                                        <textarea
-                                            value={toEncode}
-                                            onChange={handleEncodeText}
-                                            placeholder="Text string, e.g. &quot;Hello&quot;"
-                                            maxLength={5000}
-                                            data-name="TextInput"
-                                            id="TextInput-3"
-                                            name="TextInput"
-                                            className="textarea w-input"
-                                            type="text"
-                                            required="required"
-                                        >
-                                        </textarea>
-                                        <input
-                                            type="submit"
-                                            name="submit_button_str"
-                                            value="Encode"
-                                            data-wait="Please wait..." className="submit-button w-button"
-                                        />
-                                    </form>
+        <div>
+            
+            <div className="body-4">
+                <div>
+                    <div className="section-heading-wrap">
+                        <h2 className="heading-2">DNA Synthesizer<br /></h2>
+                        <div className="label cc-light">Encode your data into our synthetic dna<br /></div>
+                    </div>
+                    <div className="main-body-section">
+                        <div className="panel-nav">
+                            <div data-w-id="555ec916-369b-67ad-10b5-ae562a9d19f6" className="panel-trigger">
+                                <h3 className="accordion-label">Input</h3>
+                                <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" />
+                            </div>
+                        </div>
+                        <div className="panel-block">
+                            <div data-w-id="b3df5cfc-7716-175b-6877-256bb15805eb" className="input-block">
+                                <div className="panel-title">
+                                    <h4 className="heading-6">Input</h4>
+                                </div>
+                                <div className="accordion-wrapper">
+                                    <div className="w-form">
+                                        <form onSubmit={encodeText} id="wf-form-Encode-Text-Form" name="wf-form-Encode-Text-Form"
+                                            data-name="Encode Text Form">
+                                            <div className="accordion-closed-item">
+                                                <div className="accordion-closed-item-trigger">
+                                                    <h3 className="accordion-label">Text string</h3>
+                                                    <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" />
+                                                    <div className="accordion-item-content">
+                                                        <textarea
+                                                            value={toEncode}
+                                                            onChange={handleEncodeText}
+                                                            placeholder="Text string, e.g. &quot;Hello&quot;"
+                                                            maxLength={5000}
+                                                            data-name="TextInput"
+                                                            id="TextInput-3"
+                                                            name="TextInput"
+                                                            className="textarea w-input"
+                                                            type="text"
+                                                            required="required"
+                                                        >
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div className="accordion-closed-item">
+                                                <div className="accordion-closed-item-trigger">
+                                                    <h3 className="accordion-label">Upload file</h3>
+                                                    <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" />
+                                                </div>
+                                                <div className="accordion-item-content">
+                                                    <input type="submit" value="Upload File" data-wait="Please wait..." className="submit-button w-button" />
+                                                </div>
+                                            </div>
+                                            <input
+                                                type="submit"
+                                                name="submit_button_str"
+                                                value="Encode"
+                                                data-wait="Please wait..." className="submit-button w-button"
+                                            />
+                                        </form>
+                                    </div>
                                 </div>
                                 <div className="form-block w-form">
-                                    <form id="wf-form-Decode-DNA-Form" name="wf-form-Decode-DNA-Form" onSubmit={decodeText} data-name="Decode DNA Form" className="form" >
-                                        <label htmlFor="TextInput-3">DNA Sequence</label>
-                                        <textarea value={toDecode} onChange={handleDecodeText} placeholder="DNA sequence, e.g. AGATGAG, ACGATCA, ATACTCT, TCGTCTC, TACGACT," maxLength="5000" id="DNA-Input" name="DNA-Input" data-name="DNA Input" className="textarea w-input"></textarea>
-                                        <input type="submit" value="Decode" data-wait="Please wait..." className="submit-button w-button" />
+                                    <form onSubmit={decodeText} id="wf-form-Decode-DNA-Form" name="wf-form-Decode-DNA-Form" data-name="Decode DNA Form" className="form">
+                                        <div className="accordion-closed-item">
+                                            <div className="accordion-closed-item-trigger">
+                                                <h3 className="accordion-label">DNA&nbsp;Sequence Decode</h3><img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" />
+                                            </div>
+                                            <div className="accordion-item-content">
+                                                <textarea value={toDecode} onChange={handleDecodeText}
+                                                    placeholder="DNA sequence, e.g. AGATGAG, ACGATCA, ATACTCT, TCGTCTC, TACGACT,"
+                                                    maxLength={5000} id="DNA-Input" name="DNA-Input" data-name="DNA Input"
+                                                    className="textarea w-input" />
+                                                <input type="submit" value="Decode" data-wait="Please wait..." className="submit-button w-button" />
+                                            </div>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
-                        </div>
-                        <div className="column-2 w-col w-col-9">
-                            <div className="output-block">
-                                <div className="w-form">
-                                    <h4 className="heading-4">Output</h4>
-                                    <div id="email-form" name="email-form" className="form-2">
-                                        <div className="w-row">
-                                            <div className="w-col w-col-4">
-                                                <OutputBox />
-                                                <div className="output-sub-block">
-                                                    <div className="label">Nucleotide content</div>
-                                                    <div className="w-layout-grid grid-2">
-                                                        <div><strong>T: </strong>{nucleotideContent['T']}</div>
-                                                        <div><strong>C:</strong> {nucleotideContent['C']}</div>
-                                                        <div><strong>G:</strong> {nucleotideContent['G']}</div>
+                            <div className="column-2 w-col w-col-9">
+                                <div className="output-block">
+                                    <div className="w-form">
+                                        <h4 className="heading-4">Output</h4>
+                                        <div id="email-form" name="email-form" className="form-2">
+                                            <div className="w-row">
+                                                <div className="w-col w-col-4">
+                                                    <OutputBox />
+                                                    <div className="output-sub-block">
+                                                        <div className="label">Nucleotide content</div>
+                                                        <div className="w-layout-grid grid-2">
+                                                            <div><strong>T: </strong>{nucleotideContent['T']}</div>
+                                                            <div><strong>C:</strong> {nucleotideContent['C']}</div>
+                                                            <div><strong>G:</strong> {nucleotideContent['G']}</div>
+                                                            <div><strong>A:</strong> {nucleotideContent['A']}</div>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            <div className="w-col w-col-8">
-                                                <div className="output-sub-block">
-                                                    <div className="label">DNA Sequence</div>
-                                                    {/* <textarea placeholder="Sample DNA Sequence Output Box, will hide on page load. Only here for style/layout purposes" maxLength="5000" id="DNA-Sequence-Output" data-name="DNA Sequence Output" name="DNA-Sequence-Output" data-w-id="d6157cf2-1d65-a330-ced7-868e330b1164" style="display:none" className="textarea-2 w-input"></textarea> */}
-                                                    <div className="w-embed">
-                                                        <ResultBox />
+                                                <div className="w-col w-col-8">
+                                                    <div className="output-sub-block">
+                                                        <div className="label">DNA Sequence</div>
+                                                        {/* <textarea placeholder="Sample DNA Sequence Output Box, will hide on page load. Only here for style/layout purposes" maxLength="5000" id="DNA-Sequence-Output" data-name="DNA Sequence Output" name="DNA-Sequence-Output" data-w-id="d6157cf2-1d65-a330-ced7-868e330b1164" style="display:none" className="textarea-2 w-input"></textarea> */}
+                                                        <div className="w-embed">
+                                                            <ResultBox />
+                                                        </div>
                                                     </div>
                                                 </div>
+                                                <GraphBox />
                                             </div>
-                                            <GraphBox />
                                         </div>
                                     </div>
                                 </div>
@@ -280,16 +322,9 @@ const EncodeDecodeContainer = () => {
                         </div>
                     </div>
                 </div>
-
-
-
-                {/* <OutputBox /> */}
-                {/* <textarea id="output_word" value={displayResult()} readOnly></textarea> */}
             </div>
         </div>
-
     );
-
 }
 
 const errorCheckDNA = (input) => {
@@ -306,8 +341,8 @@ const errorCheckDNA = (input) => {
     }
     var cleanInput = "";
     // var letters = true;
-    for (let i = 0; i < testInput.length; i++) {
-        let c = testInput.charAt(i);
+    for (var i = 0; i < testInput.length; i++) {
+        var c = testInput.charAt(i);
         if (c == ',' && strandLength == -1) {
             if (seen == 0) {
                 alert("Can't start with comma");
@@ -351,7 +386,7 @@ const generateGCGraph = (gcContent) => {
         // .attr("width", width + margin.left + margin.right)
         // .attr("height", height + margin.top + margin.bottom)
         .attr("class", "gcGraph")
-        .classed("svg-container", true) 
+        .classed("svg-container", true)
         // .attr("overflow", "visible");
         .attr("max-width", "100%")
         .attr("max-height", "100%")

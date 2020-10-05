@@ -6,6 +6,14 @@ const { SourceMapDevToolPlugin } = require("webpack");
 
 const config = {
     // plugins: [new NodemonPlugin()],
+    // plugins: [
+    //     // implicit globals
+    //     new webpack.ProvidePlugin({
+    //       jQuery: 'jquery',
+    //       $: 'jquery',
+    //       'window.jQuery': 'jquery'
+    //     })
+    // ],
     context: path.join(__dirname, 'scripts'),
     entry: [
         './index.js',
@@ -42,17 +50,18 @@ const config = {
                     // loader: "style-loader!css-loader",  
             },
             {
-                test: /\.(jpe?g|png|gif|svg)$/i,
+                test: /\.(png|svg|jpg|gif)$/,
                 // loaders: [
                 //   'file-loader',
                 //   'image-webpack-loader',
                 //   'url-loader',
                 // ],
-                loaders: 'file-loader?name=static/react-app/dist/[name].[ext]',
-                include: [path.join(__dirname, 'public', 'images')],
-                // options: {
-                //     name: '[path][name].[ext]',
-                // },
+                // use: ["file-loader?name=[name].[ext]"], 
+                loaders: "file-loader?name=[name].[ext]",
+                // include: [path.join(__dirname, 'public', 'images')],
+                options: {
+                    publicPath: '/static/react-app/dist',
+                },
             }, 
             // {
             //     test: /\.css$/,
