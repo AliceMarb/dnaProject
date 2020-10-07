@@ -22,7 +22,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
     from Bio import SeqIO
     from Bio.Seq import Seq
     from Bio.SeqRecord import SeqRecord
-
+    import io
     import re
     import datetime
 
@@ -39,11 +39,13 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         subprocess.Popen("make", cwd=codec_location)
         return render_template("react-base.html")
 
-    def string_en_decode(string, encode=True):
+    def string_en_decode(string, encode=True, name=""):
+        if not name:
+            name = '_'.join(string[:10].split(' '))
         from_c_folder = '../../../app/'
         from_root = 'app/'
         time = datetime.datetime.utcnow()
-        fname = 'codec_files/' + '_'.join(str(time)[:19].replace(':', '-').split(' ')) + '_' +  '_'.join(string[:10].split(' '))
+        fname = 'codec_files/' + '_'.join(str(time)[:19].replace(':', '-').split(' ')) + '_' + name 
         if encode:
             in_path = fname + '.txt'
             out_path = fname + '_encoded.fa'
@@ -101,16 +103,14 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         return enc_string, letter_dict, gc_content
             # (response, status, headers)
             
-    
-    # DON'T PUT A SLASH, does not work
-    @home_bp.route("/encode_string", methods=['POST'])
-    def encode_string():
-        jsonData = request.get_json()
-        input_word = jsonData['input']
+    def handle_enc_input(input_word, fname="", input_type="typed"):
         # automatically waits for end of the process
         payload_trits = -1
         address_length = -1
-        (process, out, err, in_path, out_path) = string_en_decode(input_word)
+        if fname:
+            (process, out, err, in_path, out_path) = string_en_decode(input_word, fname)
+        else:
+            (process, out, err, in_path, out_path) = string_en_decode(input_word)
         # stdout_list = out.decode("utf-8").strip().split('\n')
         srch = re.search('Payload trits:.*?(\d+)\nAddress length:.*?(\d+)', out.decode("utf-8"))
         try:
@@ -118,23 +118,34 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             address_length = int(srch[2])
         except:
             # didn't return as expected
-            current_app.logger.error(f"ENCODING typed {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {input_word}")
-            return jsonify(status="error", word=""), 404
+            current_app.logger.error(f"ENCODING {input_type} {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {input_word}")
+            raise ValueError
         process.wait()
         try:
             (enc_string, letter_dict, gc_content) = get_encoding_info(in_path, out_path)
         except:
             # return render_template('error.html', title='404 Error', msg="File not found!: " + enc_path)
-            return jsonify(status="error", word=""), 404
-        current_app.logger.info(f"ENCODING typed {in_path} {out_path} --- All good! ::: Input: {input_word} Encoding: {enc_string}")
-        return jsonify(
-            status="success",
-            word=enc_string,
-            letter_dict=letter_dict,
-            payload_trits=payload_trits,
-            address_length=address_length,
-            gc_content=gc_content,
-        )
+            raise ValueError
+        current_app.logger.info(f"ENCODING {input_type} {in_path} {out_path} --- All good! ::: Input: {input_word} Encoding: {enc_string}")
+        return enc_string, letter_dict, payload_trits, address_length, gc_content
+
+    # DON'T PUT A SLASH, does not work
+    @home_bp.route("/encode_string", methods=['POST'])
+    def encode_string():
+        jsonData = request.get_json()
+        input_word = jsonData['input']
+        try:
+            (enc_string, letter_dict, payload_trits, address_length, gc_content) = handle_enc_input(input_word)
+            return jsonify(
+                status="success",
+                word=enc_string,
+                letter_dict=letter_dict,
+                payload_trits=payload_trits,
+                address_length=address_length,
+                gc_content=gc_content,
+            )
+        except:
+            return jsonify(status="error", word=""), 504
 
     @home_bp.route("/decode_string", methods=['POST'])
     def decode_string():
@@ -161,8 +172,8 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         current_app.logger.info(f"DECODING typed {in_path} {out_path} --- All good! ::: Input: {input_word} Decoding: {decoded_str}")
         return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)
 
-    @home_bp.route("/upload_file", methods=['POST'])
-    def upload_file():
+    @home_bp.route("/encode_file", methods=['POST'])
+    def encode_file():
         # check if the post request has the file part
         print(request.files)
         print(request.form)
@@ -171,14 +182,30 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             # not working yet
             print('No file part')
             # return redirect(request.url)
-        else:
-            print('FIle is here ')
-            file = request.files['file']
-        # jsonData = request.get_json()
-
-        # word = request.get_data()
-        # input_word = "hi there"
-        return jsonify(status="success", word="encoded") 
+            return jsonify(status="error") 
+        
+        print('File is here ')
+        
+        wrapper = io.TextIOWrapper(request.files['file'])
+        fname = request.files['file'].filename
+        input_word = wrapper.read()
+        try:
+            (enc_string,
+            letter_dict,
+            payload_trits,
+            address_length,
+            gc_content) = handle_enc_input(input_word, fname)
+            return jsonify(
+                status="success",
+                word=enc_string,
+                letter_dict=letter_dict,
+                payload_trits=payload_trits,
+                address_length=address_length,
+                gc_content=gc_content,
+            )
+        except:
+            return jsonify(status="error", word=""), 504
+        
 
     return home_bp
     # @app.errorhandler(404)

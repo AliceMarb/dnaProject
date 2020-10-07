@@ -16,6 +16,7 @@ import {
   Link,
   NavLink
 } from "react-router-dom";
+import { Nav } from "react-bootstrap";
 
 const App = () => {
   return (
@@ -28,8 +29,9 @@ const App = () => {
               {/* <a href="#" class="nav-link w-nav-link">1.3</a> */}
               <nav role="navigation" className="nav-menu w-nav-menu">
                 <div className="text-block-4">Version:</div>
-                <NavLink to="/master" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link">Master</NavLink>
-                <NavLink to="/dev" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link">Development</NavLink>
+                <NavLink to="/master" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link nav-bar-master-link">Master</NavLink>
+                <NavLink to="/dev" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link nav-bar-master-link-2">Development</NavLink>
+                <div className="text-block-4 nav-bar-link-3">1.3</div>
               </nav>
             </div>
           </div>
