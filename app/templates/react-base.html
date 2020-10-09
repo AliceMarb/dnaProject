@@ -1,0 +1,7 @@
+{% block app_content %}
+
+<!-- This matches the ID element our React.DOM.render() function is looking for. -->
+<div id="react-root"></div>
+  
+<script src="{{ url_for('static', filename='react-app/dist/bundle.js') }}"></script>
+{% endblock %}

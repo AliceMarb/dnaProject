@@ -10,16 +10,19 @@
             "request": "launch",
             "module": "flask",
             "env": {
-                "FLASK_APP": "./flaskr/main.py",
+                "FLASK_APP": "app.factory",
                 "FLASK_ENV": "development",
                 "FLASK_DEBUG": "0"
             },
             "args": [
                 "run",
+                // this is the browser-based debugger,
+                // whcih we don't want
                 "--no-debugger",
-                "--no-reload",
+                // "--no-reload",
+                // "--no-cache",
                 // "--host=0.0.0.0",
-                // "--port=6000"
+                "--port=5001"
             ],
             "jinja": true
         }
