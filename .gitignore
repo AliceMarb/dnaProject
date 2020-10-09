@@ -8,3 +8,7 @@ instance/
 *.log
 app/static/react-app/node_modules
 *.pyc
+/dev/*
+dev/*
+master/*
+/master/*
