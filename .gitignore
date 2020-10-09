@@ -1,2 +1,16 @@
 /venv/*
 /__pycache__/*
+.DS_Store
+/app/codec_files/*
+app/codec_files/*
+*.txt
+app/static/react-app/node_modules/*
+/app/static/react-app/node_modules/*
+/virtual/*
+virtual/*
+*.pyc
+Codec/*
+/dev/*
+/master/*
+dev/*
+master/*
