@@ -7,3 +7,4 @@ app/codec_files/*
 instance/
 *.log
 app/static/react-app/node_modules
+*.pyc

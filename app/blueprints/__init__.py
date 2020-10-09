@@ -25,9 +25,10 @@ def construct_blueprint(codec_location="./master/Codec/c"):
     import io
     import re
     import datetime
+    import time
 
     # app = Flask(__name__)
-
+    file_size_times = []
     # add C files to path (??), OR docker/virtual environment
 
     @home_bp.route("/", methods=['GET', 'POST'])
@@ -77,29 +78,59 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         out, err = process.communicate()
         return process, out, err, from_root + in_path, from_root + out_path
 
-    def get_encoding_info(in_path, out_path):
+    def limit_length(string):
+        if len(string) > 30:
+            return string[:30] + "..."
+        else:
+            return string
+
+    def get_encoding_info(in_path, out_path, input_type):
+        start = time.time()
         enc_string = ""
         gc_content = []
+        letters = [0] * 4
+        
         if os.path.isfile(out_path):
             print('encoded process DNA')
             for seq_record in SeqIO.parse(out_path, "fasta"):
                 # remove the lowercase g at the start of the 
                 # sequence
-                seq_str = str(seq_record.seq)[1:] 
-                gc_content.append((seq_str.count("G") + seq_str.count("C"))/len(seq_str))
-                enc_string += (seq_str + ',')
-            letter_dict = {
-                "A": enc_string.count("A"),
-                "G": enc_string.count("G"),
-                "T": enc_string.count("T"),
-                "C": enc_string.count("C"),
-            }
+                length = len(seq_record.seq) - 1
+                break
+            for seq_record in SeqIO.parse(out_path, "fasta"):
+                # seq_str = str(seq_record.seq)[1:]
+                g_and_c = 0
+                for c in seq_record.seq:
+                    if c == "A":
+                        letters[0] += 1
+                    elif c == "G":
+                        letters[1] += 1
+                        g_and_c += 1
+                    elif c == "T":
+                        letters[2] += 1
+                    elif c == "C":
+                        letters[3] += 1
+                        g_and_c += 1
+                gc_content.append(g_and_c/length)
+                # enc_string += (seq_str + ',')
+            # letter_dict = {
+            #     "A": enc_string.count("A"),
+            #     "G": enc_string.count("G"),
+            #     "T": enc_string.count("T"),
+            #     "C": enc_string.count("C"),
+            # }
+            letter_dict = {"A": letters[0], "G": letters[1], "T": letters[2], "C":letters[3]}
+            end = time.time()
+            secs = end - start
+            print('TIME TAKEN FOR THIS ENCODING COUNT: ' + str(secs) + "\n")
             # print('got to the end')
         else:
             print('This file not found: ', out_path)
             print('This file found: ', os.path.isfile(out_path))
-            current_app.logger.error(f"ENCODING typed {in_path} {out_path} --- File not found error ::: Input: {input_word} Encoding: {enc_string}")
+            current_app.logger.error(f"ENCODING {input_type} {in_path} {out_path} --- File not found error ::: Input: {limit_length(input_word)}")
             raise FileNotFoundError
+        with open('filesize_time.csv', 'a') as f:
+                f.write(str(secs) + '\n')
         return enc_string, letter_dict, gc_content
             # (response, status, headers)
             
@@ -118,15 +149,15 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             address_length = int(srch[2])
         except:
             # didn't return as expected
-            current_app.logger.error(f"ENCODING {input_type} {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {input_word}")
+            current_app.logger.error(f"ENCODING {input_type} {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {limit_length(input_word)}")
             raise ValueError
         process.wait()
         try:
-            (enc_string, letter_dict, gc_content) = get_encoding_info(in_path, out_path)
+            (enc_string, letter_dict, gc_content) = get_encoding_info(in_path, out_path, input_type)
         except:
             # return render_template('error.html', title='404 Error', msg="File not found!: " + enc_path)
             raise ValueError
-        current_app.logger.info(f"ENCODING {input_type} {in_path} {out_path} --- All good! ::: Input: {input_word} Encoding: {enc_string}")
+        current_app.logger.info(f"ENCODING {input_type} {in_path} {out_path} --- All good! ::: Input: {limit_length(input_word)}")
         return enc_string, letter_dict, payload_trits, address_length, gc_content
 
     # DON'T PUT A SLASH, does not work
@@ -159,17 +190,17 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             address_length = int(srch[2])
         except:
             # didn't return as expected
-            current_app.logger.error(f"DECODING typed {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {input_word}")
+            current_app.logger.error(f"DECODING typed {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {limit_length(input_word)}")
             return jsonify(status="error")
         decoded_str = ""
         try:
             with open(out_path, 'r') as f:
                 decoded_list = f.readlines()
-                decoded_str = '\n'.join(decoded_list)
+                decoded_str = ''.join(decoded_list)
         except:
-            current_app.logger.error(f"DECODING typed {in_path} {out_path} --- File not found error ::: Input: {input_word}")
+            current_app.logger.error(f"DECODING typed {in_path} {out_path} --- File not found error ::: Input: {limit_length(input_word)}")
             return jsonify(status="error", word="", letter_dict={}), 404
-        current_app.logger.info(f"DECODING typed {in_path} {out_path} --- All good! ::: Input: {input_word} Decoding: {decoded_str}")
+        current_app.logger.info(f"DECODING typed {in_path} {out_path} --- All good! ::: Input: {limit_length(input_word)}")
         return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)
 
     @home_bp.route("/encode_file", methods=['POST'])
@@ -185,7 +216,17 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             return jsonify(status="error") 
         
         print('File is here ')
-        
+        # check the file size, and don't build output string if too big
+        input_file = request.files['file']
+        input_file.seek(0, os.SEEK_END)
+        num_bytes = input_file.tell()
+        with open('filesize_time.csv', 'a') as f:
+            f.write(str(num_bytes) + ',')
+        if num_bytes > 1000000:
+            # when reached a MB, don't calculate enc string?
+            # don't render on the front end 
+            enc_string = ""
+        input_file.seek(0)
         wrapper = io.TextIOWrapper(request.files['file'])
         fname = request.files['file'].filename
         input_word = wrapper.read()
@@ -195,9 +236,10 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             payload_trits,
             address_length,
             gc_content) = handle_enc_input(input_word, fname)
+            
             return jsonify(
                 status="success",
-                word=enc_string,
+                # word=enc_string,
                 letter_dict=letter_dict,
                 payload_trits=payload_trits,
                 address_length=address_length,
