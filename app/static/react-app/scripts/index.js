@@ -4,6 +4,8 @@ import App from "./App";
 import './style.css';
 import 'd3';
 import 'react-router-dom';
+// import bunny2 from './bunny.gif';
+
 import logo from '../public/images/Kern_logo.png';
 // import './kern-dna-synth.js';
 import arrow from '../public/images/arrow-mid-blue-down-96x96.png';
@@ -14,6 +16,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Collapsible from 'react-collapsible';
 import "./app.scss";
+// import * as a from '../public/frontend_textfiles/';
 
 ReactDOM.render(
     <div>

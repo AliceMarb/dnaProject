@@ -58,10 +58,11 @@ const config = {
                 //   'url-loader',
                 // ],
                 // use: ["file-loader?name=[name].[ext]"], 
-                loaders: "file-loader?name=/public/images/[name].[ext]",
+                loaders: "file-loader",
                 // include: [path.join(__dirname, 'public', 'images')],
                 options: {
                     publicPath: '/static/react-app/dist',
+                    name: "[name].[ext]"
                 },
             },
             {

@@ -20,6 +20,7 @@ LOGGING_FORMAT = '[%(asctime)s] %(remote_addr)s requested %(url)s\n' \
 LOGGING_LOCATION = os.path.join(PROJECT_ROOT, 'instance', 'app.log')
 LOGGING_LEVEL = logging.DEBUG
 
-
+# Encoded files location
+ENCODED_FILE_LOC = os.path.join(PROJECT_ROOT, 'app', 'static', 'react-app', 'public', 'frontend_textfiles')
 
 

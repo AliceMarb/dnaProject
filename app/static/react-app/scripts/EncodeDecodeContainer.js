@@ -9,12 +9,15 @@ import $ from 'jquery';
 window.jQuery = $;
 import arrow from '../public/images/arrow-mid-blue-down-96x96.png';
 import bunny from '../public/images/bunny.gif';
+// import bunny2 from './bunny.gif';
 // import otherArrow from '../dist/arrow-mid-blue-down-96x96.png';
 import Collapsible from 'react-collapsible';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
+// import hi from '../public/frontend_textfiles/hi.txt';
+// import file from '../../../../app/codec_files/gc_content_rawBpa.txt';
 
 const EncodeDecodeContainer = () => {
     const useFocus = () => {
@@ -35,6 +38,7 @@ const EncodeDecodeContainer = () => {
     const [payloadTrits, setPayloadTrits] = useState("");
     const [addressLength, setAddressLength] = useState("");
     const [synthesisLength, setSynthesisLength] = useState("");
+    const [gcContentPath, setGCContentPath] = useState("");
     const [gcContent, setGCContent] = useState("");
     const [encodeHistory, setEncHistory] = useState([]);
     const [decodeHistory, setDecHistory] = useState([]);
@@ -92,7 +96,7 @@ const EncodeDecodeContainer = () => {
         if (props.renderWaitingScreen && loading) {
             collapse = (
                 <Collapse in={open}>
-                    <img src={bunny} width="600px" height="450px"/>
+                    <img src={bunny} width="600px" height="450px" />
                 </Collapse>);
 
         } else {
@@ -128,6 +132,7 @@ const EncodeDecodeContainer = () => {
         const height = 500;
         const pixelWidth = width + "px"
         const pixelHeight = height + "px"
+        console.log('rendering graph box, gccontent ' + gcContentPath)
         return (
             <div>
                 <div className="output-sub-block gc-content-plot-block">
@@ -157,7 +162,8 @@ const EncodeDecodeContainer = () => {
                                         height={pixelHeight}
                                     // svg-content-responsive="true"
                                     >
-                                        {(gcContent && Object.keys(gcContent).length !== 0) ? <GCGraph gcContent={gcContent} inputWidth={width} inputHeight={height} /> : null}
+                                        {mode != "decode" && gcContentPath && gcContent ? <GCGraph gcContent={gcContent} gcContentPath={gcContentPath} inputWidth={width} inputHeight={height} /> : null}
+                                        {/* <GCGraph gcContentPath={gcContentPath} inputWidth={width} inputHeight={height} /> */}
                                     </div>
                                 </div>
                             </div>
@@ -176,7 +182,7 @@ const EncodeDecodeContainer = () => {
     const callCodecTyped = (e, buttonType) => {
         e.preventDefault();
         if (buttonType === "encode") {
-            var url = "encode_string";
+            var url = "encode_string/json";
         } else {
             var url = "decode_string";
             var cleanDNA = errorCheckDNA(toDecode);
@@ -201,7 +207,48 @@ const EncodeDecodeContainer = () => {
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
-                    return data.json();
+                    console.log(data.headers);
+                    var encoded = ""
+                    for (var pair of data.headers.entries()) {
+                        console.log(pair[0] + ': ' + pair[1]);
+                        switch (pair[0]) {
+                            case "payload_trits":
+                                setPayloadTrits(pair[1]);
+                                break;
+                            case "letter_dict":
+                                setNucleotideContent(
+                                    JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'))
+                                );
+                                break;
+                            case "address_length":
+                                setAddressLength(pair[1]);
+                                break;
+                            case "synthesis_length":
+                                // only encode available for now
+                                setSynthesisLength(pair[1]);
+                                break;
+                            case "gc_content_fname":
+                                setGCContentPath(pair[1]);
+                                break;
+                            case "enc_string":
+                                encoded = pair[1];
+                                break;
+                        }
+                    }
+                    if (buttonType === "encode") {
+                        setEncHistory((encodeHistory) => [[toEncode, encoded], ...encodeHistory]);
+                        setMode("encode");
+                        // setPayloadTrits(data['payload_trits']);
+                        // setGCContentPath(data['gc_content_fname']);
+                        // setNucleotideContent(data['letter_dict']);
+                    } else {
+                        var decoded = data['word'];
+                        setDecHistory((decodeHistory) => [[toDecode, decoded], ...decodeHistory]);
+                        setMode("decode");
+                        setSynthesisLength(data['synthesis_length']);
+                        setAddressLength(data['address_length']);
+                    }
+                    return data.text();
                 } else {
                     alert('An error has occurred returning the data. Check console for data log.');
                     console.log("Error!");
@@ -209,21 +256,10 @@ const EncodeDecodeContainer = () => {
                 }
             })
             .then((data) => {
-                var encoded = data['word'];
-                if (buttonType === "encode") {
-                    setEncHistory((encodeHistory) => [[toEncode, encoded], ...encodeHistory]);
-                    setMode("encode");
-                    setPayloadTrits(data['payload_trits']);
-                    setGCContent(data['gc_content']);
-                    setNucleotideContent(data['letter_dict']);
-                } else {
-                    var decoded = data['word'];
-                    setDecHistory((decodeHistory) => [[toDecode, decoded], ...decodeHistory]);
-                    setMode("decode");
-                    setSynthesisLength(data['synthesis_length']);
+                if (data) {
+                    setGCContent(data);
                 }
-                setAddressLength(data['address_length']);
-                
+
                 // var svg = generateGraph(data['letter_dict']);
                 // d3.select(d3Container.current).append(
                 //     () => { return svg.node() }
@@ -302,7 +338,32 @@ const EncodeDecodeContainer = () => {
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
-                    return data.json();
+                    console.log(data.headers);
+                    console.log(data.headers['payload_trits']);
+                    for (var pair of data.headers.entries()) {
+                        console.log(pair[0] + ': ' + pair[1]);
+                        switch (pair[0]) {
+                            case "payload_trits":
+                                setPayloadTrits(pair[1]);
+                                break;
+                            case "letter_dict":
+                                setNucleotideContent(
+                                    JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'))
+                                );
+                                break;
+                            case "address_length":
+                                setAddressLength(pair[1]);
+                                break;
+                            case "synthesis_length":
+                                // only encode available for now
+                                setSynthesisLength(pair[1]);
+                                break;
+                            case "gc_content_fname":
+                                setGCContentPath(pair[1]);
+                                break;
+                        }
+                    }
+                    return data.text();
                 } else {
                     alert('An error has occurred returning the data. Check console for data log.');
                     console.log("Error!");
@@ -310,20 +371,22 @@ const EncodeDecodeContainer = () => {
                 }
             })
             .then((data) => {
-                var encoded = data['word'];
+                // console.log(data);
+                var encoded = "";
+                setGCContent(data);
                 if (buttonType === "encode") {
                     setEncHistory((encodeHistory) => [[toEncode, encoded], ...encodeHistory]);
                     setMode("encode");
-                    setPayloadTrits(data['payload_trits']);
-                    setGCContent(data['gc_content']);
-                    setNucleotideContent(data['letter_dict']);
+                    // setPayloadTrits(data['payload_trits']);
+                    // setGCContentPath(data['gc_content_fname']);
+                    // setNucleotideContent(data['letter_dict']);
                 } else {
                     // var decoded = data['word'];
                     setDecHistory((decodeHistory) => [[toDecode, decoded], ...decodeHistory]);
                     setMode("decode");
-                    setSynthesisLength(data['synthesis_length']);
+                    // setSynthesisLength(data['synthesis_length']);
                 }
-                setAddressLength(data['address_length']);
+                // setAddressLength(data['address_length']);
                 setLoading(false);
                 // var svg = generateGraph(data['letter_dict']);
                 // d3.select(d3Container.current).append(
@@ -337,7 +400,6 @@ const EncodeDecodeContainer = () => {
     }
     const readFile = (e) => {
         e.preventDefault();
-        console.log('reached read flie');
         let files = e.target.files;
         console.log(files);
         const reader = new FileReader();
@@ -539,12 +601,12 @@ const GCHistogram = (props) => {
 
 
     var histogram = d3.histogram()
-        .value(function (d) { return d; })   // I need to give the vector of value
+        .value(function (d) { return d.percentageGC; })   // I need to give the vector of value
         .domain(xScale.domain())  // the domain of the graphic
         .thresholds(xScale.ticks(70)); // the numbers of bins
 
-    var data = props.data.concat([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]);
-    var bins = histogram(data);
+    // var data = props.data.concat([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]);
+    var bins = histogram(props.data);
     // console.log(bins);
     var yScale = d3.scaleLinear()
         .range([height, 0])
@@ -611,15 +673,50 @@ const GCHistogram = (props) => {
 
 const GCGraph = (props) => {
     console.log('start rendering the gcgraph');
-    if (props.gcContent.length > 5000) {
+    console.log('../public/frontend_textfiles/' + props.gcContentPath);
+    // const reader = new FileReader();
+
+    // reader.onload = async (event) => {
+    //     // in case I want to show before passing back
+    //     const text = (event.target.result);
+    //     console.log(text);
+
+    // };
+    // reader.readAsText('../../../../' + props.gcContentPath);
+    // import('../../../../' +  props.gcContentPath)
+    // .then(file => {
+    //   console.log(file);
+    // })
+    // .catch(err => {
+    //   main.textContent = err.message;
+    // });
+    // d3.csv('../public/frontend_textfiles/' + props.gcContentPath, function(data) {
+    //     console.log(data);
+    //     return handleGCData(props, data);
+    // });
+    return handleGCData(props, d3.csvParse("percentageGC\n" + props.gcContent));
+    // return;
+    // .mimeType("text/csv")
+    // .response(function (gcResponse) {
+    //     return d3.csvParse(gcResponse);
+    // }).get(function (data) {
+    //     console.log(data);
+    //     return handleGCData(props, data);
+    // });
+    // return <svg></svg>;
+}
+
+const handleGCData = (props, gcContent) => {
+    console.log(gcContent);
+    if (gcContent.length > 5000) {
         return (
-            <GCHistogram data={props.gcContent} className="gcGraph"
+            <GCHistogram data={gcContent} className="gcGraph"
                 inputWidth={props.inputWidth}
                 inputHeight={props.inputHeight}
             />
         );
     }
-    var data = props.gcContent;
+    var data = gcContent;
 
     // minus to make space for x label
     var margin = { top: 10, right: 30, bottom: 30, left: 60 },
@@ -684,7 +781,7 @@ const GCGraph = (props) => {
             }
             )
             .attr("cy", function (d) {
-                return yScale(d);
+                return yScale(d.percentageGC);
             })
             .attr("r", radius)
             .style("fill", "#69b3a2");
