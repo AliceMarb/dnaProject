@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 /venv/*
 /__pycache__/*
 .DS_Store
@@ -15,19 +14,6 @@ Codec/*
 /master/*
 dev/*
 master/*
-=======
-/__pycache__/*
-.DS_Store
-*/.DS_Store
-virtual/*
-instance/*
-app/codec_files/*
-instance/
-*.log
-app/static/react-app/node_modules
-*.pyc
-/dev/*
-dev/*
-master/*
-/master/*
->>>>>>> new-codec
+*.csv
+/webflow*/
+app/static/react-app/dist/bundle.js

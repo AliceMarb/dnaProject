@@ -84,7 +84,7 @@ const EncodeDecodeContainer = () => {
                     {card}
                     <div className="div-block-3">
                         <div className="text-block-6 address-length-label">Address Length</div>
-                        <div className="address-length-output-value">{payloadTrits}</div>
+                        <div className="address-length-output-value">{addressLength}</div>
                     </div>
                 </div>
             </div>
@@ -118,10 +118,6 @@ const EncodeDecodeContainer = () => {
                     key="bitton"
                 >
                     <h3 className={"accordion-label " + props.labelClass}>{props.buttonLabel}</h3>
-                    {/* <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" /> */}
-
-                    {/* {props.buttonClass.includes('gc-content') && mode ==="encode" ? <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" /> : null} */}
-                    {/* {props.buttonClass.includes('input-file-upload') ? <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" /> : null} */}
                 </Button>
                 {collapse}
             </>
@@ -137,9 +133,6 @@ const EncodeDecodeContainer = () => {
             <div>
                 <div className="output-sub-block gc-content-plot-block">
                     <div className="accordion-closed-item">
-                        {/* <div className="accordion-closed-item-trigger gc-content-plot-button">
-                            <h3 className="accordion-label gc-content-plot-block-label">GC Content Plot</h3>
-                        </div> */}
                         <ExpandableBox
                             labelClass="gc-content-plot-block-label"
                             buttonLabel="GC Content Plot"
@@ -207,8 +200,98 @@ const EncodeDecodeContainer = () => {
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
+                    return data.json();
+                } else {
+                    alert('An error has occurred returning the data. Check console for data log.');
+                    console.log("Error!");
+                    console.log(data);
+                }
+            })
+            .then((data) => {
+                if (buttonType === "encode") {
+                    var encoded = data['encoded'];
+                    setEncHistory((encodeHistory) => [[toEncode, encoded], ...encodeHistory]);
+                    setMode("encode");
+                    setPayloadTrits(data['payload_trits']);
+                    setGCContentPath(data['gc_content_fname']);
+                    setNucleotideContent(data['letter_dict']);
+                } else {
+                    var decoded = data['word'];
+                    setDecHistory((decodeHistory) => [[toDecode, decoded], ...decodeHistory]);
+                    setMode("decode");
+                    setSynthesisLength(data['synthesis_length']);
+                    setAddressLength(data['address_length']);
+                }
+            })
+            .catch((error) => {
+                alert('Catch: An error has occurred returning the data. Check console for data log.');
+                console.log(error);
+            });
+    }
+
+    const handlecallCodecTyped = (e) => {
+        setToEncode(e.target.value);
+    }
+    const handleDecodeText = (e) => {
+        setToDecode(e.target.value);
+    }
+
+    const ResultBox = () => {
+        return <textarea value={mode === "encode"? encodeHistory[0][1] : (mode === "decode"? decodeHistory[0][1] : "")} readOnly
+                disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input"></textarea>;
+    }
+
+    const putOutputInInput = (e) => {
+        if (mode === "encode") {
+            if (encodeHistory.length == 0) {
+                alert('Please encode something first');
+            } else {
+                setToDecode(encodeHistory[0][1]);
+            }
+        } else {
+            if (decodeHistory.length == 0) {
+                alert('Please encode something first');
+            } else {
+                setToEncode(decodeHistory[0][1]);
+            }
+        }
+    }
+    const codecGetFile = (files, buttonType, inputType) => {
+        setLoading(true);
+        var options;
+        if (inputType === "textFile") {
+            var formData = new FormData();
+            formData.append("file", files[0]);
+            // // no headers or this doesn't work
+            options = {
+                method: "POST",
+                body: formData,
+                mode: 'no-cors',
+            };
+        } else if (inputType === "json") {
+            options = {
+                method: "POST",
+                body: JSON.stringify({ "input": (buttonType === "encode" ? toEncode : cleanDNA) }),
+                headers: new Headers({
+                    'content-type': 'application/json',
+                    dataType: "json",
+                }),
+            };
+        }
+
+        if (buttonType === "encode") {
+            var url = "encode/" + inputType;
+        }
+
+        if (location.pathname.includes('dev')) {
+            url = "/dev/" + url;
+        } else if (location.pathname.includes('master')) {
+            url = "/master/" + url;
+        }
+        fetch(url, options)
+            .then((data) => {
+                if (data.ok) {
                     console.log(data.headers);
-                    var encoded = ""
                     for (var pair of data.headers.entries()) {
                         console.log(pair[0] + ': ' + pair[1]);
                         switch (pair[0]) {
@@ -231,135 +314,8 @@ const EncodeDecodeContainer = () => {
                                 setGCContentPath(pair[1]);
                                 break;
                             case "enc_string":
-                                encoded = pair[1];
-                                break;
-                        }
-                    }
-                    if (buttonType === "encode") {
-                        setEncHistory((encodeHistory) => [[toEncode, encoded], ...encodeHistory]);
-                        setMode("encode");
-                        // setPayloadTrits(data['payload_trits']);
-                        // setGCContentPath(data['gc_content_fname']);
-                        // setNucleotideContent(data['letter_dict']);
-                    } else {
-                        var decoded = data['word'];
-                        setDecHistory((decodeHistory) => [[toDecode, decoded], ...decodeHistory]);
-                        setMode("decode");
-                        setSynthesisLength(data['synthesis_length']);
-                        setAddressLength(data['address_length']);
-                    }
-                    return data.text();
-                } else {
-                    alert('An error has occurred returning the data. Check console for data log.');
-                    console.log("Error!");
-                    console.log(data);
-                }
-            })
-            .then((data) => {
-                if (data) {
-                    setGCContent(data);
-                }
-
-                // var svg = generateGraph(data['letter_dict']);
-                // d3.select(d3Container.current).append(
-                //     () => { return svg.node() }
-                // );
-            })
-            .catch((error) => {
-                alert('Catch: An error has occurred returning the data. Check console for data log.');
-                console.log(error);
-            });
-    }
-
-    const handlecallCodecTyped = (e) => {
-        setToEncode(e.target.value);
-    }
-    const handleDecodeText = (e) => {
-        setToDecode(e.target.value);
-    }
-
-    const ResultBox = () => {
-        if (mode === "encode") {
-            return <textarea value={encodeHistory[0][1]} readOnly
-                disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input"></textarea>;
-        }
-        else if (mode === "decode") {
-
-            return <textarea value={decodeHistory[0][1]} readOnly
-                disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input"></textarea>;
-        }
-        else {
-            return <textarea value="" readOnly
-                disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input"></textarea>;
-        }
-    }
-
-    const putOutputInInput = (e) => {
-        if (mode === "encode") {
-            if (encodeHistory.length == 0) {
-                alert('Please encode something first');
-            } else {
-                setToDecode(encodeHistory[0][1]);
-            }
-        } else {
-            if (decodeHistory.length == 0) {
-                alert('Please encode something first');
-            } else {
-                setToEncode(decodeHistory[0][1]);
-            }
-        }
-    }
-    const callCodecFile = (files, buttonType) => {
-        setLoading(true);
-        var formData = new FormData();
-        formData.append("file", files[0]);
-        if (buttonType === "encode") {
-            var url = "encode_file";
-        }
-        // else {
-        //     var url = "decode_string";
-        //     var cleanDNA = errorCheckDNA(toDecode);
-        //     if (!cleanDNA) {
-        //         return;
-        //     }
-        // }
-        // no headers or this doesn't work
-        const options = {
-            method: "POST",
-            body: formData,
-            mode: 'no-cors',
-        };
-
-        if (location.pathname.includes('dev')) {
-            url = "/dev/" + url;
-        } else if (location.pathname.includes('master')) {
-            url = "/master/" + url;
-        }
-        fetch(url, options)
-            .then((data) => {
-                if (data.ok) {
-                    console.log(data.headers);
-                    console.log(data.headers['payload_trits']);
-                    for (var pair of data.headers.entries()) {
-                        console.log(pair[0] + ': ' + pair[1]);
-                        switch (pair[0]) {
-                            case "payload_trits":
-                                setPayloadTrits(pair[1]);
-                                break;
-                            case "letter_dict":
-                                setNucleotideContent(
-                                    JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'))
-                                );
-                                break;
-                            case "address_length":
-                                setAddressLength(pair[1]);
-                                break;
-                            case "synthesis_length":
-                                // only encode available for now
-                                setSynthesisLength(pair[1]);
-                                break;
-                            case "gc_content_fname":
-                                setGCContentPath(pair[1]);
+                                var encoded = pair[1];
+                                setEncHistory((encodeHistory) => [[toEncode, encoded], ...encodeHistory]);
                                 break;
                         }
                     }
@@ -371,45 +327,32 @@ const EncodeDecodeContainer = () => {
                 }
             })
             .then((data) => {
-                // console.log(data);
-                var encoded = "";
                 setGCContent(data);
                 if (buttonType === "encode") {
-                    setEncHistory((encodeHistory) => [[toEncode, encoded], ...encodeHistory]);
                     setMode("encode");
-                    // setPayloadTrits(data['payload_trits']);
-                    // setGCContentPath(data['gc_content_fname']);
-                    // setNucleotideContent(data['letter_dict']);
                 } else {
-                    // var decoded = data['word'];
                     setDecHistory((decodeHistory) => [[toDecode, decoded], ...decodeHistory]);
                     setMode("decode");
-                    // setSynthesisLength(data['synthesis_length']);
                 }
-                // setAddressLength(data['address_length']);
                 setLoading(false);
-                // var svg = generateGraph(data['letter_dict']);
-                // d3.select(d3Container.current).append(
-                //     () => { return svg.node() }
-                // );
             })
             .catch((error) => {
                 alert('Catch: An error has occurred returning the data. Check console for data log.');
                 console.log(error);
             });
+    }
+    const callCodecHandler = (e) => {
+        e.preventDefault()
+        codecGetFile(null, "encode", "json");
     }
     const readFile = (e) => {
         e.preventDefault();
         let files = e.target.files;
-        console.log(files);
         const reader = new FileReader();
-
         reader.onload = async (event) => {
             // in case I want to show before passing back
             const text = (event.target.result);
-            // console.log('here' + text);
-            callCodecFile(files, "encode");
-
+            codecGetFile(files, "encode", "textFile");
         };
         reader.readAsText(files[0]);
     }
@@ -436,7 +379,7 @@ const EncodeDecodeContainer = () => {
                                 </div>
                                 <div className="accordion-wrapper">
                                     <div className="w-form">
-                                        <form onSubmit={(e) => callCodecTyped(e, "encode")}>
+                                        <form onSubmit={(e) => callCodecHandler(e)}>
                                             <div className="accordion-closed-item input-text-string-block">
                                                 <div className="accordion-closed-item-trigger input-text-string-block-button">
                                                     <h3 className="accordion-label input-text-string-block-label">Text string</h3>
@@ -605,9 +548,7 @@ const GCHistogram = (props) => {
         .domain(xScale.domain())  // the domain of the graphic
         .thresholds(xScale.ticks(70)); // the numbers of bins
 
-    // var data = props.data.concat([1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]);
     var bins = histogram(props.data);
-    // console.log(bins);
     var yScale = d3.scaleLinear()
         .range([height, 0])
         .domain([0, d3.max(bins, function (d) { return d.length; })]);
@@ -617,10 +558,7 @@ const GCHistogram = (props) => {
         const g = d3.select(ref.current);
         g.append("g")
             .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale)
-                // .tickValues(domain)
-                // .tickFormat(d3.format("d"))
-            )
+            .call(d3.axisBottom(xScale))
             .append("text")
             .style("font", "20px times")
             .style("fill", "black")
@@ -674,36 +612,7 @@ const GCHistogram = (props) => {
 const GCGraph = (props) => {
     console.log('start rendering the gcgraph');
     console.log('../public/frontend_textfiles/' + props.gcContentPath);
-    // const reader = new FileReader();
-
-    // reader.onload = async (event) => {
-    //     // in case I want to show before passing back
-    //     const text = (event.target.result);
-    //     console.log(text);
-
-    // };
-    // reader.readAsText('../../../../' + props.gcContentPath);
-    // import('../../../../' +  props.gcContentPath)
-    // .then(file => {
-    //   console.log(file);
-    // })
-    // .catch(err => {
-    //   main.textContent = err.message;
-    // });
-    // d3.csv('../public/frontend_textfiles/' + props.gcContentPath, function(data) {
-    //     console.log(data);
-    //     return handleGCData(props, data);
-    // });
     return handleGCData(props, d3.csvParse("percentageGC\n" + props.gcContent));
-    // return;
-    // .mimeType("text/csv")
-    // .response(function (gcResponse) {
-    //     return d3.csvParse(gcResponse);
-    // }).get(function (data) {
-    //     console.log(data);
-    //     return handleGCData(props, data);
-    // });
-    // return <svg></svg>;
 }
 
 const handleGCData = (props, gcContent) => {
