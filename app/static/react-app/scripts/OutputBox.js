@@ -1,95 +1,38 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import Dropdown from 'react-bootstrap/Dropdown';
-import DropdownButton from 'react-bootstrap/DropdownButton';
-import arrow from '../public/images/arrow-mid-blue-down-96x96.png';
-import Switch from "react-switch";
-import pic from '../public/images/webclip.png';
-
-
-
-const OutputElement = () => {
-    const [listOpen, setOpen] = useState(true);
-    const [analytics, setAnalytics] = useState("------");
-    const [plot, setPlot] = useState("------");
-    const switches = [
-        { name: "Some check" },
-        { name: "Some other check" },
-        { name: "Third check" },
-        { name: "Fourth check" },
-    ]
-    const [checked, setChecked] = useState(
-        switches.reduce((map, obj) => (map[obj.name] = false, map), {}));
-    // console.log(checked);
-
-    const handleCheck = (item) => {
-        var namey = item.name;
-        // console.log('heres checked');
-        // console.log(checked);
-        setChecked({ ...checked, [namey]: !checked[item.name] });
+const OutputBox = (props) => {
+    var card;
+    if (props.mode === "default") {
+        // return  <h1>Empty!</h1>;
+        return (
+            <div className="output-sub-block basic-data-block">
+                <div className="label basic-data-block-label">DATA</div>
+            </div>
+        );
+    } else if (props.mode === "encode") {
+        card = (
+            <div className="div-block-3">
+                <div className="text-block-6 payload-length-label">Payload Data</div>
+                <div className="payload-output-value">{props.payloadTrits}</div>
+            </div>
+        );
+    } else {
+        card = (
+            <div className="div-block-3">
+                <div className="text-block-6 payload-length-label">Synthesis Length</div>
+                <div className="payload-output-value">{props.synthesisLength}</div>
+            </div>
+        );
     }
     return (
-        <div className="relative">
-            <div className="dd-wrapper">
-                <div className="dd-header output-element-window-bar">
-                    <div className="output-element-dropdown-container output-element-dropdown-trigger" onClick={() => setOpen(!listOpen)}>
-                        <div className="dd-header-title">Output Element</div>
-                        <img src={arrow} width="16" height="16"></img>
-                    </div>
+        <div className="output-sub-block basic-data-block">
+            <div className="label basic-data-block-label">DATA</div>
+            <div className="basic-data-value">
+                {card}
+                <div className="div-block-3">
+                    <div className="text-block-6 address-length-label">Address Length</div>
+                    <div className="address-length-output-value">{props.addressLength}</div>
                 </div>
-                <div className="my-output-dropdown-menu">
-                    {listOpen &&
-                        <ul className="dd-list">
-                            <li key="analytics" className="dd-list-item">
-                                <h3 className="accordion-label">Analytics</h3>
-                                <Dropdown>
-                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                        {analytics}
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item onClick={() => setAnalytics("Basic Data")}>Basic Data</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => setAnalytics("DNA Sequence")}>DNA Sequence</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </li>
-                            <li key="charts" className="dd-list-item">
-                                <h3 className="accordion-label">Charts and Graphs</h3>
-                                <Dropdown>
-                                    <Dropdown.Toggle variant="success" id="dropdown-basic">
-                                        {plot}
-                                    </Dropdown.Toggle>
-                                    <Dropdown.Menu>
-                                        <Dropdown.Item onClick={() => setPlot("GC Content Plot")}>GC Content Plot</Dropdown.Item>
-                                        <Dropdown.Item onClick={() => setPlot("Nucleotide Content Plot")}>Nucleotide Content Plot</Dropdown.Item>
-                                    </Dropdown.Menu>
-                                </Dropdown>
-                            </li>
-                            <li key="other" className="dd-list-item">
-                                <h3 className="accordion-label">Output Element Settings</h3>
-                                <div className='w-layout-grid output-settings-grid'>
-                                {switches.map((item) => {
-                                    name = item.name;
-                                    {/* console.log(item); */}
-                                    {/* console.log(name, item.name); */}
-                                    return (
-                                        <div key={name+"container"} className="my-individual-parameter">
-                                            <h3 className="accordion-label toggle-setting-text output-toggle-text">{name}</h3>
-                                            <Switch
-                                                key={name}
-                                                onChange={() => handleCheck(item)}
-                                                checked={checked[item.name]} />
-                                        </div>);
-                                })}
-                                </div>
-                                
-                            </li>
-                        </ul>
-                    }
-                </div>
-
             </div>
-            <img src={pic} />
         </div>
     );
 }
-
-export default OutputElement;
+export default OutputBox;

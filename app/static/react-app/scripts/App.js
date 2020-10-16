@@ -1,6 +1,6 @@
 import React from "react";
 import EncodeDecodeContainer from "./EncodeDecodeContainer";
-import OutputElement from "./OutputBox";
+import OutputElement from "./OutputElement";
 // import './kern-dna-synth.css';
 // order of imports matters - style should override components
 import './normalize.css';
@@ -35,7 +35,7 @@ const App = () => {
                 <div className="text-block-4">Version:</div>
                 <NavLink to="/master" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link nav-bar-master-link">Master</NavLink>
                 <NavLink to="/dev" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link nav-bar-master-link-2">Development</NavLink>
-                {/* <NavLink to="/output-box" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link nav-bar-master-link-3">Output Box</NavLink> */}
+                <NavLink to="/dev" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link nav-bar-master-link-3">Output Box</NavLink>
                 <div className="text-block-4 nav-bar-link-3">1.3</div>
               </nav>
             </div>
@@ -43,7 +43,7 @@ const App = () => {
         </div>
         <Switch>
           <Route path="/dev">
-            <EncodeDecodeContainer />
+            <OutputElement />
           </Route>
           <Route path="/master">
             <EncodeDecodeContainer />

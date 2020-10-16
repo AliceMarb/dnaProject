@@ -16,6 +16,8 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
+import {TextInputBox, DecodeInputBox} from './InputBlock.js';
+import OutputBox from './OutputBox';
 // import hi from '../public/frontend_textfiles/hi.txt';
 // import file from '../../../../app/codec_files/gc_content_rawBpa.txt';
 
@@ -29,7 +31,6 @@ const EncodeDecodeContainer = () => {
 
 
     const [mode, setMode] = useState("default");
-    const location = useLocation();
     const [toEncode, setToEncode] = useState("");
     const [toDecode, setToDecode] = useState("");
     const [payloadTrits, setPayloadTrits] = useState("");
@@ -40,9 +41,7 @@ const EncodeDecodeContainer = () => {
     const [encodeHistory, setEncHistory] = useState([]);
     const [decodeHistory, setDecHistory] = useState([]);
     const [nucleotideContent, setNucleotideContent] = useState({});
-    // const [inputRef, setInputFocus] = useFocus();
     const [loading, setLoading] = useState(false);
-    // const [forceInputOverride, setForce] = useState(false);
     const [editingRef, setEditing] = useState(null);
     const [fileToEncode, setFileToEncode] = useState(null);
     const [decodeOpen, setDecodeOpen] = useState(false);
@@ -51,6 +50,8 @@ const EncodeDecodeContainer = () => {
     // acts like a class member, e.g. props or state, but without
     // a class. So it is retained between renders.
     // is set with its .current property
+    const location = useLocation();
+
     const d3Container = useRef();
     const gcContainer = useRef();
     const encodeInput = useRef();
@@ -67,44 +68,6 @@ const EncodeDecodeContainer = () => {
 
     }, [toEncode, toDecode]);
 
-
-    const OutputBox = () => {
-        var card;
-        if (mode === "default") {
-            // return  <h1>Empty!</h1>;
-            return (
-                <div className="output-sub-block basic-data-block">
-                    <div className="label basic-data-block-label">DATA</div>
-                </div>
-            );
-        } else if (mode === "encode") {
-            card = (
-                <div className="div-block-3">
-                    <div className="text-block-6 payload-length-label">Payload Data</div>
-                    <div className="payload-output-value">{payloadTrits}</div>
-                </div>
-            );
-        } else {
-            card = (
-                <div className="div-block-3">
-                    <div className="text-block-6 payload-length-label">Synthesis Length</div>
-                    <div className="payload-output-value">{synthesisLength}</div>
-                </div>
-            );
-        }
-        return (
-            <div className="output-sub-block basic-data-block">
-                <div className="label basic-data-block-label">DATA</div>
-                <div className="basic-data-value">
-                    {card}
-                    <div className="div-block-3">
-                        <div className="text-block-6 address-length-label">Address Length</div>
-                        <div className="address-length-output-value">{addressLength}</div>
-                    </div>
-                </div>
-            </div>
-        );
-    }
     const ExpandableBox = (props) => {
         // console.log('rerendering edxpandable box');
         // const [open, setOpen] = useState(true);
@@ -139,90 +102,6 @@ const EncodeDecodeContainer = () => {
             </div>
         );
     }
-
-    const InputBox = (props) => {
-        // const [stringToEncode, setStringToEncode] = useState("");
-        // const [open, setOpen] = useState(true);
-        // console.log('encode:' + toEncode);
-
-        const handle = (e) => {
-            setToEncode(e.target.value);
-            setEditing(encodeInput);
-
-        }
-
-        return (
-            <>
-                <Button
-                    onClick={() => setTextStringOpen(!textStringOpen)}
-                    aria-controls="example-collapse-text"
-                    aria-expanded={textStringOpen}
-                    variant="customized-accordion-closed"
-                    className={"accordion-closed-item-trigger"}
-                    key="bitton"
-                >
-                    <h3 className={"accordion-label "}>Text String</h3>
-                </Button>
-                <Collapse in={textStringOpen}>
-                    <form onSubmit={(e) => callCodecHandler(e, toEncode)}>
-                        <textarea
-                            value={toEncode}
-                            onChange={(e) => handle(e)}
-                            placeholder="Text string, e.g. &quot;Hello&quot;"
-                            maxLength={5000}
-                            className="textarea w-input"
-                            type="text"
-                            required="required"
-                            ref={encodeInput}
-                        />
-                        <input
-                            type="submit"
-                            name="submit_button_str"
-                            value="Encode"
-                            className="submit-button w-button input-encode-submit-buttion"
-                        />
-                    </form>
-                </Collapse>
-            </>
-        );
-    }
-    const DecodeInputBox = React.memo((props) => {
-        // console.log('rerendering decode box')
-        const handle = (e) => {
-            if (e.target.value.match(/^[agctAGCT,]*$/)) {
-                setToDecode(e.target.value);
-            }
-            setEditing(decodeInput);
-        }
-        return (
-            <>
-                <Button
-                    onClick={() => setDecodeOpen(!decodeOpen)}
-                    aria-controls="example-collapse-text"
-                    aria-expanded={decodeOpen}
-                    variant="customized-accordion-closed"
-                    className={"accordion-closed-item-trigger " + "input-dna-seq-decode-block-button"}
-                    key="bitton"
-                >
-                    <h3 className={"accordion-label "}>DNA&nbsp;Sequence Decode</h3>
-                </Button>
-                <Collapse in={decodeOpen}>
-                    <form onSubmit={(e) => callCodecTyped(e, "decode", toDecode)} className="form">
-                        <div className="accordion-item-content">
-                            <textarea value={toDecode} onChange={(e) => handle(e)}
-                                placeholder="DNA sequence, e.g. AGATGAG, ACGATCA, ATACTCT, TCGTCTC, TACGACT,"
-                                maxLength={5000}
-                                className="textarea w-input input-dna-sequence-textarea"
-                                id="DNA-Input2" name="DNA-Input"
-                                ref={decodeInput}
-                            />
-                            <input type="submit" value="Decode" className="submit-button w-button input-dna-seq-decode-submit-button" />
-                        </div>
-                    </form>
-                </Collapse>
-            </>
-        );
-    });
     
     const GraphBox = () => {
         const width = 600;
@@ -268,12 +147,6 @@ const EncodeDecodeContainer = () => {
                         </ExpandableBox>
                     </div>
                 </div>
-                {/* <div className="output-sub-block nc-content-plot-block">
-                    <div className="label nc-content-plot-block-label">Nucleotide content plot</div>
-                    <div className="nc-content-block-value">
-                        <div className="w-embed">GC conten%</div>
-                    </div>
-                </div> */}
             </div>
         );
     }
@@ -336,16 +209,7 @@ const EncodeDecodeContainer = () => {
             });
     }
 
-    const handlecallCodecTyped = (e) => {
-        setToEncode(e.target.value);
-    }
-    const handleDecodeText = (e) => {
-        setToDecode(e.target.value);
-    }
-
     const ResultBox = () => {
-        // console.log('encode history');
-        // console.log(encodeHistory);
         return <textarea value={loading ? "Loading results!" : (mode === "encode" ? encodeHistory[0][1] : (mode === "decode" ? decodeHistory[0][1] : ""))} readOnly
             disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input"></textarea>;
     }
@@ -439,9 +303,6 @@ const EncodeDecodeContainer = () => {
                                 break;
                         }
                     }
-                    // if (!encStringFound) {
-                    //     setEncHistory((encodeHistory) => [["", encoded], ...encodeHistory]);
-                    // }
                     return data.text();
                 } else {
                     alert('An error has occurred returning the data. Check console for data log.');
@@ -493,12 +354,6 @@ const EncodeDecodeContainer = () => {
                         <div className="label cc-light dna-synthesizer-short-title">Encode your data into our synthetic dna<br /></div>
                     </div>
                     <div className="main-body-section">
-                        {/* <div className="panel-nav">
-                            <div data-w-id="555ec916-369b-67ad-10b5-ae562a9d19f6" className="panel-trigger">
-                                <h3 className="accordion-label">Input</h3>
-                                <img src={arrow} loading="lazy" width="10" alt="" className="accordion-arrow" />
-                            </div>
-                        </div> */}
                         <div className="panel-block">
                             <div className="input-block">
                                 <div className="panel-title">
@@ -506,8 +361,9 @@ const EncodeDecodeContainer = () => {
                                 </div>
                                 <div className="accordion-wrapper">
                                     <div className="w-form">
-                                        <InputBox />
-                                        <DecodeInputBox toDecode={toDecode}/>
+                                        <TextInputBox textStringOpen={textStringOpen} setToEncode={setToEncode} setEditing={setEditing} setTextStringOpen={setTextStringOpen} callCodecHandler={callCodecHandler} toEncode={toEncode} encodeInput={encodeInput}/>
+                                        <DecodeInputBox decodeOpen={decodeOpen} setToDecode={setToDecode} setEditing={setEditing} callCodecTyped={callCodecTyped} setDecodeOpen={setDecodeOpen} toDecode={toDecode}
+                                        decodeInput={decodeInput}/>
                                         <div className="accordion-closed-item input-file-upload-block">
                                             <ExpandableBox
                                                 labelClass="input-file-upload-block-label"
@@ -528,13 +384,7 @@ const EncodeDecodeContainer = () => {
                                                         className="submit-button w-button input-encode-submit-button"  
                                                     />
                                                 </div>
-
                                             </ExpandableBox>
-                                            {/* <div className="accordion-closed-item-trigger input-file-upload-block-button">
-                                                    <h3 className="accordion-label input-file-upload-block-label">Upload file</h3>
-                                                    <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" />
-                                                </div> */}
-
                                         </div>
                                     </div>
                                 </div>
@@ -547,7 +397,11 @@ const EncodeDecodeContainer = () => {
                                     <div className="form-2">
                                         <div className="w-row">
                                             <div className="w-col w-col-4">
-                                                <OutputBox />
+                                                <OutputBox payloadTrits={payloadTrits}
+                                                    synthesisLength={synthesisLength}
+                                                    addressLength={addressLength}
+                                                    mode={mode}
+                                                />
                                                 <div className="output-sub-block nc-content-plot-block">
                                                     <div className="label nc-content-block-label">Nucleotide content</div>
                                                     <div className="w-layout-grid grid-2 nc-content-value-grid-block">
@@ -561,7 +415,6 @@ const EncodeDecodeContainer = () => {
                                             <div className="w-col w-col-8">
                                                 <div className="output-sub-block dna-seq-output-block">
                                                     <div className="label dna-seq-output-block-label">DNA Sequence</div>
-                                                    {/* <textarea placeholder="Sample DNA Sequence Output Box, will hide on page load. Only here for style/layout purposes" maxLength={5000} id="DNA-Sequence-Output" data-name="DNA Sequence Output" name="DNA-Sequence-Output" data-w-id="d6157cf2-1d65-a330-ced7-868e330b1164" style="display:none" className="textarea-2 w-input"></textarea> */}
                                                     <ResultBox />
                                                     <button onClick={putOutputInInput} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button>
                                                 </div>

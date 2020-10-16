@@ -159,8 +159,8 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             print('This file found: ', os.path.isfile(out_path))
             current_app.logger.error(f"ENCODING {input_type} {in_path} {out_path} --- File not found error ::: Input: {limit_length(input_word)}")
             raise FileNotFoundError
-        with open('filesize_time.csv', 'a') as f:
-                f.write(str(secs) + '\n')
+        # with open('filesize_time.csv', 'a') as f:
+                # f.write(str(secs) + '\n')
         return enc_string, letter_dict, gc_content_fname
             
     def handle_enc_input(input_word, fname="", input_type="typed"):
