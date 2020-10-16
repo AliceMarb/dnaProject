@@ -142,6 +142,14 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 for seq_record in SeqIO.parse(out_path, "fasta"):
                     seq_str = str(seq_record.seq)[1:]
                     enc_string += (seq_str + ',')
+            # don't want so many it crashes the browser
+            else:
+                for i, seq_record in enumerate(SeqIO.parse(out_path, "fasta")):
+                    if i > 5000: 
+                        enc_string += "..."
+                        break
+                    seq_str = str(seq_record.seq)[1:]
+                    enc_string += (seq_str + ',')
 
             letter_dict = {"A": a, "G": g, "T": t, "C": c}
             end = time.time()
