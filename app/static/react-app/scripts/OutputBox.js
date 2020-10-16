@@ -1,3 +1,5 @@
+import React from 'react';
+
 const OutputBox = (props) => {
     var card;
     if (props.mode === "default") {
