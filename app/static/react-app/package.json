@@ -19,6 +19,7 @@
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.3",
+    "react-switch": "^5.0.1",
     "url-loader": "^4.1.0",
     "webpack-dev-server": "^3.11.0",
     "webpack-node-externals": "^2.5.2",

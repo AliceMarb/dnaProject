@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import * as d3 from 'd3';
 import { useLocation } from 'react-router-dom';
 // import './jquery.js';
@@ -26,9 +26,6 @@ const EncodeDecodeContainer = () => {
 
         return [htmlElRef, setFocus]
     }
-    useEffect(() => {
-        setInputFocus();
-    }, []);
 
 
     const [mode, setMode] = useState("default");
@@ -43,14 +40,32 @@ const EncodeDecodeContainer = () => {
     const [encodeHistory, setEncHistory] = useState([]);
     const [decodeHistory, setDecHistory] = useState([]);
     const [nucleotideContent, setNucleotideContent] = useState({});
-    const [inputRef, setInputFocus] = useFocus();
+    // const [inputRef, setInputFocus] = useFocus();
     const [loading, setLoading] = useState(false);
+    // const [forceInputOverride, setForce] = useState(false);
+    const [editingRef, setEditing] = useState(null);
+    const [fileToEncode, setFileToEncode] = useState(null);
+    const [decodeOpen, setDecodeOpen] = useState(false);
+    const [textStringOpen, setTextStringOpen] = useState(false);
+    const [expandableOpen, setExpandableOpen] = useState(true);
     // acts like a class member, e.g. props or state, but without
     // a class. So it is retained between renders.
     // is set with its .current property
     const d3Container = useRef();
     const gcContainer = useRef();
+    const encodeInput = useRef();
+    const decodeInput = useRef();
     // useMountEffect( setInputFocus )
+    useEffect(() => {
+        // console.log('rerendering' + editingRef);
+        if (editingRef) {
+            // console.log(editingRef);
+            editingRef.current.focus();
+            editingRef.current.selectionStart = editingRef.current.value.length;
+            editingRef.current.selectionEnd = editingRef.current.value.length;
+        }
+
+    }, [toEncode, toDecode]);
 
 
     const OutputBox = () => {
@@ -91,28 +106,29 @@ const EncodeDecodeContainer = () => {
         );
     }
     const ExpandableBox = (props) => {
-        const [open, setOpen] = useState(true);
+        // console.log('rerendering edxpandable box');
+        // const [open, setOpen] = useState(true);
         var collapse;
         if (props.renderWaitingScreen && loading) {
             collapse = (
-                <Collapse in={open}>
+                <Collapse in={expandableOpen}>
                     <img src={bunny} width="600px" height="450px" />
                 </Collapse>);
 
         } else {
-            collapse = (<Collapse in={open}>
+            collapse = (<Collapse in={expandableOpen}>
                 {props.children}
             </Collapse>);
         }
         return (
-            <>
+            <div key={props.divKey}>
                 <Button
                     onClick={() => {
-                        setOpen(!open);
+                        setExpandableOpen(!expandableOpen);
                     }
                     }
                     aria-controls="example-collapse-text"
-                    aria-expanded={open}
+                    aria-expanded={expandableOpen}
                     variant="customized-accordion-closed"
                     className={"accordion-closed-item-trigger " + props.buttonClass}
                     key="bitton"
@@ -120,15 +136,102 @@ const EncodeDecodeContainer = () => {
                     <h3 className={"accordion-label " + props.labelClass}>{props.buttonLabel}</h3>
                 </Button>
                 {collapse}
+            </div>
+        );
+    }
+
+    const InputBox = (props) => {
+        // const [stringToEncode, setStringToEncode] = useState("");
+        // const [open, setOpen] = useState(true);
+        // console.log('encode:' + toEncode);
+
+        const handle = (e) => {
+            setToEncode(e.target.value);
+            setEditing(encodeInput);
+
+        }
+
+        return (
+            <>
+                <Button
+                    onClick={() => setTextStringOpen(!textStringOpen)}
+                    aria-controls="example-collapse-text"
+                    aria-expanded={textStringOpen}
+                    variant="customized-accordion-closed"
+                    className={"accordion-closed-item-trigger"}
+                    key="bitton"
+                >
+                    <h3 className={"accordion-label "}>Text String</h3>
+                </Button>
+                <Collapse in={textStringOpen}>
+                    <form onSubmit={(e) => callCodecHandler(e, toEncode)}>
+                        <textarea
+                            value={toEncode}
+                            onChange={(e) => handle(e)}
+                            placeholder="Text string, e.g. &quot;Hello&quot;"
+                            maxLength={5000}
+                            className="textarea w-input"
+                            type="text"
+                            required="required"
+                            ref={encodeInput}
+                        />
+                        <input
+                            type="submit"
+                            name="submit_button_str"
+                            value="Encode"
+                            className="submit-button w-button input-encode-submit-buttion"
+                        />
+                    </form>
+                </Collapse>
             </>
         );
     }
+    const DecodeInputBox = React.memo((props) => {
+        // console.log('rerendering decode box')
+        const handle = (e) => {
+            if (e.target.value.match(/^[agctAGCT,]*$/)) {
+                setToDecode(e.target.value);
+            }
+            setEditing(decodeInput);
+        }
+        return (
+            <>
+                <Button
+                    onClick={() => setDecodeOpen(!decodeOpen)}
+                    aria-controls="example-collapse-text"
+                    aria-expanded={decodeOpen}
+                    variant="customized-accordion-closed"
+                    className={"accordion-closed-item-trigger " + "input-dna-seq-decode-block-button"}
+                    key="bitton"
+                >
+                    <h3 className={"accordion-label "}>DNA&nbsp;Sequence Decode</h3>
+                </Button>
+                <Collapse in={decodeOpen}>
+                    <form onSubmit={(e) => callCodecTyped(e, "decode", toDecode)} className="form">
+                        <div className="accordion-item-content">
+                            <textarea value={toDecode} onChange={(e) => handle(e)}
+                                placeholder="DNA sequence, e.g. AGATGAG, ACGATCA, ATACTCT, TCGTCTC, TACGACT,"
+                                maxLength={5000}
+                                className="textarea w-input input-dna-sequence-textarea"
+                                id="DNA-Input2" name="DNA-Input"
+                                ref={decodeInput}
+                            />
+                            <input type="submit" value="Decode" className="submit-button w-button input-dna-seq-decode-submit-button" />
+                        </div>
+                    </form>
+                </Collapse>
+            </>
+        );
+    });
+    
     const GraphBox = () => {
         const width = 600;
         const height = 500;
         const pixelWidth = width + "px"
         const pixelHeight = height + "px"
-        console.log('rendering graph box, gccontent ' + gcContentPath)
+        // console.log('rendering graph box, gccontent ' + gcContentPath)
+        const child = <GCGraph key="gcgraph" gcContent={gcContent} gcContentPath={gcContentPath} inputWidth={width} inputHeight={height} />;
+        
         return (
             <div>
                 <div className="output-sub-block gc-content-plot-block">
@@ -138,6 +241,8 @@ const EncodeDecodeContainer = () => {
                             buttonLabel="GC Content Plot"
                             buttonClass="gc-content-plot-button"
                             renderWaitingScreen={true}
+                            key="graph-outbox"
+                            divKey="akey"
                         >
                             <div>
                                 <div
@@ -155,7 +260,7 @@ const EncodeDecodeContainer = () => {
                                         height={pixelHeight}
                                     // svg-content-responsive="true"
                                     >
-                                        {mode != "decode" && gcContentPath && gcContent ? <GCGraph gcContent={gcContent} gcContentPath={gcContentPath} inputWidth={width} inputHeight={height} /> : null}
+                                        {mode != "decode" && gcContentPath && gcContent ?  child : null}
                                         {/* <GCGraph gcContentPath={gcContentPath} inputWidth={width} inputHeight={height} /> */}
                                     </div>
                                 </div>
@@ -172,13 +277,15 @@ const EncodeDecodeContainer = () => {
             </div>
         );
     }
-    const callCodecTyped = (e, buttonType) => {
+    const callCodecTyped = (e, buttonType, stringToDecode) => {
         e.preventDefault();
+        console.log('this is string to decode' + stringToDecode);
+        setToDecode(stringToDecode);
         if (buttonType === "encode") {
             var url = "encode_string/json";
         } else {
             var url = "decode_string";
-            var cleanDNA = errorCheckDNA(toDecode);
+            var cleanDNA = errorCheckDNA(stringToDecode);
             if (!cleanDNA) {
                 return;
             }
@@ -217,7 +324,7 @@ const EncodeDecodeContainer = () => {
                     setNucleotideContent(data['letter_dict']);
                 } else {
                     var decoded = data['word'];
-                    setDecHistory((decodeHistory) => [[toDecode, decoded], ...decodeHistory]);
+                    setDecHistory((decodeHistory) => [[cleanDNA, decoded], ...decodeHistory]);
                     setMode("decode");
                     setSynthesisLength(data['synthesis_length']);
                     setAddressLength(data['address_length']);
@@ -237,11 +344,14 @@ const EncodeDecodeContainer = () => {
     }
 
     const ResultBox = () => {
-        return <textarea value={mode === "encode"? encodeHistory[0][1] : (mode === "decode"? decodeHistory[0][1] : "")} readOnly
-                disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input"></textarea>;
+        // console.log('encode history');
+        // console.log(encodeHistory);
+        return <textarea value={loading ? "Loading results!" : (mode === "encode" ? encodeHistory[0][1] : (mode === "decode" ? decodeHistory[0][1] : ""))} readOnly
+            disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input"></textarea>;
     }
 
     const putOutputInInput = (e) => {
+        setForce(true);
         if (mode === "encode") {
             if (encodeHistory.length == 0) {
                 alert('Please encode something first');
@@ -256,12 +366,18 @@ const EncodeDecodeContainer = () => {
             }
         }
     }
-    const codecGetFile = (files, buttonType, inputType) => {
+    const codecGetFile = (input, buttonType, inputType) => {
         setLoading(true);
         var options;
+        
         if (inputType === "textFile") {
+            if (!fileToEncode) {
+                alert('Choose a file first!');
+                setLoading(false);
+                return;
+            }
             var formData = new FormData();
-            formData.append("file", files[0]);
+            formData.append("file", fileToEncode);
             // // no headers or this doesn't work
             options = {
                 method: "POST",
@@ -269,9 +385,10 @@ const EncodeDecodeContainer = () => {
                 mode: 'no-cors',
             };
         } else if (inputType === "json") {
+            setToEncode(input);
             options = {
                 method: "POST",
-                body: JSON.stringify({ "input": (buttonType === "encode" ? toEncode : cleanDNA) }),
+                body: JSON.stringify({ "input": (buttonType === "encode" ? input : cleanDNA) }),
                 headers: new Headers({
                     'content-type': 'application/json',
                     dataType: "json",
@@ -291,6 +408,7 @@ const EncodeDecodeContainer = () => {
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
+                    // var encStringFound = false;
                     console.log(data.headers);
                     for (var pair of data.headers.entries()) {
                         console.log(pair[0] + ': ' + pair[1]);
@@ -314,11 +432,15 @@ const EncodeDecodeContainer = () => {
                                 setGCContentPath(pair[1]);
                                 break;
                             case "enc_string":
+                                // encStringFound = true;
                                 var encoded = pair[1];
-                                setEncHistory((encodeHistory) => [[toEncode, encoded], ...encodeHistory]);
+                                setEncHistory((encodeHistory) => [[input, encoded], ...encodeHistory]);
                                 break;
                         }
                     }
+                    // if (!encStringFound) {
+                    //     setEncHistory((encodeHistory) => [["", encoded], ...encodeHistory]);
+                    // }
                     return data.text();
                 } else {
                     alert('An error has occurred returning the data. Check console for data log.');
@@ -341,9 +463,9 @@ const EncodeDecodeContainer = () => {
                 console.log(error);
             });
     }
-    const callCodecHandler = (e) => {
+    const callCodecHandler = (e, stringToEncode) => {
         e.preventDefault()
-        codecGetFile(null, "encode", "json");
+        codecGetFile(stringToEncode, "encode", "json");
     }
     const readFile = (e) => {
         e.preventDefault();
@@ -352,10 +474,14 @@ const EncodeDecodeContainer = () => {
         reader.onload = async (event) => {
             // in case I want to show before passing back
             const text = (event.target.result);
-            codecGetFile(files, "encode", "textFile");
+            setFileToEncode(files[0]);
+            // console.log(text);
+            console.log(fileToEncode);
+            // codecGetFile(files, "encode", "textFile");
         };
         reader.readAsText(files[0]);
     }
+
 
     return (
         <div>
@@ -379,69 +505,37 @@ const EncodeDecodeContainer = () => {
                                 </div>
                                 <div className="accordion-wrapper">
                                     <div className="w-form">
-                                        <form onSubmit={(e) => callCodecHandler(e)}>
-                                            <div className="accordion-closed-item input-text-string-block">
-                                                <div className="accordion-closed-item-trigger input-text-string-block-button">
-                                                    <h3 className="accordion-label input-text-string-block-label">Text string</h3>
-                                                    {/* <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow input-text-string-block-arrow" /> */}
-                                                </div>
+                                        <InputBox />
+                                        <DecodeInputBox toDecode={toDecode}/>
+                                        <div className="accordion-closed-item input-file-upload-block">
+                                            <ExpandableBox
+                                                labelClass="input-file-upload-block-label"
+                                                buttonLabel="Upload file"
+                                                buttonClass="input-file-upload-block-button"
+                                                renderWaitingScreen={false}
+                                                key="upload-box"
+                                                divKey="anotherkey"
+                                            >
                                                 <div className="accordion-item-content">
-                                                    <textarea
-                                                        value={toEncode}
-                                                        onChange={handlecallCodecTyped}
-                                                        placeholder="Text string, e.g. &quot;Hello&quot;"
-                                                        maxLength={5000}
-                                                        className="textarea w-input"
-                                                        type="text"
-                                                        required="required"
+                                                    <input style={{width :"120px"}} type="file" accept=".txt,.md" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
+                                                    <div className="text-block-6 payload-length-label">File Chosen: {fileToEncode ? fileToEncode.name : null}</div>
+                                                    <input
+                                                        onClick={() => codecGetFile(null, "encode", "textFile")}
+                                                        type="submit"
+                                                        name="submit_button_str"
+                                                        value="Encode File"
+                                                        className="submit-button w-button input-encode-submit-button"  
                                                     />
                                                 </div>
 
-                                            </div>
-                                            <div className="accordion-closed-item input-file-upload-block">
-                                                <ExpandableBox
-                                                    labelClass="input-file-upload-block-label"
-                                                    buttonLabel="Upload file"
-                                                    buttonClass="input-file-upload-block-button"
-                                                    renderWaitingScreen={false}
-                                                >
-                                                    <div className="accordion-item-content">
-                                                        <input type="file" accept=".txt,.md" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
-                                                    </div>
-                                                </ExpandableBox>
-                                                {/* <div className="accordion-closed-item-trigger input-file-upload-block-button">
+                                            </ExpandableBox>
+                                            {/* <div className="accordion-closed-item-trigger input-file-upload-block-button">
                                                     <h3 className="accordion-label input-file-upload-block-label">Upload file</h3>
                                                     <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" />
                                                 </div> */}
 
-                                            </div>
-                                            <input
-                                                type="submit"
-                                                name="submit_button_str"
-                                                value="Encode"
-                                                className="submit-button w-button input-encode-submit-buttion"
-                                            />
-                                        </form>
-                                    </div>
-                                </div>
-                                <div className="form-block w-form">
-                                    <form onSubmit={(e) => callCodecTyped(e, "decode")} className="form">
-                                        <div className="accordion-closed-item input-dna-seq-decode-block">
-                                            <div className="accordion-closed-item-trigger input-dna-seq-decode-block-button">
-                                                <h3 className="accordion-label input-dna-seq-decode-block-label">DNA&nbsp;Sequence Decode</h3>
-                                                {/* <img src={arrow} loading="lazy" width={10} alt="" className="accordion-arrow" /> */}
-                                            </div>
-                                            <div className="accordion-item-content">
-                                                <textarea value={toDecode} onChange={handleDecodeText}
-                                                    placeholder="DNA sequence, e.g. AGATGAG, ACGATCA, ATACTCT, TCGTCTC, TACGACT,"
-                                                    maxLength={5000}
-                                                    className="textarea w-input input-dna-sequence-textarea"
-                                                    id="DNA-Input" name="DNA-Input"
-                                                />
-                                                <input type="submit" value="Decode" className="submit-button w-button input-dna-seq-decode-submit-button" />
-                                            </div>
                                         </div>
-                                    </form>
+                                    </div>
                                 </div>
                             </div>
                             <div className="output-block">
@@ -474,7 +568,7 @@ const EncodeDecodeContainer = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <GraphBox />
+                                    <GraphBox key="graphbox"/>
                                 </div>
                             </div>
                         </div>
@@ -585,15 +679,16 @@ const GCHistogram = (props) => {
                 //     console.log(`width below 0! x0 (min): ${d.x0} x1 (max) ${d.x1}`);
                 //     return 10;
                 // }
-                // return xScale(d.x1) - xScale(d.x0) -1 ; 
-                return 10;
+                return xScale(d.x1) - xScale(d.x0); 
+                // return 10;
             })
             .attr("height", function (d) { return height - yScale(d.length); })
             .style("fill", "#69b3a2")
+            .text(function (d) {return d.x0 + "," + d.x1;});
 
     }, [])
     return (
-        <>
+        <div key="histogram">
             <svg
                 preserveAspectRatio="xMinYMin"
                 viewBox={"0 0 " + (props.inputWidth + groupXOffset) + " " + (props.inputHeight + groupYOffset)}
@@ -605,23 +700,28 @@ const GCHistogram = (props) => {
             >
                 <g ref={ref} transform={`translate(${groupXOffset}, ${groupYOffset})`}></g>
             </svg>
-        </>
+        </div>
     )
 }
 
 const GCGraph = (props) => {
-    console.log('start rendering the gcgraph');
-    console.log('../public/frontend_textfiles/' + props.gcContentPath);
-    return handleGCData(props, d3.csvParse("percentageGC\n" + props.gcContent));
+    console.log('start rendering the gcgraph, are props different?');
+    console.log(props);
+    console.log('only re-render if this is different from before!' + props.gcContentPath);
+    // const child =  () => handleGCData(props, d3.csvParse("percentageGC\n" + props.gcContent))
+    return (
+    <>{handleGCData(props, d3.csvParse("percentageGC\n" + props.gcContent))}</>
+    );
 }
 
 const handleGCData = (props, gcContent) => {
-    console.log(gcContent);
-    if (gcContent.length > 5000) {
+    // console.log(gcContent);
+    if (gcContent.length > 2000) {
         return (
             <GCHistogram data={gcContent} className="gcGraph"
                 inputWidth={props.inputWidth}
                 inputHeight={props.inputHeight}
+                key="histogram"
             />
         );
     }

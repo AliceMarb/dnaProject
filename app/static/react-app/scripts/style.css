@@ -1,6 +1,48 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
 @import url('https://fonts.googleapis.com/css?family=Karla:regular,bold,italic&subset=latin,latin-ext');
 
+.dd-wrapper {
+  flex: 1;
+}
+.dd-header{
+  position: relative;
+  height: 5%;
+  padding-left: 10px;
+  border-style: solid none;
+  border-width: 1px;
+  display: flex;
+  border-color: #d6d6d6;
+  background-color: #e7e7e7;
+  align-items: center;
+  justify-content: space-between;
+}
+.dd-header-title {
+  line-height: 20px;
+}
+.relative {
+  position:relative;
+}
+.my-output-dropdown-menu {
+  flex: 1;
+  position: absolute;
+  left: 0;
+  top: 20px;
+  opacity: 0.9;
+}
+.output-element-dropdown-trigger {
+  display: flex;
+    max-width: 200px;
+    align-items: center;
+    justify-content: flex-start;
+}
+.my-individual-parameter {
+  display: flex;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+.dd-list-item {
+  list-style-type: none;
+}
 /* 
 h2 {
     margin-left: 40px;
