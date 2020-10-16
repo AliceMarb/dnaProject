@@ -24,7 +24,7 @@ import { Nav } from "react-bootstrap";
 const App = () => {
   return (
     <Router>
-    <Redirect to="/dev" />
+    <Redirect to="/master" />
       <div>
         <div data-collapse="small" data-animation="default" data-duration="400" role="banner" className="navigation w-nav">
           <div className="navigation-wrap">

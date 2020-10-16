@@ -351,18 +351,19 @@ const EncodeDecodeContainer = () => {
     }
 
     const putOutputInInput = (e) => {
-        setForce(true);
         if (mode === "encode") {
             if (encodeHistory.length == 0) {
                 alert('Please encode something first');
             } else {
                 setToDecode(encodeHistory[0][1]);
+                setDecodeOpen(true);
             }
         } else {
             if (decodeHistory.length == 0) {
                 alert('Please encode something first');
             } else {
                 setToEncode(decodeHistory[0][1]);
+                setTextStringOpen(true);
             }
         }
     }
