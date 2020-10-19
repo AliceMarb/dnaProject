@@ -235,9 +235,9 @@ const EncodeDecodeContainer = () => {
                 setLoading(false);
                 return;
             }
-            else {
-                var fileType = fileToEncode.type;
-            }
+            // else {
+            //     var fileType = fileToEncode.type;
+            // }
             var formData = new FormData();
             formData.append("file", fileToEncode);
             // // no headers or this doesn't work
@@ -371,7 +371,7 @@ const EncodeDecodeContainer = () => {
                                                 divKey="anotherkey"
                                             >
                                                 <div className="accordion-item-content">
-                                                    <input style={{width :"120px"}} type="file" accept=".txt,.md,.jpg,.JPEG,.png,.svg,.csv" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
+                                                    <input style={{width :"120px"}} type="file" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
                                                     <div className="text-block-6 payload-length-label">File Chosen: {fileToEncode ? fileToEncode.name : null}</div>
                                                     <input
                                                         onClick={() => codecGetFile(null, "encode", "file")}
