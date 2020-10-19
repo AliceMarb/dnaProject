@@ -90,6 +90,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             command = f"./dnad_encode --in {c_in_path} --out {c_out_path} --encoding lee19_hw"
         else:
             if input_type == "text":
+                root_in_path, root_out_path, c_in_path, c_out_path = get_file_names("", extension, True, string)
                 # write a fasta  file
                 try:
                     # record = SeqRecord(Seq(string), id=string, name="DNAtoString", description="Conversion from input string DNA to decoded string")
@@ -285,30 +286,30 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 abort(404)
         return
 
-    # @home_bp.route("/decode_string", methods=['POST'])
-    # def decode_string():
-    #     jsonData = request.get_json(force=True)
-    #     input_word = jsonData['input']
-    #     (process, out, err, in_path, out_path) = codec_en_decode(input_word, False)
-    #     print(out, err)
-    #     srch = re.search('Synthesis length:.*?(\d+)\n*.*?\n*Address length:.*?(\d+)', out.decode("utf-8"))
-    #     try:
-    #         synthesis_length = int(srch[1])
-    #         address_length = int(srch[2])
-    #     except:
-    #         # didn't return as expected
-    #         current_app.logger.error(f"DECODING typed {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {limit_length(input_word)}")
-    #         return jsonify(status="error")
-    #     decoded_str = ""
-    #     try:
-    #         with open(out_path, 'r') as f:
-    #             decoded_list = f.readlines()
-    #             decoded_str = ''.join(decoded_list)
-    #     except:
-    #         current_app.logger.error(f"DECODING typed {in_path} {out_path} --- File not found error ::: Input: {limit_length(input_word)}")
-    #         return jsonify(status="error", word="", letter_dict={}), 404
-    #     current_app.logger.info(f"DECODING typed {in_path} {out_path} --- All good! ::: Input: {limit_length(input_word)}")
-    #     return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)  
+    @home_bp.route("/decode_string", methods=['POST'])
+    def decode_string():
+        jsonData = request.get_json(force=True)
+        input_word = jsonData['input']
+        (process, out, err, in_path, out_path) = codec_en_decode(input_word, False)
+        print(out, err)
+        srch = re.search('Synthesis length:.*?(\d+)\n*.*?\n*Address length:.*?(\d+)', out.decode("utf-8"))
+        try:
+            synthesis_length = int(srch[1])
+            address_length = int(srch[2])
+        except:
+            # didn't return as expected
+            current_app.logger.error(f"DECODING typed {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {limit_length(input_word)}")
+            return jsonify(status="error")
+        decoded_str = ""
+        try:
+            with open(out_path, 'r') as f:
+                decoded_list = f.readlines()
+                decoded_str = ''.join(decoded_list)
+        except:
+            current_app.logger.error(f"DECODING typed {in_path} {out_path} --- File not found error ::: Input: {limit_length(input_word)}")
+            return jsonify(status="error", word="", letter_dict={}), 404
+        current_app.logger.info(f"DECODING typed {in_path} {out_path} --- All good! ::: Input: {limit_length(input_word)}")
+        return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)  
 
     return home_bp
     # @app.errorhandler(404)
