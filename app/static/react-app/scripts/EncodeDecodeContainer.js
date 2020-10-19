@@ -22,13 +22,6 @@ import OutputBox from './OutputBox';
 // import file from '../../../../app/codec_files/gc_content_rawBpa.txt';
 
 const EncodeDecodeContainer = () => {
-    const useFocus = () => {
-        const htmlElRef = useRef(null)
-        const setFocus = () => { htmlElRef.current && htmlElRef.current.focus() }
-
-        return [htmlElRef, setFocus]
-    }
-
 
     const [mode, setMode] = useState("default");
     const [toEncode, setToEncode] = useState("");
@@ -47,6 +40,7 @@ const EncodeDecodeContainer = () => {
     const [decodeOpen, setDecodeOpen] = useState(false);
     const [textStringOpen, setTextStringOpen] = useState(false);
     const [expandableOpen, setExpandableOpen] = useState(true);
+    // const [sendFileType, setSendFileType] = useState("json");
     // acts like a class member, e.g. props or state, but without
     // a class. So it is retained between renders.
     // is set with its .current property
@@ -235,11 +229,14 @@ const EncodeDecodeContainer = () => {
         setLoading(true);
         var options;
         
-        if (inputType === "textFile") {
+        if (inputType === "file") {
             if (!fileToEncode) {
                 alert('Choose a file first!');
                 setLoading(false);
                 return;
+            }
+            else {
+                var fileType = fileToEncode.type;
             }
             var formData = new FormData();
             formData.append("file", fileToEncode);
@@ -374,10 +371,10 @@ const EncodeDecodeContainer = () => {
                                                 divKey="anotherkey"
                                             >
                                                 <div className="accordion-item-content">
-                                                    <input style={{width :"120px"}} type="file" accept=".txt,.md" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
+                                                    <input style={{width :"120px"}} type="file" accept=".txt,.md,.jpg,.JPEG,.png,.svg,.csv" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
                                                     <div className="text-block-6 payload-length-label">File Chosen: {fileToEncode ? fileToEncode.name : null}</div>
                                                     <input
-                                                        onClick={() => codecGetFile(null, "encode", "textFile")}
+                                                        onClick={() => codecGetFile(null, "encode", "file")}
                                                         type="submit"
                                                         name="submit_button_str"
                                                         value="Encode File"

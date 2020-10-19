@@ -41,45 +41,59 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         subprocess.Popen("make", cwd=codec_location)
         return render_template("react-base.html")
 
-    def string_en_decode(string, encode=True, name=""):
+    def get_file_names(string, encode=True, name="", extension="txt"):
         if not name:
             name = '_'.join(string[:10].split(' '))
         else: 
-            name = name.replace('.txt', '')
+            name = name.replace('.' + extension, '')
         from_c_folder = '../../../app/'
         from_root = 'app/'
         time = datetime.datetime.utcnow()
         fname = 'codec_files/' + '_'.join(str(time)[:19].replace(':', '-').split(' ')) + '_' + name 
         if encode:
-            in_path = fname + '.txt'
+            in_path = fname + '_toencode.' + extension
             out_path = fname + '_encoded.fa'
-            # make a file with the word
-            with open(from_root + in_path, 'w+') as f:
-            # call encoding on the input word thru command line
-                f.write(string)
-            command = f"./dnad_encode --in {from_c_folder + in_path} --out {from_c_folder + out_path} --encoding lee19_hw"
         else:
-            in_path = fname + '.fa'
-            out_path = fname + '_decoded.txt'
-            # write a fasta  file
-            try:
-                # record = SeqRecord(Seq(string), id=string, name="DNAtoString", description="Conversion from input string DNA to decoded string")
-                # SeqIO.write(record, from_root + in_path, "fasta")
-                # with open('seq_test_DNAinput.txt', 'w+') as f:
-                with open(from_root + in_path, 'w+') as f:
-                    seq_list = string.split(',')
-                    print('decoded process DNA')
-                    for seq in seq_list:
-                        f.write('>seq\n')
-                        f.write('g' + seq + '\n')
-                    # f.write(f'>{str(time)[:19]} Conversion from input string DNA to decoded string\n{string}\n')
-            except:
-                print('conversion didnt work')
-            command = f"./dnad_decode --in {from_c_folder + in_path} --out {from_c_folder + out_path} --encoding lee19_hw"
+            in_path = fname + '_toencode.' + extension
+            out_path = fname + '_encoded.fa'
+        return from_root + in_path, from_root + out_path, from_c_folder + in_path, from_c_folder + out_path
+
+    def codec_en_decode(string, encode=True, name="", input_type="text", extension="txt"):
+        root_in_path, root_out_path, c_in_path, c_out_path = get_file_names(string, True, name, extension)
+        if encode:
+            
+            if input_type == "text":
+                # make a file with the word
+                with open(root_in_path, 'w+') as f:
+                # call encoding on the input word thru command line
+                    f.write(string)
+            else:
+                # write the file to the system (might change this later for
+                # security or reducing space requirements).
+                with open(name) as f:
+                    pass
+            command = f"./dnad_encode --in {c_in_path} --out {c_out_path} --encoding lee19_hw"
+        else:
+            if input_type == "text":
+                # write a fasta  file
+                try:
+                    # record = SeqRecord(Seq(string), id=string, name="DNAtoString", description="Conversion from input string DNA to decoded string")
+                    # SeqIO.write(record, from_root + in_path, "fasta")
+                    # with open('seq_test_DNAinput.txt', 'w+') as f:
+                    with open(root_in_path, 'w+') as f:
+                        seq_list = string.split(',')
+                        print('decoded process DNA')
+                        for seq in seq_list:
+                            f.write('>seq\n')
+                            f.write('g' + seq + '\n')
+                        # f.write(f'>{str(time)[:19]} Conversion from input string DNA to decoded string\n{string}\n')
+                except:
+                    print('conversion didnt work')
+            command = f"./dnad_decode --in {c_in_path} --out {c_out_path} --encoding lee19_hw"
 
         process = subprocess.Popen(command.split(' '), cwd=codec_location, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = process.communicate()
-        return process, out, err, from_root + in_path, from_root + out_path
+        return process, out, err, root_in_path, root_out_path
 
     def limit_length(string):
         if len(string) > 30:
@@ -154,7 +168,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             letter_dict = {"A": a, "G": g, "T": t, "C": c}
             end = time.time()
             secs = end - start
-            print('TIME TAKEN FOR THIS ENCODING COUNT: ' + str(secs) + "\n")
+            # print('TIME TAKEN FOR THIS ENCODING COUNT: ' + str(secs) + "\n")
         else:
             print('This file found: ', os.path.isfile(out_path))
             current_app.logger.error(f"ENCODING {input_type} {in_path} {out_path} --- File not found error ::: Input: {limit_length(input_word)}")
@@ -163,14 +177,16 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 # f.write(str(secs) + '\n')
         return enc_string, letter_dict, gc_content_fname
             
-    def handle_enc_input(input_word, fname="", input_type="typed"):
+    def handle_enc_input(input_word, fname="", input_type="text", extension="plain"):
         # automatically waits for end of the process
         payload_trits = -1
         address_length = -1
+        if extension == "plain":
+            file_ext = "txt"
         if fname:
-            (process, out, err, in_path, out_path) = string_en_decode(input_word, encode=True, name=fname)
+            (process, out, err, in_path, out_path) = codec_en_decode(input_word, encode=True, name=fname, input_type=input_type, extension=file_ext)
         else:
-            (process, out, err, in_path, out_path) = string_en_decode(input_word)
+            (process, out, err, in_path, out_path) = codec_en_decode(input_word)
         # stdout_list = out.decode("utf-8").strip().split('\n')
         srch = re.search('Auto Payload trits:.*?(\d+)\nAuto Address length:.*?(\d+)', out.decode("utf-8"))
         try:
@@ -189,6 +205,18 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         current_app.logger.info(f"ENCODING {input_type} {in_path} {out_path} --- All good! ::: Input: {limit_length(input_word)}")
         return enc_string, letter_dict, payload_trits, address_length, gc_content_fname
 
+    def get_num_bytes(input_file):
+        input_file.seek(0, os.SEEK_END)
+        num_bytes = input_file.tell()
+        # with open('filesize_time.csv', 'a') as f:
+        #     f.write(str(num_bytes) + ',')
+        if num_bytes > 1000000:
+            # when reached a MB, don't calculate enc string?
+            # don't render on the front end 
+            enc_string = ""
+        input_file.seek(0)
+        return num_bytes
+
     # DON'T PUT A SLASH, does not work
     @home_bp.route("/encode/<input_type>", methods=['POST'])
     def encode(input_type="json"):
@@ -199,32 +227,34 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 (enc_string, letter_dict, payload_trits, address_length, gc_content_fname) = handle_enc_input(input_word)
             except:
                 return jsonify(status="error", word=""), 504
-        elif input_type == "textFile":
+        elif input_type == "file":
             if 'file' not in request.files:
                 # not working yet
                 print('No file part')
                 # return redirect(request.url)
                 return jsonify(status="error") 
-            print('File is here ')
-            # check the file size, and don't build output string if too big
-            input_file = request.files['file']
-            input_file.seek(0, os.SEEK_END)
-            num_bytes = input_file.tell()
-            with open('filesize_time.csv', 'a') as f:
-                f.write(str(num_bytes) + ',')
-            if num_bytes > 1000000:
-                # when reached a MB, don't calculate enc string?
-                # don't render on the front end 
-                enc_string = ""
-            input_file.seek(0)
-            wrapper = io.TextIOWrapper(request.files['file'])
-            fname = request.files['file'].filename
-            input_word = wrapper.read()
-            (enc_string,
-            letter_dict,
-            payload_trits,
-            address_length,
-            gc_content_fname) = handle_enc_input(input_word, fname, "textFile")
+            else:
+                print('File is here ')
+                # check the file size, and don't build output string if too big
+                input_file = request.files['file']
+                for header in input_file.headers:
+                    if header[0] == 'Content-Type':
+                        ftype = header[1]
+                        break
+                fname = request.files['file'].filename
+                # easier for command line if no spaces
+                fname_no_space = fname.replace(' ', '_')
+                if ftype == 'text/plain':
+                    wrapper = io.TextIOWrapper(request.files['file'])
+                    input_word = wrapper.read()
+                    (enc_string,
+                    letter_dict,
+                    payload_trits,
+                    address_length,
+                    gc_content_fname) = handle_enc_input(input_word, fname_no_space, "textFile")
+                else:
+                    file_type, extension = ftype.split('/')
+                    (enc_string, letter_dict, payload_trits, address_length, gc_content_fname) = handle_enc_input(input_word, fname_no_space, file_type, extension)
         try:
             response = make_response(
                 send_from_directory(
@@ -252,7 +282,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
     def decode_string():
         jsonData = request.get_json(force=True)
         input_word = jsonData['input']
-        (process, out, err, in_path, out_path) = string_en_decode(input_word, False)
+        (process, out, err, in_path, out_path) = codec_en_decode(input_word, False)
         print(out, err)
         srch = re.search('Synthesis length:.*?(\d+)\n*.*?\n*Address length:.*?(\d+)', out.decode("utf-8"))
         try:

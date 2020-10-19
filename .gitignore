@@ -21,3 +21,5 @@ filesize_time.csv
 *.log
 *.csv
 filesize_time.csv
+*.log
+instance/app.log
