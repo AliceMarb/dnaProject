@@ -36,7 +36,7 @@ const OutputElement = () => {
                         <img src={arrow} width="16" height="16"></img>
                     </div>
                 </div>
-                <div className={"my-output-dropdown-menu" + (listOpen ? " ": "-closed")}>
+                <div className={"my-output-dropdown-menu" + (listOpen ? " " : "-closed")}>
                     {listOpen &&
                         <ul className="dd-list">
                             <li key="analytics" className="dd-list-item">
@@ -68,12 +68,17 @@ const OutputElement = () => {
                                         {/* console.log(name, item.name); */ }
                                         return (
                                             <div key={name + "container"} className="my-individual-parameter">
-                                                <h3 className="accordion-label toggle-setting-text output-toggle-text">{name}</h3>
-                                                <Switch
-                                                    key={name}
-                                                    onChange={() => handleCheck(item)}
-                                                    checked={checked[item.name]} />
-                                            </div>);
+                                                <div className="togglebutton w-inline-block">
+                                                    <Switch
+                                                        key={name}
+                                                        className="toggle-button-bg"
+                                                        onChange={() => handleCheck(item)}
+                                                        checked={checked[item.name]} />
+
+                                                    <h3 className="toggle-setting-text output-toggle-text">{name}</h3>
+                                                </div>
+                                            </div>
+                                        );
                                     })}
                                 </div>
 
@@ -83,7 +88,7 @@ const OutputElement = () => {
                 </div>
 
             </div>
-            <img src={pic} />
+            {/* <img src={pic} /> */}
         </div>
     );
 }

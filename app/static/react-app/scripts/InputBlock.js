@@ -3,6 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
 
 const TextInputBox = (props) => {
+        const open = props.openDict["textStringOpen"]
         const handle = (e) => {
             props.setToEncode(e.target.value);
             props.setEditing(props.encodeInput);
@@ -10,16 +11,16 @@ const TextInputBox = (props) => {
         return (
             <>
                 <Button
-                    onClick={() => props.setTextStringOpen(!props.textStringOpen)}
+                    onClick={() => props.setOpenDict({ ...props.openDict, "textStringOpen": !open})}
                     aria-controls="example-collapse-text"
-                    aria-expanded={props.textStringOpen}
+                    aria-expanded={open}
                     variant="customized-accordion-closed"
                     className={"accordion-closed-item-trigger"}
                     key="bitton"
                 >
                     <h3 className={"accordion-label "}>Text String</h3>
                 </Button>
-                <Collapse in={props.textStringOpen}>
+                <Collapse in={open}>
                     <form onSubmit={(e) => props.callCodecHandler(e, props.toEncode)}>
                         <textarea
                             value={props.toEncode}
@@ -44,25 +45,26 @@ const TextInputBox = (props) => {
 }
 const DecodeInputBox = (props) => {
     // console.log('rerendering decode box')
+    const open = props.openDict["decodeOpen"]
     const handle = (e) => {
         if (e.target.value.match(/^[agctAGCT,]*$/)) {
             props.setToDecode(e.target.value);
         }
-        props.setEditing(decodeInput);
+        props.setEditing(props.decodeInput);
     }
     return (
         <>
             <Button
-                onClick={() => props.setDecodeOpen(!props.decodeOpen)}
+                onClick={() => props.setOpenDict({...props.openDict, "decodeOpen": !open})}
                 aria-controls="example-collapse-text"
-                aria-expanded={props.decodeOpen}
+                aria-expanded={open}
                 variant="customized-accordion-closed"
                 className={"accordion-closed-item-trigger " + "input-dna-seq-decode-block-button"}
                 key="bitton"
             >
                 <h3 className={"accordion-label "}>DNA&nbsp;Sequence Decode</h3>
             </Button>
-            <Collapse in={props.decodeOpen}>
+            <Collapse in={open}>
                 <form onSubmit={(e) => props.callCodecTyped(e, "decode", props.toDecode)} className="form">
                     <div className="accordion-item-content">
                         <textarea value={props.toDecode} onChange={(e) => handle(e)}

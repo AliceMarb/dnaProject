@@ -37,9 +37,10 @@ const EncodeDecodeContainer = () => {
     const [loading, setLoading] = useState(false);
     const [editingRef, setEditing] = useState(null);
     const [fileToEncode, setFileToEncode] = useState(null);
-    const [decodeOpen, setDecodeOpen] = useState(false);
-    const [textStringOpen, setTextStringOpen] = useState(false);
-    const [expandableOpen, setExpandableOpen] = useState(true);
+    // const [decodeOpen, setDecodeOpen] = useState(false);
+    // const [textStringOpen, setTextStringOpen] = useState(false);
+    // const [expandableOpen, setExpandableOpen] = useState(true);
+    const [openDict, setOpenDict] = useState({decodeOpen: true, textStringOpen: true, expandableOpen: true});
     // const [sendFileType, setSendFileType] = useState("json");
     // acts like a class member, e.g. props or state, but without
     // a class. So it is retained between renders.
@@ -66,26 +67,24 @@ const EncodeDecodeContainer = () => {
         // console.log('rerendering edxpandable box');
         // const [open, setOpen] = useState(true);
         var collapse;
+        var open = props.openDict["expandableOpen"];
         if (props.renderWaitingScreen && loading) {
             collapse = (
-                <Collapse in={expandableOpen}>
+                <Collapse in={open}>
                     <img src={bunny} width="600px" height="450px" />
                 </Collapse>);
 
         } else {
-            collapse = (<Collapse in={expandableOpen}>
+            collapse = (<Collapse in={open}>
                 {props.children}
             </Collapse>);
         }
         return (
             <div key={props.divKey}>
                 <Button
-                    onClick={() => {
-                        setExpandableOpen(!expandableOpen);
-                    }
-                    }
+                    onClick={() => props.setOpenDict({ ...props.openDict, "expandableOpen": !open})}
                     aria-controls="example-collapse-text"
-                    aria-expanded={expandableOpen}
+                    aria-expanded={open}
                     variant="customized-accordion-closed"
                     className={"accordion-closed-item-trigger " + props.buttonClass}
                     key="bitton"
@@ -116,6 +115,8 @@ const EncodeDecodeContainer = () => {
                             renderWaitingScreen={true}
                             key="graph-outbox"
                             divKey="akey"
+                            openDict={openDict}
+                            setOpenDict={setOpenDict}
                         >
                             <div>
                                 <div
@@ -358,8 +359,8 @@ const EncodeDecodeContainer = () => {
                                 </div>
                                 <div className="accordion-wrapper">
                                     <div className="w-form">
-                                        <TextInputBox textStringOpen={textStringOpen} setToEncode={setToEncode} setEditing={setEditing} setTextStringOpen={setTextStringOpen} callCodecHandler={callCodecHandler} toEncode={toEncode} encodeInput={encodeInput}/>
-                                        <DecodeInputBox decodeOpen={decodeOpen} setToDecode={setToDecode} setEditing={setEditing} callCodecTyped={callCodecTyped} setDecodeOpen={setDecodeOpen} toDecode={toDecode}
+                                        <TextInputBox openDict={openDict} setToEncode={setToEncode} setEditing={setEditing} setOpenDict={setOpenDict} callCodecHandler={callCodecHandler} toEncode={toEncode} encodeInput={encodeInput}/>
+                                        <DecodeInputBox openDict={openDict} setToDecode={setToDecode} setEditing={setEditing} callCodecTyped={callCodecTyped} setOpenDict={setOpenDict} toDecode={toDecode}
                                         decodeInput={decodeInput}/>
                                         <div className="accordion-closed-item input-file-upload-block">
                                             <ExpandableBox
@@ -369,6 +370,8 @@ const EncodeDecodeContainer = () => {
                                                 renderWaitingScreen={false}
                                                 key="upload-box"
                                                 divKey="anotherkey"
+                                                openDict={openDict}
+                                                setOpenDict={setOpenDict}
                                             >
                                                 <div className="accordion-item-content">
                                                     <input style={{width :"120px"}} type="file" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
