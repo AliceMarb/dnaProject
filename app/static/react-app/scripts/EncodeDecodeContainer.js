@@ -230,8 +230,16 @@ const EncodeDecodeContainer = () => {
     }
 
     const ResultBox = () => {
-        return <textarea value={loading ? "Loading results!" : (mode === "encode" ? encodeHistory[0][1] : (mode === "decode" ? decodeHistory[0][1] : ""))} readOnly
-            disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input" />;
+        if (mode === "decode") {
+            return (
+                <>
+                    <div className="label dna-seq-output-block-label">DNA Sequence</div>
+                    <textarea value={loading ? "Loading results!" : (mode === "encode" ? encodeHistory[0][1] : (mode === "decode" ? decodeHistory[0][1] : ""))} readOnly
+                        disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input" />
+                </>);
+
+        }
+        return (<></>);
     }
 
     const putOutputInInput = (e) => {
@@ -240,14 +248,14 @@ const EncodeDecodeContainer = () => {
                 alert('Please encode something first');
             } else {
                 setToDecode(encodeHistory[0][1]);
-                setDecodeOpen(true);
+                setOpenDict({ ...openDict, "decodeOpen": true });
             }
         } else {
             if (decodeHistory.length == 0) {
                 alert('Please encode something first');
             } else {
                 setToEncode(decodeHistory[0][1]);
-                setTextStringOpen(true);
+                setOpenDict({ ...openDict, "textStringOpen": true });
             }
         }
     }
@@ -366,6 +374,24 @@ const EncodeDecodeContainer = () => {
         reader.readAsText(files[0]);
     }
 
+    const DecodeDisplay = () => {
+        if (mode === "decode") {
+            return (
+                <div>
+                    <OutputBox payloadTrits={payloadTrits}
+                        synthesisLength={synthesisLength}
+                        addressLength={addressLength}
+                        mode={mode}
+                        nucleotideContent={nucleotideContent}
+                    />
+                </div>
+
+            );
+        } else {
+            return <></>;
+        }
+
+    }
 
     return (
         <div>
@@ -421,29 +447,15 @@ const EncodeDecodeContainer = () => {
                                     <div className="form-2">
                                         <div className="w-row">
                                             <div className="w-col w-col-4">
-                                                {/* <OutputBox payloadTrits={payloadTrits}
-                                                    synthesisLength={synthesisLength}
-                                                    addressLength={addressLength}
-                                                    mode={mode}
-                                                /> */}
-                                                {/* <div className="output-sub-block nc-content-plot-block">
-                                                    <div className="label nc-content-block-label">Nucleotide content</div>
-                                                    <div className="w-layout-grid grid-2 nc-content-value-grid-block">
-                                                        {
-                                                            Object.entries(nucleotideContent)
-                                                                .map(([key, value]) => <div className="nc-content-value" key={key}><strong>{key}: </strong>{value}</div>)
-                                                        }
-                                                    </div>
-                                                </div> */}
+                                                <DecodeDisplay />
                                             </div>
-                                            {/* <div className="w-col w-col-8">
+                                            <div className="w-col w-col-8">
                                                 <div className="output-sub-block dna-seq-output-block">
-                                                    <div className="label dna-seq-output-block-label">DNA Sequence</div>
                                                     <ResultBox />
-                                                    <button onClick={putOutputInInput} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button>
+                                                    {mode === "decode" ? <button onClick={putOutputInInput} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button> : null}
                                                 </div>
 
-                                            </div> */}
+                                            </div>
                                         </div>
                                     </div>
                                     <OutputElements openDict={openDict} setOpenDict={setOpenDict} analytics={analytics} setAnalytics={setAnalytics} plots={plots} setPlots={setPlots} addressLength={addressLength}

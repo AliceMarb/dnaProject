@@ -9,6 +9,7 @@ import DNABox from './DNABox';
 import GCGraph from './GCGraph';
 import NucleotideGraph from './NucleotideGraph';
 // import enhanceWithClickOutside from 'react-click-outside';
+import OutsideAlerter from './OutsideAlerter';
 
 const OutputElement = (props) => {
     const listOpen = props.openDict[props.openName];
@@ -89,7 +90,7 @@ const OutputElement = (props) => {
             return (
                 <>
                     {/* <div>{num}</div> */}
-                    <GCGraph gcContent={props.gcContent} gcContentPath={props.gcContentPath} inputWidth={props.inputWidth} inputHeight={props.inputHeight} />  
+                    <GCGraph gcContent={props.gcContent} gcContentPath={props.gcContentPath} inputWidth={props.inputWidth} inputHeight={props.inputHeight} />
                 </>
             );
         }
@@ -107,6 +108,7 @@ const OutputElement = (props) => {
         }
     }
     var content;
+    // console.log('mode! ' + props.mode);
     if (thisAnalytics) {
         content = useMemo(() => getAnalyticsContent(), [thisAnalytics, props.mode, props.loading]);
     } else {
@@ -120,43 +122,47 @@ const OutputElement = (props) => {
             <div className="dd-wrapper">
                 <div className="dd-header output-element-window-bar">
                     <div className="output-element-dropdown-container output-element-dropdown-trigger" onClick={() => props.setOpenDict({ ...props.openDict, [props.openName]: !listOpen })}>
-                        <div className="dd-header-title">Output Element</div>
+                        <div className="dd-header-title">{thisAnalytics ? thisAnalytics : plot}</div>
                         <img src={arrow} width="16" height="16"></img>
                     </div>
                 </div>
+
                 <div className={"my-output-dropdown-menu" + (listOpen ? " " : "-closed")}>
                     {listOpen &&
-                        <ul className="dd-list">
-                            <li key="analytics" className="dd-list-item">
-                                <h3 className="accordion-label">Analytics</h3>
-                                <Dropdown>
-                                    <DropdownButton variant="dropdown" title={thisAnalytics ? thisAnalytics : "    "}>
-                                        {analyticsOptions.map((analyticsOption) => {
-                                            return (
-                                                <Dropdown.Item key={analyticsOption} onClick={() => handleAnalyticsClick(analyticsOption)}>
-                                                    {analyticsOption}
-                                                </Dropdown.Item>
-                                            );
-                                        })}
-                                    </DropdownButton>
-
-                                </Dropdown>
-                            </li>
-                            <li key="charts" className="dd-list-item">
-                                <h3 className="accordion-label">Charts and Graphs</h3>
-                                <Dropdown>
-                                    <DropdownButton variant="dropdown" title={plot ? plot : "    "}>
-                                        {plotOptions.map((plotOption) => {
-                                            return (
-                                                <Dropdown.Item key={plotOption} onClick={() => handlePlotsClick(plotOption)}>
-                                                    {plotOption}
-                                                </Dropdown.Item>
-                                            );
-                                        })}
-                                    </DropdownButton>
-                                </Dropdown>
-                            </li>
-                            {/* <li key="other" className="dd-list-item">
+                        <OutsideAlerter
+                            setOpenDict={props.setOpenDict} openDict={props.openDict}
+                            openName={props.openName}
+                        >
+                            <ul className="dd-list">
+                                <li key="analytics" className="dd-list-item">
+                                    <h3 className="accordion-label">Analytics</h3>
+                                    <Dropdown>
+                                        <DropdownButton variant="dropdown" title={thisAnalytics ? thisAnalytics : "    "}>
+                                            {analyticsOptions.map((analyticsOption) => {
+                                                return (
+                                                    <Dropdown.Item key={analyticsOption} onClick={() => handleAnalyticsClick(analyticsOption)}>
+                                                        {analyticsOption}
+                                                    </Dropdown.Item>
+                                                );
+                                            })}
+                                        </DropdownButton>
+                                    </Dropdown>
+                                </li>
+                                <li key="charts" className="dd-list-item">
+                                    <h3 className="accordion-label">Charts and Graphs</h3>
+                                    <Dropdown>
+                                        <DropdownButton variant="dropdown" title={plot ? plot : "    "}>
+                                            {plotOptions.map((plotOption) => {
+                                                return (
+                                                    <Dropdown.Item key={plotOption} onClick={() => handlePlotsClick(plotOption)}>
+                                                        {plotOption}
+                                                    </Dropdown.Item>
+                                                );
+                                            })}
+                                        </DropdownButton>
+                                    </Dropdown>
+                                </li>
+                                {/* <li key="other" className="dd-list-item">
                                 <h3 className="accordion-label">Output Element Settings</h3>
                                 <div className='w-layout-grid output-settings-grid'>
                                     {switches.map((item) => {
@@ -177,9 +183,12 @@ const OutputElement = (props) => {
                                     })}
                                 </div>
                             </li> */}
-                        </ul>
+                            </ul>
+                        </OutsideAlerter>
                     }
                 </div>
+
+
             </div>
             {/* <img src={pic} /> */}
             <div className="output-element-content">
