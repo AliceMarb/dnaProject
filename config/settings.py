@@ -17,6 +17,10 @@ SECRET_KEY = 'a-not-so-secret-key-000-!!!'
 # Logging
 LOGGING_FORMAT = '[%(asctime)s] %(remote_addr)s requested %(url)s\n' \
     '%(levelname)s in %(pathname)s:%(lineno)d - %(message)s'
+
+if not os.path.join(PROJECT_ROOT, 'instance', 'app.log'):
+    with open(os.path.join(PROJECT_ROOT, 'instance', 'app.log'), 'w+') as f:
+        f.write('')
 LOGGING_LOCATION = os.path.join(PROJECT_ROOT, 'instance', 'app.log')
 LOGGING_LEVEL = logging.DEBUG
 
