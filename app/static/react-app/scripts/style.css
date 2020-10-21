@@ -16,6 +16,7 @@
   background-color: #e7e7e7;
   align-items: center;
   justify-content: space-between;
+  cursor: pointer;
 }
 .dd-header-title {
   line-height: 20px;
