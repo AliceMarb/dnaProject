@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
-import * as d3 from 'd3';
 import { useLocation } from 'react-router-dom';
 // import './jquery.js';
 // import $ from './jquery.js'; 
@@ -16,8 +15,10 @@ import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Collapse from 'react-bootstrap/Collapse';
-import {TextInputBox, DecodeInputBox} from './InputBlock.js';
+import { TextInputBox, DecodeInputBox } from './InputBlock.js';
 import OutputBox from './OutputBox';
+import OutputElement from './OutputElement';
+import GCGraph from './GCGraph';
 // import hi from '../public/frontend_textfiles/hi.txt';
 // import file from '../../../../app/codec_files/gc_content_rawBpa.txt';
 
@@ -40,7 +41,31 @@ const EncodeDecodeContainer = () => {
     // const [decodeOpen, setDecodeOpen] = useState(false);
     // const [textStringOpen, setTextStringOpen] = useState(false);
     // const [expandableOpen, setExpandableOpen] = useState(true);
-    const [openDict, setOpenDict] = useState({decodeOpen: true, textStringOpen: true, expandableOpen: true});
+    const startOpenDict = {
+        decodeOpen: true, textStringOpen: true,
+        expandableOpen: true,
+        outputOpen1: false,
+        outputOpen2: false,
+        outputOpen3: false,
+        outputOpen4: false,
+    };
+    const [openDict, setOpenDict] = useState(startOpenDict);
+    const [analytics, setAnalytics] = useState(
+        {
+            outputOpen1: "Basic Data",
+            outputOpen2: "DNA Sequence",
+            outputOpen3: "",
+            outputOpen4: "",
+        }
+    );
+    const [plots, setPlots] = useState(
+        {
+            outputOpen1: "",
+            outputOpen2: "",
+            outputOpen3: "GC Content Plot",
+            outputOpen4: "Nucleotide Content Plot"
+        }
+    );
     // const [sendFileType, setSendFileType] = useState("json");
     // acts like a class member, e.g. props or state, but without
     // a class. So it is retained between renders.
@@ -82,7 +107,7 @@ const EncodeDecodeContainer = () => {
         return (
             <div key={props.divKey}>
                 <Button
-                    onClick={() => props.setOpenDict({ ...props.openDict, "expandableOpen": !open})}
+                    onClick={() => props.setOpenDict({ ...props.openDict, "expandableOpen": !open })}
                     aria-controls="example-collapse-text"
                     aria-expanded={open}
                     variant="customized-accordion-closed"
@@ -95,7 +120,7 @@ const EncodeDecodeContainer = () => {
             </div>
         );
     }
-    
+
     const GraphBox = () => {
         const width = 600;
         const height = 500;
@@ -103,7 +128,7 @@ const EncodeDecodeContainer = () => {
         const pixelHeight = height + "px"
         // console.log('rendering graph box, gccontent ' + gcContentPath)
         const child = <GCGraph key="gcgraph" gcContent={gcContent} gcContentPath={gcContentPath} inputWidth={width} inputHeight={height} />;
-        
+
         return (
             <div>
                 <div className="output-sub-block gc-content-plot-block">
@@ -134,7 +159,7 @@ const EncodeDecodeContainer = () => {
                                         height={pixelHeight}
                                     // svg-content-responsive="true"
                                     >
-                                        {mode != "decode" && gcContentPath && gcContent ?  child : null}
+                                        {mode != "decode" && gcContentPath && gcContent ? child : null}
                                         {/* <GCGraph gcContentPath={gcContentPath} inputWidth={width} inputHeight={height} /> */}
                                     </div>
                                 </div>
@@ -177,7 +202,7 @@ const EncodeDecodeContainer = () => {
                 if (data.ok) {
                     return data.json();
                 } else {
-                    alert('An error has occurred returning the data. Check console for data log.');
+                    alert('An error has occurred returning the data. Check console listOpendata log.');
                     console.log("Error!");
                     console.log(data);
                 }
@@ -206,7 +231,7 @@ const EncodeDecodeContainer = () => {
 
     const ResultBox = () => {
         return <textarea value={loading ? "Loading results!" : (mode === "encode" ? encodeHistory[0][1] : (mode === "decode" ? decodeHistory[0][1] : ""))} readOnly
-            disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input"></textarea>;
+            disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input" />;
     }
 
     const putOutputInInput = (e) => {
@@ -229,7 +254,7 @@ const EncodeDecodeContainer = () => {
     const codecGetFile = (input, buttonType, inputType) => {
         setLoading(true);
         var options;
-        
+
         if (inputType === "file") {
             if (!fileToEncode) {
                 alert('Choose a file first!');
@@ -272,9 +297,8 @@ const EncodeDecodeContainer = () => {
             .then((data) => {
                 if (data.ok) {
                     // var encStringFound = false;
-                    console.log(data.headers);
                     for (var pair of data.headers.entries()) {
-                        console.log(pair[0] + ': ' + pair[1]);
+                        // console.log(pair[0] + ': ' + pair[1]);
                         switch (pair[0]) {
                             case "payload_trits":
                                 setPayloadTrits(pair[1]);
@@ -359,9 +383,9 @@ const EncodeDecodeContainer = () => {
                                 </div>
                                 <div className="accordion-wrapper">
                                     <div className="w-form">
-                                        <TextInputBox openDict={openDict} setToEncode={setToEncode} setEditing={setEditing} setOpenDict={setOpenDict} callCodecHandler={callCodecHandler} toEncode={toEncode} encodeInput={encodeInput}/>
+                                        <TextInputBox openDict={openDict} setToEncode={setToEncode} setEditing={setEditing} setOpenDict={setOpenDict} callCodecHandler={callCodecHandler} toEncode={toEncode} encodeInput={encodeInput} />
                                         <DecodeInputBox openDict={openDict} setToDecode={setToDecode} setEditing={setEditing} callCodecTyped={callCodecTyped} setOpenDict={setOpenDict} toDecode={toDecode}
-                                        decodeInput={decodeInput}/>
+                                            decodeInput={decodeInput} />
                                         <div className="accordion-closed-item input-file-upload-block">
                                             <ExpandableBox
                                                 labelClass="input-file-upload-block-label"
@@ -374,14 +398,14 @@ const EncodeDecodeContainer = () => {
                                                 setOpenDict={setOpenDict}
                                             >
                                                 <div className="accordion-item-content">
-                                                    <input style={{width :"120px"}} type="file" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
+                                                    <input style={{ width: "120px" }} type="file" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
                                                     <div className="text-block-6 payload-length-label">File Chosen: {fileToEncode ? fileToEncode.name : null}</div>
                                                     <input
                                                         onClick={() => codecGetFile(null, "encode", "file")}
                                                         type="submit"
                                                         name="submit_button_str"
                                                         value="Encode File"
-                                                        className="submit-button w-button input-encode-submit-button"  
+                                                        className="submit-button w-button input-encode-submit-button"
                                                     />
                                                 </div>
                                             </ExpandableBox>
@@ -397,12 +421,12 @@ const EncodeDecodeContainer = () => {
                                     <div className="form-2">
                                         <div className="w-row">
                                             <div className="w-col w-col-4">
-                                                <OutputBox payloadTrits={payloadTrits}
+                                                {/* <OutputBox payloadTrits={payloadTrits}
                                                     synthesisLength={synthesisLength}
                                                     addressLength={addressLength}
                                                     mode={mode}
-                                                />
-                                                <div className="output-sub-block nc-content-plot-block">
+                                                /> */}
+                                                {/* <div className="output-sub-block nc-content-plot-block">
                                                     <div className="label nc-content-block-label">Nucleotide content</div>
                                                     <div className="w-layout-grid grid-2 nc-content-value-grid-block">
                                                         {
@@ -410,19 +434,29 @@ const EncodeDecodeContainer = () => {
                                                                 .map(([key, value]) => <div className="nc-content-value" key={key}><strong>{key}: </strong>{value}</div>)
                                                         }
                                                     </div>
-                                                </div>
+                                                </div> */}
                                             </div>
-                                            <div className="w-col w-col-8">
+                                            {/* <div className="w-col w-col-8">
                                                 <div className="output-sub-block dna-seq-output-block">
                                                     <div className="label dna-seq-output-block-label">DNA Sequence</div>
                                                     <ResultBox />
                                                     <button onClick={putOutputInInput} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button>
                                                 </div>
 
-                                            </div>
+                                            </div> */}
                                         </div>
                                     </div>
-                                    <GraphBox key="graphbox"/>
+                                    <OutputElements openDict={openDict} setOpenDict={setOpenDict} analytics={analytics} setAnalytics={setAnalytics} plots={plots} setPlots={setPlots} addressLength={addressLength}
+                                        synthesisLength={synthesisLength}
+                                        payloadTrits={payloadTrits}
+                                        mode={mode}
+                                        loading={loading}
+                                        encodeHistory={encodeHistory}
+                                        nucleotideContent={nucleotideContent}
+                                        gcContent={gcContent} gcContentPath={gcContentPath} width={500} height={500}
+                                        putOutputInInput={putOutputInInput}
+                                    />
+                                    {/* <GraphBox key="graphbox" /> */}
                                 </div>
                             </div>
                         </div>
@@ -431,6 +465,34 @@ const EncodeDecodeContainer = () => {
             </div>
         </div>
     );
+}
+
+const OutputElements = (props) => {
+    const outputElements = [];
+    for (var i = 1; i < 5; i++) {
+        outputElements.push(
+            <OutputElement
+                key={"outputOpen" + String(i)}
+                openDict={props.openDict}
+                openName={"outputOpen" + String(i)}
+                setOpenDict={props.setOpenDict}
+                analytics={props.analytics} setAnalytics={props.setAnalytics} plots={props.plots} setPlots={props.setPlots}
+                addressLength={props.addressLength}
+                synthesisLength={props.synthesisLength}
+                payloadTrits={props.payloadTrits}
+                mode={props.mode}
+                loading={props.loading}
+                encodeHistory={props.encodeHistory}
+                nucleotideContent={props.nucleotideContent}
+                putOutputInInput={props.putOutputInInput}
+                gcContent={props.gcContent} gcContentPath={props.gcContentPath} inputWidth={props.width} inputHeight={props.height}
+            />
+        );
+    }
+    return (
+        <div className="w-layout-grid output-block-grid">
+            {outputElements}
+        </div>);
 }
 
 const errorCheckDNA = (input) => {
@@ -475,284 +537,6 @@ const errorCheckDNA = (input) => {
         }
     }
     return cleanInput.slice(0, -1);
-}
-
-const GCHistogram = (props) => {
-    // Make a histogram of % GC Content vs frequency
-    console.log('start rendering histogram!!!');
-    var margin = { top: 10, right: 30, bottom: 30, left: 60 },
-        width = props.inputWidth - margin.left - margin.right,
-        height = props.inputHeight - margin.top - margin.bottom - 20;
-    var groupXOffset = 100;
-    var groupYOffset = 50;
-
-    var xScale = d3.scaleLinear()
-        .range([0, width])
-        .domain([0, 1.0]);
-
-
-    var histogram = d3.histogram()
-        .value(function (d) { return d.percentageGC; })   // I need to give the vector of value
-        .domain(xScale.domain())  // the domain of the graphic
-        .thresholds(xScale.ticks(70)); // the numbers of bins
-
-    var bins = histogram(props.data);
-    var yScale = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0, d3.max(bins, function (d) { return d.length; })]);
-
-    const ref = useRef(null);
-    useEffect(() => {
-        const g = d3.select(ref.current);
-        g.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale))
-            .append("text")
-            .style("font", "20px times")
-            .style("fill", "black")
-            .attr("y", 40)
-            .attr("x", width / 2)
-            .text("% GC Content per Sequence");
-        g.append("g")
-            .attr("transform", "translate(0," + 0 + ")")
-            .call(d3.axisLeft(yScale))
-            .append("text")
-            .style("font", "20px times")
-            .attr("transform", "rotate(-90)")
-            .style("fill", "black")
-            .attr("y", -50)
-            .attr("x", -120)
-            .text("Frequency");
-        g.selectAll("rect")
-            .data(bins)
-            .enter()
-            .append("rect")
-            .attr("transform", function (d) { return "translate(" + xScale(d.x0) + "," + yScale(d.length) + ")"; })
-            .attr("width", function (d) {
-                // if (xScale(d.x1) - xScale(d.x0) -1 < 0) {
-                //     console.log(`width below 0! x0 (min): ${d.x0} x1 (max) ${d.x1}`);
-                //     return 10;
-                // }
-                return xScale(d.x1) - xScale(d.x0); 
-                // return 10;
-            })
-            .attr("height", function (d) { return height - yScale(d.length); })
-            .style("fill", "#69b3a2")
-            .text(function (d) {return d.x0 + "," + d.x1;});
-
-    }, [])
-    return (
-        <div key="histogram">
-            <svg
-                preserveAspectRatio="xMinYMin"
-                viewBox={"0 0 " + (props.inputWidth + groupXOffset) + " " + (props.inputHeight + groupYOffset)}
-                svg-content-responsive="true"
-                svg-container="true"
-                className="gcHist"
-                width={(props.inputWidth + groupXOffset) + "px"}
-                height={(props.inputHeight + groupYOffset) + "px"}
-            >
-                <g ref={ref} transform={`translate(${groupXOffset}, ${groupYOffset})`}></g>
-            </svg>
-        </div>
-    )
-}
-
-const GCGraph = (props) => {
-    console.log('start rendering the gcgraph, are props different?');
-    console.log(props);
-    console.log('only re-render if this is different from before!' + props.gcContentPath);
-    // const child =  () => handleGCData(props, d3.csvParse("percentageGC\n" + props.gcContent))
-    return (
-    <>{handleGCData(props, d3.csvParse("percentageGC\n" + props.gcContent))}</>
-    );
-}
-
-const handleGCData = (props, gcContent) => {
-    // console.log(gcContent);
-    if (gcContent.length > 2000) {
-        return (
-            <GCHistogram data={gcContent} className="gcGraph"
-                inputWidth={props.inputWidth}
-                inputHeight={props.inputHeight}
-                key="histogram"
-            />
-        );
-    }
-    var data = gcContent;
-
-    // minus to make space for x label
-    var margin = { top: 10, right: 30, bottom: 30, left: 60 },
-        width = props.inputWidth - margin.left - margin.right,
-        height = props.inputHeight - margin.top - margin.bottom - 20;
-    var groupXOffset = 100;
-    var groupYOffset = 50;
-
-    if (data.length < 40) {
-        var domain = [];
-        var range = [];
-        for (var i = 1; i < data.length + 1; i++) {
-            domain.push(i);
-            range.push((width / data.length) * (i - 1));
-        }
-        var xScale = d3.scaleLinear()
-            .range(range)
-            .domain(domain);
-    } else {
-        var xScale = d3.scaleLinear()
-            .range([0, width])
-            .domain([0, data.length]);
-    }
-    var yScale = d3.scaleLinear()
-        .range([height, 0])
-        .domain([0, 1.0]);
-
-
-    var radius = width / (data.length + 30);
-
-    const ref = useRef(null);
-    useEffect(() => {
-        const g = d3.select(ref.current);
-        g.append("g")
-            .attr("transform", "translate(0," + height + ")")
-            .call(d3.axisBottom(xScale)
-                .tickValues(domain)
-                .tickFormat(d3.format("d"))
-            )
-            .append("text")
-            .style("font", "20px times")
-            .style("fill", "black")
-            .attr("y", 40)
-            .attr("x", width / 2)
-            .text("Sequence Number");
-        g.append("g")
-            .attr("transform", "translate(0," + 0 + ")")
-            .call(d3.axisLeft(yScale))
-            .append("text")
-            .style("font", "20px times")
-            .attr("transform", "rotate(-90)")
-            .style("fill", "black")
-            .attr("y", -50)
-            .attr("x", -120)
-            .text("% of letters that are G or C");
-        g.selectAll("dot")
-            .data(data)
-            .enter()
-            .append("circle")
-            .attr("cx", function (d, i) {
-                return xScale(i + 1);
-            }
-            )
-            .attr("cy", function (d) {
-                return yScale(d.percentageGC);
-            })
-            .attr("r", radius)
-            .style("fill", "#69b3a2");
-    }, [])
-
-    return (
-        <>
-            <svg
-                preserveAspectRatio="xMinYMin"
-                viewBox={"0 0 " + (props.inputWidth + groupXOffset) + " " + (props.inputHeight + groupYOffset)}
-                svg-content-responsive="true"
-                svg-container="true"
-                className="gcGraph"
-                width={(props.inputWidth + groupXOffset) + "px"}
-                height={(props.inputHeight + groupYOffset) + "px"}
-            >
-                <g ref={ref} transform={`translate(${groupXOffset}, ${groupYOffset})`}></g>
-            </svg>
-        </>
-    )
-}
-
-const generateGraph = (input) => {
-    console.log(input);
-    d3.select(".graphSvg").remove();
-    var data = d3.entries(input);
-    console.log('data ');
-    console.log(data);
-
-    var margin = 200;
-    var barWidth = 80;
-    var marginBetweenBars = 5;
-    var groupXOffset = 100;
-    var groupYOffset = 50;
-
-    var maxBarHeight = d3.max(data, function (d) {
-        return d.value;
-    });
-    var yAxisHeight = 400;
-    var numBars = Object.keys(input).length;
-    var xAxisWidth = (barWidth + marginBetweenBars) * numBars;
-
-    var svgWidth = xAxisWidth + groupXOffset;
-    var svgHeight = yAxisHeight + margin;
-
-    // select(d3Container.current).
-    var svg = d3.create("svg")
-        // .attr("width", svgWidth)
-        // .attr("height", svgHeight)
-        .attr("class", "graphSvg")
-        .attr("preserveAspectRatio", "xMinYMin")
-        .attr("viewBox", "0 0 600 400")
-        .classed("svg-content-responsive", true)
-        // .classed("svg-container", true)
-        .attr("max-width", "100%")
-        .attr("max-height", "100%")
-        .attr("width", "100%")
-        .attr("height", "100%")
-        .attr("object-fit", "cover");
-
-
-    // y axis has the frequency of letters appearing in the DNA template
-    var yScale = d3.scaleLinear()
-        .range([yAxisHeight, 0])
-        .domain([0, maxBarHeight]);
-    // X axis has the four letters
-    var xScale = d3.scaleBand()
-        .range([0, xAxisWidth])
-        .domain(Object.keys(input));
-    var g = svg.append("g")
-        // transformation applied to all chldren of the group
-        .attr("transform", "translate(" + groupXOffset + "," + groupYOffset + ")");
-
-    g.append("g")
-        .attr("transform", "translate(0," + yAxisHeight + ")")
-        .call(d3.axisBottom(xScale))
-        .append("text")
-        .style("font", "20px times")
-        .style("fill", "black")
-        .attr("y", 40)
-        .attr("x", xAxisWidth / 2)
-        .text("DNA letter");
-    g.append("g")
-        .attr("transform", "translate(0," + 0 + ")")
-        .call(d3.axisLeft(yScale))
-        .append("text")
-        .style("font", "20px times")
-        .attr("transform", "rotate(-90)")
-        .style("fill", "black")
-        .attr("y", -50)
-        .attr("x", -120)
-        .text("Number of letters");
-    g.selectAll(".bar")
-        .data(data)
-        .enter()
-        .append("rect")
-        .attr("class", "bar")
-        .attr("x", function (d) {
-            return xScale(d.key)
-        })
-        .attr("y", function (d) {
-            return yScale(d.value);
-        })
-        .attr("width", barWidth - marginBetweenBars)
-        .attr("height", function (d) {
-            return yAxisHeight - yScale(d.value);
-        });
-    return svg;
 }
 
 export default EncodeDecodeContainer;

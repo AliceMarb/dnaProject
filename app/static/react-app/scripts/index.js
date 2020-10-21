@@ -17,6 +17,7 @@ import Button from 'react-bootstrap/Button';
 import Collapsible from 'react-collapsible';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import Switch from "react-switch";
+import enhanceWithClickOutside from 'react-click-outside';
 
 import "./app.scss";
 // import * as a from '../public/frontend_textfiles/';

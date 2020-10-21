@@ -73,12 +73,12 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         subprocess.Popen("make", cwd=codec_location)
         return render_template("react-base.html")
 
-    def codec_en_decode(string, encode=True, fnames=[], input_type="text", extension="txt"):
+    def codec_en_decode(string, encode=True, fnames=[], fname="", input_type="text", extension="txt"):
         
         if encode: 
             
             if input_type == "text":
-                root_in_path, root_out_path, c_in_path, c_out_path = get_file_names("", extension, True, string)
+                root_in_path, root_out_path, c_in_path, c_out_path = get_file_names(fname, extension, True, string)
                 # make a file with the word
                 with open(root_in_path, 'w+') as f:
                 # call encoding on the input word thru command line
@@ -159,7 +159,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 # error found
                 print(err1)
 
-            if input_type == "text":
+            if input_type == "text" and int(a) < 1000:
                 for seq_record in SeqIO.parse(out_path, "fasta"):
                     seq_str = str(seq_record.seq)[1:]
                     enc_string += (seq_str + ',')
@@ -195,7 +195,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         if fnames:
             (process, out, err, in_path, out_path) = codec_en_decode(input_word, encode=True, fnames=fnames, input_type=input_type, extension=file_ext)
         else:
-            (process, out, err, in_path, out_path) = codec_en_decode(input_word)
+            (process, out, err, in_path, out_path) = codec_en_decode(input_word, fname=fname)
         # stdout_list = out.decode("utf-8").strip().split('\n')
         srch = re.search('Auto Payload trits:.*?(\d+)\nAuto Address length:.*?(\d+)', out.decode("utf-8"))
         try:
@@ -216,6 +216,11 @@ def construct_blueprint(codec_location="./master/Codec/c"):
     # DON'T PUT A SLASH, does not work
     @home_bp.route("/encode/<input_type>", methods=['POST'])
     def encode(input_type="json"):
+        enc_string = ""
+        letter_dict = {}
+        payload_trits = 0
+        address_length = 0
+        gc_content_fname = ""
         if input_type == "json":
             jsonData = request.get_json()
             input_word = jsonData['input']
@@ -243,7 +248,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                     try:
                         wrapper = io.TextIOWrapper(request.files['file'])
                         input_word = wrapper.read()
-                        (enc_string, letter_dict, payload_trits, address_length, gc_content_fname) = handle_enc_input(input_word, fname_no_space)
+                        enc_string, letter_dict, payload_trits, address_length, gc_content_fname = handle_enc_input(input_word, fname=fname_no_space)
                     except Exception as e:
                         print(e)
                     # handle_enc_input(input_word, fname_no_space)
@@ -261,7 +266,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                             open_file.write(content)
                     except Exception as e:
                         print(e)
-                    (enc_string, letter_dict, payload_trits, address_length, gc_content_fname) = handle_enc_input("", file_names, file_name, file_type, extension)
+                    enc_string, letter_dict, payload_trits, address_length, gc_content_fname = handle_enc_input("", file_names, file_name, file_type, extension)
         try:
             response = make_response(
                 send_from_directory(

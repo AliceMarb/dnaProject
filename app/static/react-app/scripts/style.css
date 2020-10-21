@@ -6,7 +6,8 @@
 }
 .dd-header{
   position: relative;
-  height: 5%;
+  /* height: 5%; */
+  min-height: 20px;
   padding-left: 10px;
   border-style: solid none;
   border-width: 1px;
@@ -21,6 +22,11 @@
 }
 .relative {
   position:relative;
+}
+.output-element-content {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 10px 0 15px;
 }
 .my-output-dropdown-menu {
   flex: 1;
@@ -37,6 +43,8 @@
   border-radius: 5px;
   background-color: #fff;
   box-shadow: 1px 1px 15px 5px rgba(0, 0, 0, 0.15);
+  /* what does this do */
+  z-index: 10;
 }
 .my-output-dropdown-menu-closed {
   flex: 1;
@@ -93,6 +101,16 @@
 }
 .toggle-button-bg {
   margin-right: 7px;
+}
+.w-layout-grid {
+  display: grid;
+  grid-auto-columns: 1fr;
+  grid-template-columns: 1fr 1fr;
+  /* change back to auto auto */
+  grid-template-rows: 20fr;
+  /* change back to 16 */
+  grid-row-gap: 50px;
+  grid-column-gap: 16px;
 }
 /* .dd-list {
 
