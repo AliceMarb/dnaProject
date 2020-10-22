@@ -26,7 +26,7 @@ const TextInputBox = (props) => {
                             value={props.toEncode}
                             onChange={(e) => handle(e)}
                             placeholder="Text string, e.g. &quot;Hello&quot;"
-                            maxLength={5000}
+                            // maxLength={5000}
                             className="textarea w-input"
                             type="text"
                             required="required"
@@ -69,7 +69,7 @@ const DecodeInputBox = (props) => {
                     <div className="accordion-item-content">
                         <textarea value={props.toDecode} onChange={(e) => handle(e)}
                             placeholder="DNA sequence, e.g. AGATGAG, ACGATCA, ATACTCT, TCGTCTC, TACGACT,"
-                            maxLength={5000}
+                            // maxLength={5000}
                             className="textarea w-input input-dna-sequence-textarea"
                             id="DNA-Input2" name="DNA-Input"
                             ref={props.decodeInput}
