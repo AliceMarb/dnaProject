@@ -29,13 +29,17 @@
   padding-right: 10px;
   margin: 10px 0 15px;
 }
+.output-block-grid {
+  /* prevent overflow */
+  grid-template-columns: 50% 50% !important;
+} 
 .my-output-dropdown-menu {
   flex: 1;
   position: absolute;
   left: 0;
   top: 40px;
   opacity: 0.99;
-  min-width: 500px;
+  min-width: 300px;
   margin-bottom: 20px;
   padding: 10px;
   border-style: solid;
@@ -1865,12 +1869,13 @@ input[type=submit]:hover {
   .output-block {
     padding-right: 15px;
     padding-left: 15px;
-    -webkit-box-flex: 1;
-    -webkit-flex: 1;
-    -ms-flex: 1;
+    /* -webkit-box-flex: 1; */
+    /* -webkit-flex: 1; */
+    /* -ms-flex: 1; */
     flex: 1;
     border-radius: 6px;
     background-color: #f8faf8;
+    /* overflow: hidden; */
   } 
 
   .form {

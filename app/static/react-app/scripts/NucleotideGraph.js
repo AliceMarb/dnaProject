@@ -97,8 +97,8 @@ const generateGraph = (props) => {
                     svg-content-responsive="true"
                     svg-container="true"
                     className="nucleotideContent"
-                    width={(props.inputWidth) + "px"}
-                    height={(props.inputHeight + groupYOffset) + "px"}
+                    // width={(props.inputWidth) + "px"}
+                    // height={(props.inputHeight + groupYOffset) + "px"}
                 >
                     <g ref={ref} transform={`translate(${groupXOffset}, ${groupYOffset})`}></g>
                 </svg>

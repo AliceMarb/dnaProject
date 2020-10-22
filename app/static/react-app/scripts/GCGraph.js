@@ -75,8 +75,8 @@ const GCHistogram = (props) => {
                 svg-container="true"
                 className="gcHist"
                 viewBox={"0 0 " + (props.inputWidth) + " " + (props.inputHeight)}
-                width={(props.inputWidth) + "px"}
-                height={(props.inputHeight) + "px"}
+                // width={(props.inputWidth) + "px"}
+                // height={(props.inputHeight) + "px"}
             >
                 <g ref={ref} transform={`translate(${groupXOffset}, ${groupYOffset})`}></g>
             </svg>
@@ -202,8 +202,8 @@ const handleGCData = (props, gcContent) => {
                 // width={(props.inputWidth + groupXOffset) + "px"}
                 // height={(props.inputHeight + groupYOffset) + "px"}
                 viewBox={"0 0 " + (props.inputWidth) + " " + (props.inputHeight)}
-                width={(props.inputWidth) + "px"}
-                height={(props.inputHeight) + "px"}
+                // width={(props.inputWidth) + "px"}
+                // height={(props.inputHeight) + "px"}
             >
                 <g ref={ref} transform={`translate(${groupXOffset}, ${margin.top})`}></g>
             </svg>
