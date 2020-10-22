@@ -33,6 +33,12 @@
   /* prevent overflow */
   grid-template-columns: 50% 50% !important;
 } 
+.remaining-text {
+  font-size: 14px;
+  line-height: 1.428571429;
+  color: #333333;
+  margin-left: 10px;
+}
 .my-output-dropdown-menu {
   flex: 1;
   position: absolute;

@@ -8,6 +8,7 @@ const TextInputBox = (props) => {
             props.setToEncode(e.target.value);
             props.setEditing(props.encodeInput);
         }
+        const maxLength = 5000;
         return (
             <>
                 <Button
@@ -26,12 +27,13 @@ const TextInputBox = (props) => {
                             value={props.toEncode}
                             onChange={(e) => handle(e)}
                             placeholder="Text string, e.g. &quot;Hello&quot;"
-                            // maxLength={5000}
+                            maxLength={maxLength}
                             className="textarea w-input"
                             type="text"
                             required="required"
                             ref={props.encodeInput}
                         />
+                        <div className="remaining-text">{(maxLength - props.toEncode.length) + " characters remaining"}</div>
                         <input
                             type="submit"
                             name="submit_button_str"
@@ -52,6 +54,7 @@ const DecodeInputBox = (props) => {
         }
         props.setEditing(props.decodeInput);
     }
+    const maxLength = 5000;
     return (
         <>
             <Button
@@ -69,13 +72,15 @@ const DecodeInputBox = (props) => {
                     <div className="accordion-item-content">
                         <textarea value={props.toDecode} onChange={(e) => handle(e)}
                             placeholder="DNA sequence, e.g. AGATGAG, ACGATCA, ATACTCT, TCGTCTC, TACGACT,"
-                            // maxLength={5000}
+                            maxLength={maxLength}
                             className="textarea w-input input-dna-sequence-textarea"
                             id="DNA-Input2" name="DNA-Input"
                             ref={props.decodeInput}
                         />
+                        <div className="remaining-text">{(maxLength - props.toDecode.length) + " characters remaining"}</div>
                         <input type="submit" value="Decode" className="submit-button w-button input-dna-seq-decode-submit-button" />
                     </div>
+
                 </form>
             </Collapse>
         </>
