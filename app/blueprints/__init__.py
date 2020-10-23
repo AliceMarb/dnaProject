@@ -2,22 +2,24 @@ from .home.views import home_bp
 import datetime
 import os
 
-def get_file_names(name="", extension="txt", encode=True, string=""):
+def get_file_names(name="", extension="plain", encode=True, string=""):
+    if extension == "plain":
+        extension = "txt"
     if not name:
         name = '_'.join(string[:10].split(' '))
     else: 
         name = '.'.join(name.split('.')[:-1])
-    from_c_folder = '../../../app/'
-    from_root = 'app/'
+    from_c_folder = '../../../app/codec_files/'
+    from_root = 'app/codec_files/'
     time = datetime.datetime.utcnow()
-    fname = 'codec_files/' + '_'.join(str(time)[:19].replace(':', '-').split(' ')) + '_' + name 
+    fname = '_'.join(str(time)[:19].replace(':', '-').split(' ')) + '_' + name 
     if encode:
         in_path = fname + '_toencode.' + extension
         out_path = fname + '_encoded.fa'
     else:
         in_path = fname + '_toencode.' + extension
         out_path = fname + '_encoded.fa'
-    return from_root + in_path, from_root + out_path, from_c_folder + in_path, from_c_folder + out_path
+    return [fname, from_root + in_path, from_root + out_path, from_c_folder + in_path, from_c_folder + out_path]
 
 def get_num_bytes(input_file):
     input_file.seek(0, os.SEEK_END)
@@ -44,7 +46,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
     else:
         home_bp = Blueprint('dev', __name__)
 
-    from flask import Flask, make_response, request, render_template, send_from_directory
+    from flask import Flask, make_response, request, render_template, send_from_directory, session
     from flask import jsonify
     import json 
     from flask import current_app
@@ -66,58 +68,36 @@ def construct_blueprint(codec_location="./master/Codec/c"):
 
     @home_bp.route("/", methods=['GET', 'POST'])
     def home():
-        current_app.logger.info('Processing request for home.')
+        current_app.logger.info('Processing request for home from {}.'.format(codec_location))
         print(os.getcwd())
         # a process can't change a subprocesses' working directory
         # wd = os.getcwd()
         subprocess.Popen("make", cwd=codec_location)
-        return render_template("react-base.html")
+        if 'visits' in session:
+            session['visits'] = session.get('visits') + 1  # reading and updating session data
+        else:
+            session['visits'] = 1 # setting session data 
+        if 'actions' not in session:
+            session['actions'] = []
+        return render_template("react-base.html", visits=session['visits'], actions=json.dumps(session['actions']))
 
-    def codec_en_decode(string, encode=True, fnames=[], fname="", input_type="text", extension="txt"):
-        
+    def codec_en_decode(encode=True, fnames=[]):
+        fname, root_in_path, root_out_path, c_in_path, c_out_path = fnames
         if encode: 
-            
-            if input_type == "text":
-                root_in_path, root_out_path, c_in_path, c_out_path = get_file_names(fname, extension, True, string)
-                # make a file with the word
-                with open(root_in_path, 'w+') as f:
-                # call encoding on the input word thru command line
-                    f.write(string)
-            else:
-                # already wrote the file to the system (might change this later for
-                # security or reducing space requirements).
-                root_in_path, root_out_path, c_in_path, c_out_path = fnames
+        # already wrote the file to the system
             command = f"./dnad_encode --in {c_in_path} --out {c_out_path} --encoding lee19_hw"
         else:
-            if input_type == "text":
-                root_in_path, root_out_path, c_in_path, c_out_path = get_file_names("", extension, True, string)
-                # write a fasta  file
-                try:
-                    # record = SeqRecord(Seq(string), id=string, name="DNAtoString", description="Conversion from input string DNA to decoded string")
-                    # SeqIO.write(record, from_root + in_path, "fasta")
-                    # with open('seq_test_DNAinput.txt', 'w+') as f:
-                    with open(root_in_path, 'w+') as f:
-                        seq_list = string.split(',')
-                        print('decoded process DNA')
-                        for seq in seq_list:
-                            f.write('>seq\n')
-                            f.write('g' + seq + '\n')
-                        # f.write(f'>{str(time)[:19]} Conversion from input string DNA to decoded string\n{string}\n')
-                except:
-                    print('conversion didnt work')
             command = f"./dnad_decode --in {c_in_path} --out {c_out_path} --encoding lee19_hw"
-
         process = subprocess.Popen(command.split(' '), cwd=codec_location, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = process.communicate()
         return process, out, err, root_in_path, root_out_path
 
-    def get_encoding_info(in_path, out_path, input_type, fname):
+    def get_encoding_info(in_path, out_path, fname):
         start = time.time()
         enc_string = ""
         letters = [0] * 4
-        gc_content_fname = in_path.replace('app/codec_files/', "gc_content_") 
-        
-        gc_content_path = "app/static/react-app/public/frontend_textfiles/" + gc_content_fname
+        gc_content_fname = "gc_content_" + fname + '.txt'
+        gc_content_path = "app/codec_files/" + gc_content_fname
         if os.path.isfile(out_path):
             # very slow to go line by line. Instead use awk (works on AWS Ubuntu)
             """
@@ -159,7 +139,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 # error found
                 print(err1)
 
-            if input_type == "text" and int(a) < 1000:
+            if int(a) < 1000:
                 for seq_record in SeqIO.parse(out_path, "fasta"):
                     seq_str = str(seq_record.seq)[1:]
                     enc_string += (seq_str + ',')
@@ -178,24 +158,18 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             print('TIME TAKEN FOR THIS ENCODING COUNT: ' + str(secs) + "\n")
         else:
             print('This file found: ', os.path.isfile(out_path))
-            current_app.logger.error(f"ENCODING {input_type} {in_path} --- File not found error ::: Input: {out_path}")
+            current_app.logger.error(f"ENCODING {in_path} --- File not found error ::: Input: {out_path}")
             raise FileNotFoundError
         # with open('filesize_time.csv', 'a') as f:
                 # f.write(str(secs) + '\n')
         return enc_string, letter_dict, gc_content_fname
             
-    def handle_enc_input(input_word, fnames=[], fname="", input_type="text", extension="plain"):
+    def handle_enc_input(fnames=[]):
         # automatically waits for end of the process
         payload_trits = -1
         address_length = -1
-        if extension == "plain":
-            file_ext = "txt"
-        else: 
-            file_ext = extension
-        if fnames:
-            (process, out, err, in_path, out_path) = codec_en_decode(input_word, encode=True, fnames=fnames, input_type=input_type, extension=file_ext)
-        else:
-            (process, out, err, in_path, out_path) = codec_en_decode(input_word, fname=fname)
+        (process, out, err, in_path, out_path) = codec_en_decode(fnames=fnames)
+        
         # stdout_list = out.decode("utf-8").strip().split('\n')
         srch = re.search('Auto Payload trits:.*?(\d+)\nAuto Address length:.*?(\d+)', out.decode("utf-8"))
         try:
@@ -203,71 +177,105 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             address_length = int(srch[2])
         except:
             # didn't return as expected
-            current_app.logger.error(f"ENCODING {input_type} {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)} ::: Input: {limit_length(input_word)}")
+            current_app.logger.error(f"ENCODING {in_path} {out_path} --- Problem finding payload/address info. C stdout: {str(out)} C stderr: {str(err)}")
             raise ValueError
         process.wait()
         try:
-            (enc_string, letter_dict, gc_content_fname) = get_encoding_info(in_path, out_path, input_type, fname)
+            (enc_string, letter_dict, gc_content_fname) = get_encoding_info(in_path, out_path, fnames[0])
         except:
             raise ValueError
-        current_app.logger.info(f"ENCODING {input_type} {in_path} {out_path} --- All good! ::: Input: {limit_length(input_word)}")
+        current_app.logger.info(f"ENCODING {in_path} {out_path} --- All good!")
         return enc_string, letter_dict, payload_trits, address_length, gc_content_fname
+
+
+    def save_encoding_session(encode_input, encoded_file, gc_content_fname, encoding_data_fname): 
+        '''
+        Sessions strategy: 
+        For encoding: 
+        - In session, save file names of the above 
+        - Save all files to encode, encoded files, GC content file and AGCT plot file
+        '''
+        session['actions'].append(["encoding", encode_input, encoded_file, gc_content_fname, encoding_data_fname])
+        session.modified = True
+
+    def save_file_info(fname_no_space, ftype):
+        '''Write the file to server and return data about it''' 
+        import tempfile
+        file_type, extension = ftype.split('/')
+        # file_names[0] is the plain input file name
+        # 1 and 2 are path to the input + encoded file from the root
+        # 3 and 4 are paths to the input + encoded file from the C folder 
+        file_paths = get_file_names(name=fname_no_space, extension=extension)
+        
+        tf = request.files['file'].stream
+        f = tf.rollover()
+        tf.seek(0)
+        content = tf.read()
+        with open(file_paths[1], 'wb') as open_file:
+            open_file.write(content)
+
+        return file_paths
+
+    def save_text_info(input_word):
+        file_paths = get_file_names(string=input_word)
+        with open(file_paths[1], 'w+') as open_file:
+            open_file.write(input_word)
+        return file_paths
+    
+    def save_decode_typed_input(input_word):
+        file_paths = get_file_names(string=input_word)
+        root_in_path = file_paths[1]
+        # write a fasta file
+        try:
+            with open(root_in_path, 'w+') as f:
+                seq_list = input_word.split(',')
+                print('decoded process DNA')
+                for seq in seq_list:
+                    f.write('>seq\n')
+                    f.write('g' + seq + '\n')
+        except:
+            print('conversion didnt work')
+        return file_paths
+        
 
     # DON'T PUT A SLASH, does not work
     @home_bp.route("/encode/<input_type>", methods=['POST'])
     def encode(input_type="json"):
-        enc_string = ""
-        letter_dict = {}
-        payload_trits = 0
-        address_length = 0
-        gc_content_fname = ""
         if input_type == "json":
             jsonData = request.get_json()
             input_word = jsonData['input']
-            try:
-                (enc_string, letter_dict, payload_trits, address_length, gc_content_fname) = handle_enc_input(input_word)
-            except:
-                return jsonify(status="error", word=""), 504
-        elif input_type == "file":
+            file_paths = save_text_info(input_word)
+        else:
+            # type == file
             if 'file' not in request.files:
-                # not working yet
-                print('No file part')
                 return jsonify(status="error") 
+            print('File is here ')
+            # check the file size, and don't build output string if too big
+            input_file = request.files['file']
+            for header in input_file.headers:
+                if header[0] == 'Content-Type':
+                    ftype = header[1]
+                    break
+            # easier for command line if no spaces
+            fname_no_space = request.files['file'].filename.replace(' ', '_')
+            if ftype == 'text/plain':
+                try:
+                    wrapper = io.TextIOWrapper(request.files['file'])
+                    input_word = wrapper.read()
+                    file_paths = save_text_info(input_word)
+                except Exception as e:
+                    print(e)
             else:
-                print('File is here ')
-                # check the file size, and don't build output string if too big
-                input_file = request.files['file']
-                for header in input_file.headers:
-                    if header[0] == 'Content-Type':
-                        ftype = header[1]
-                        break
-                fname = request.files['file'].filename
-                # easier for command line if no spaces
-                fname_no_space = fname.replace(' ', '_')
-                if ftype == 'text/plain':
-                    try:
-                        wrapper = io.TextIOWrapper(request.files['file'])
-                        input_word = wrapper.read()
-                        enc_string, letter_dict, payload_trits, address_length, gc_content_fname = handle_enc_input(input_word, fname=fname_no_space)
-                    except Exception as e:
-                        print(e)
-                    # handle_enc_input(input_word, fname_no_space)
-                else:
-                    try:
-                        file_type, extension = ftype.split('/')
-                        file_names = get_file_names(name=fname_no_space, extension=extension)
-                        file_name = file_names[0]
-                        import tempfile
-                        tf = request.files['file'].stream
-                        f = tf.rollover()
-                        tf.seek(0)
-                        content = tf.read()
-                        with open(file_name, 'wb') as open_file:
-                            open_file.write(content)
-                    except Exception as e:
-                        print(e)
-                    enc_string, letter_dict, payload_trits, address_length, gc_content_fname = handle_enc_input("", file_names, file_name, file_type, extension)
+                file_paths = save_file_info(fname_no_space, ftype)
+        enc_string, letter_dict, payload_trits, address_length, gc_content_fname = handle_enc_input(file_paths)
         try:
+            encoding_data_fname = "app/codec_files/" + "metadata_" + file_paths[0] + ".txt"
+            with open(encoding_data_fname, 'w+') as f:
+                f.write(str(letter_dict) + '\n')
+                f.write(str(payload_trits) + '\n')
+                f.write(str(address_length) + '\n')
+                f.write(str(enc_string) + '\n')
+
             response = make_response(
                 send_from_directory(
                     current_app.config['ENCODED_FILE_LOC'],
@@ -286,6 +294,8 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             response.headers['letter_dict'] = letter_dict
             response.headers['payload_trits'] = payload_trits
             response.headers['address_length'] = address_length
+
+            save_encoding_session(file_paths[1], file_paths[2], gc_content_fname, encoding_data_fname)
             return response
         except FileNotFoundError:
                 abort(404)
@@ -295,7 +305,8 @@ def construct_blueprint(codec_location="./master/Codec/c"):
     def decode_string():
         jsonData = request.get_json(force=True)
         input_word = jsonData['input']
-        (process, out, err, in_path, out_path) = codec_en_decode(input_word, False)
+        file_names = save_decode_typed_input(input_word)
+        (process, out, err, in_path, out_path) = codec_en_decode(False, file_names)
         print(out, err)
         srch = re.search('Synthesis length:.*?(\d+)\n*.*?\n*Address length:.*?(\d+)', out.decode("utf-8"))
         try:

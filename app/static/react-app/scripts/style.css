@@ -39,6 +39,9 @@
   color: #333333;
   margin-left: 10px;
 }
+.plot-label {
+  font-size: 15px !important;
+}
 .my-output-dropdown-menu {
   flex: 1;
   position: absolute;

@@ -2,7 +2,7 @@
 from flask import Blueprint
 home_bp = Blueprint('home', __name__)
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 # from flaskr.codec.encoding import encode
 # from flaskr.codec.decoding import decode
 from flask import jsonify
@@ -32,7 +32,13 @@ def home():
     # wd = os.getcwd()
     subprocess.Popen("make", cwd="./master/Codec/c")
     subprocess.Popen("make", cwd="./dev/Codec/c")
-    return render_template("react-base.html")
+    if 'visits' in session:
+        session['visits'] = session.get('visits') + 1  # reading and updating session data
+    else:
+        session['visits'] = 1 # setting session data 
+    if 'actions' not in session:
+        session['actions'] = []
+    return render_template("react-base.html", visits=session['visits'])
 
 # def string_en_decode(string, encode=True):
 #     from_c_folder = '../../app/'

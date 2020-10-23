@@ -34,7 +34,8 @@ const GCHistogram = (props) => {
             .attr("transform", "translate(0," + height + ")")
             .call(d3.axisBottom(xScale))
             .append("text")
-            .style("font", "20px times")
+            .classed('label plot-label', true)
+            .attr('class', 'label plot-label')
             .style("fill", "black")
             .attr("y", 40)
             .attr("x", width / 2)
@@ -43,11 +44,12 @@ const GCHistogram = (props) => {
             .attr("transform", "translate(0," + 0 + ")")
             .call(d3.axisLeft(yScale))
             .append("text")
-            .style("font", "20px times")
+            .classed('label plot-label', true)
+            .attr('class', 'label plot-label')
             .attr("transform", "rotate(-90)")
             .style("fill", "black")
             .attr("y", -50)
-            .attr("x", -120)
+            .attr("x", -90)
             .text("Frequency");
         g.selectAll("rect")
             .data(bins)
@@ -151,7 +153,7 @@ const handleGCData = (props, gcContent) => {
             // doesn't make sense to graph just one sequence
             return;
         } 
-        console.log('start rendering gc graph!!!');
+        console.log('start rendering gc graph. hello is this even working!!!');
         d3.select(ref.current).selectAll("*").remove();
         const g = d3.select(ref.current);
         g.append("g")
@@ -161,20 +163,23 @@ const handleGCData = (props, gcContent) => {
                 .tickFormat(d3.format("d"))
             )
             .append("text")
-            .style("font", "20px times")
+            .attr('class', 'label plot-label')
+            .classed('label plot-label', true)
             .style("fill", "black")
             .attr("y", 40)
             .attr("x", width / 2 - 25)
             .text("Sequence Number");
+        console.log(g);
         g.append("g")
             .attr("transform", "translate(0," + 0 + ")")
             .call(d3.axisLeft(yScale))
             .append("text")
-            .style("font", "20px times")
+            .attr('class', 'label plot-label')
+            .classed('label plot-label', true)
             .attr("transform", "rotate(-90)")
             .style("fill", "black")
             .attr("y", -50)
-            .attr("x", -120)
+            .attr("x", -90)
             .text("% of letters that are G or C");
         g.selectAll("dot")
             .data(data)
