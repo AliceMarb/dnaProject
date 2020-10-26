@@ -238,6 +238,20 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         return file_paths
         
 
+    @home_bp.route("/get_fasta", methods=['GET'])
+    def get_fasta():
+        path_to_last_encoded = session['actions'][-1][2]
+        response = make_response(
+                send_from_directory(
+                    current_app.config['ENCODED_FILE_LOC'],
+                    filename=path_to_last_encoded.replace('app/codec_files/', ''), 
+                    as_attachment=True,
+                    mimetype="text/plain"),
+                200,
+        )
+        return response
+
+
     # DON'T PUT A SLASH, does not work
     @home_bp.route("/encode/<input_type>", methods=['POST'])
     def encode(input_type="json"):
@@ -257,16 +271,10 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                     ftype = header[1]
                     break
             # easier for command line if no spaces
-            fname_no_space = request.files['file'].filename.replace(' ', '_')
-            if ftype == 'text/plain':
-                try:
-                    wrapper = io.TextIOWrapper(request.files['file'])
-                    input_word = wrapper.read()
-                    file_paths = save_text_info(input_word)
-                except Exception as e:
-                    print(e)
-            else:
-                file_paths = save_file_info(fname_no_space, ftype)
+            fname_no_space = "_".join(request.files['file'].filename.split())
+            # wrapper = io.TextIOWrapper(request.files['file'])
+            # input_word = wrapper.read()
+            file_paths = save_file_info(fname_no_space, ftype)
         enc_string, letter_dict, payload_trits, address_length, gc_content_fname = handle_enc_input(file_paths)
         try:
             encoding_data_fname = "app/codec_files/" + "metadata_" + file_paths[0] + ".txt"

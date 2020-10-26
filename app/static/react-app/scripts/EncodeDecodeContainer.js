@@ -8,7 +8,6 @@ import $ from 'jquery';
 window.jQuery = $;
 import arrow from '../public/images/arrow-mid-blue-down-96x96.png';
 import bunny from '../public/images/bunny.gif';
-// import bunny2 from './bunny.gif';
 // import otherArrow from '../dist/arrow-mid-blue-down-96x96.png';
 import Collapsible from 'react-collapsible';
 import Accordion from 'react-bootstrap/Accordion';
@@ -38,6 +37,7 @@ const EncodeDecodeContainer = () => {
     const [loading, setLoading] = useState(false);
     const [editingRef, setEditing] = useState(null);
     const [fileToEncode, setFileToEncode] = useState(null);
+    const [uploadLoading, setUploadLoading] = useState(false);
     // const [decodeOpen, setDecodeOpen] = useState(false);
     // const [textStringOpen, setTextStringOpen] = useState(false);
     // const [expandableOpen, setExpandableOpen] = useState(true);
@@ -359,20 +359,25 @@ const EncodeDecodeContainer = () => {
         e.preventDefault()
         codecGetFile(stringToEncode, "encode", "json");
     }
+
     const readFile = (e) => {
+        console.log('started reaidng file...');
         e.preventDefault();
         let files = e.target.files;
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-            // in case I want to show before passing back
-            const text = (event.target.result);
-            setFileToEncode(files[0]);
-            // console.log(text);
-            console.log(fileToEncode);
-            // codecGetFile(files, "encode", "textFile");
-        };
-        reader.readAsText(files[0]);
+        // const reader = new FileReader();
+        // would use if we want to read the file before
+        // encoding for some reason
+        // reader.onload = async (event) => {
+        //     const text = (event.target.result);
+        //     setFileToEncode(files[0]);
+        //     console.log(fileToEncode);
+        // };
+        // reader.readAsText(files[0]);
+        setFileToEncode(files[0]);
+        console.log('finished reading file.');
+        setUploadLoading(false);
     }
+
 
     const DecodeDisplay = () => {
         if (mode === "decode") {
@@ -392,7 +397,43 @@ const EncodeDecodeContainer = () => {
         }
 
     }
+    const getFasta = () => {
+        // gets the most recently encoded file
+        var url = "";
+        var fileName = "";
+        if (location.pathname.includes('dev')) {
+            url = "/dev/";
+        } else if (location.pathname.includes('master')) {
+            url = "/master/";
+        }
+        url = url + "get_fasta";
+        fetch(url, {
+            method: 'GET',
+        })
+            .then(response => {
+                for (var pair of response.headers.entries()) {
+                    if (pair[0] == "content-disposition") {
+                        var contentDispositionHeader = pair[1];
+                        var result = contentDispositionHeader.split(';')[1].trim().split('=')[1];
+                        fileName = result.replace(/"/g, '');
+                        break;
+                    }
+                }
+                return response.blob()
+            }
+            )
+            .then(blob => {
+                var url = window.URL.createObjectURL(blob);
+                var a = document.createElement('a');
+                a.href = url;
+                a.download = fileName;
+                document.body.appendChild(a); // we need to append the element to the dom -> otherwise it will not work in firefox
+                a.click();
+                a.remove();  //afterwards we remove the element again         
+            });
+    }
 
+    console.log('rerender...');
     return (
         <div>
             <div className="body-4">
@@ -424,8 +465,16 @@ const EncodeDecodeContainer = () => {
                                                 setOpenDict={setOpenDict}
                                             >
                                                 <div className="accordion-item-content">
-                                                    <input style={{ width: "120px" }} type="file" onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
-                                                    <div className="text-block-6 payload-length-label">File Chosen: {fileToEncode ? fileToEncode.name : null}</div>
+                                                    <FileInput
+                                                        key="alice"
+                                                        fileToEncode={fileToEncode}
+                                                        readFile={readFile}
+                                                        setUploadLoading={setUploadLoading}
+                                                        toEncode={toEncode} />
+                                                    <div className="text-block-6 payload-length-label">
+                                                        {/* {fileToEncode && !uploadLoading ? <p>{"File successfully uploaded: "}<br />{fileToEncode.name}</p> : "No file chosen"} */}
+                                                        {fileToEncode && !uploadLoading ? <p>{"File successfully uploaded: "}<br />{fileToEncode.name}</p> : uploadLoading? <img src={bunny}/>: "No file chosen"}
+                                                    </div>
                                                     <input
                                                         onClick={() => codecGetFile(null, "encode", "file")}
                                                         type="submit"
@@ -466,7 +515,7 @@ const EncodeDecodeContainer = () => {
                                         encodeHistory={encodeHistory}
                                         nucleotideContent={nucleotideContent}
                                         gcContent={gcContent} gcContentPath={gcContentPath} width={500} height={500}
-                                        putOutputInInput={putOutputInInput}
+                                        putOutputInInput={putOutputInInput} getFasta={getFasta}
                                     />
                                     {/* <GraphBox key="graphbox" /> */}
                                 </div>
@@ -478,6 +527,96 @@ const EncodeDecodeContainer = () => {
         </div>
     );
 }
+
+// const FileInput = () => {
+//         console.log('rerendering the file input');
+//         console.log(toEncode);
+//         const getContent = () => {
+//             var num = Math.random() * 100;
+//             var content = (
+//             <>
+//                 <input style={{ width: "120px" }} type="file"
+//                 onClick={() => { console.log('loading!'); console.log(fileToEncode); setUploadLoading(true); console.log('uploading?' + uploadLoading); }}
+//                 onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
+//                 <div>{num}</div>
+//             </>);
+//             return content;
+//         } 
+//         var content = useMemo(() => getContent(), [toEncode]);
+//         const getNum = () => {
+//             return Math.random() * 100;
+//         }
+//         var otherNum = useMemo(() => getNum(), [toEncode]);
+//         return (
+//             <>
+//                {content}
+//                <div>{otherNum}</div>
+//             </>
+//             );
+// }
+const areEqual = (prevProps, nextProps) => {
+    console.log(prevProps);
+    console.log(nextProps);
+    return true;
+};
+
+const useChangeAlerter = (ref, setUploadLoading, readFile) => {
+    useEffect(() => {
+        /**
+         * Alert if clicked on outside of element
+         */
+        function handleClickOutside(e) {
+            alert("Button has been clicked!!");
+            setUploadLoading(true);
+        }
+        function handleChange (e) {
+            alert("Value changed!!");
+            readFile(e);
+        }
+        const div = ref.current;
+        // Bind the event listener
+        div.addEventListener("click", handleClickOutside);
+        div.addEventListener("change", handleChange);
+        // this is the cleanup function i.e. componentWillUnmount
+        // unmounting meaning that React is no longer rendering this element
+        // (i.e. when the dropdown is closed)
+        return () => {
+            // Unbind the event listener on clean up
+            div.removeEventListener("click", handleClickOutside);
+        };
+    }, [ref]);
+}
+
+
+const FileInput = React.memo((props) => {
+    console.log('rerendering the file input');
+    // const getContent = () => {
+    //     var num = Math.random() * 100;
+    //     var content = (
+    //         <>
+    //             <input
+    //                 key="please dont rerender"
+    //                 style={{ width: "120px" }} type="file"
+    //                 // onClick={(e) => {props.setUploadLoading(true);}}
+    //                 onChange={(e) => props.readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
+    //             <div>{num}</div>
+    //         </>);
+    //     return content;
+    // }
+    const wrapperRef = useRef(null);
+    useChangeAlerter(wrapperRef, props.setUploadLoading, props.readFile);
+
+    return (
+        <>
+            <input
+                ref={wrapperRef}
+                style={{ width: "120px" }} type="file"
+                // onClick={(e) => {props.setUploadLoading(true);}}
+                onChange={(e) => props.readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
+            <div>{ Math.random() * 100}</div>
+        </>
+    );
+}, areEqual);
 
 const OutputElements = (props) => {
     const outputElements = [];
@@ -497,6 +636,7 @@ const OutputElements = (props) => {
                 encodeHistory={props.encodeHistory}
                 nucleotideContent={props.nucleotideContent}
                 putOutputInInput={props.putOutputInInput}
+                getFasta={props.getFasta}
                 gcContent={props.gcContent} gcContentPath={props.gcContentPath} inputWidth={props.width} inputHeight={props.height}
             />
         );

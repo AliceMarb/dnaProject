@@ -39,7 +39,7 @@ const GCHistogram = (props) => {
             .style("fill", "black")
             .attr("y", 40)
             .attr("x", width / 2)
-            .text("% GC Content per Sequence");
+            .text("Fraction of GC Content per Sequence");
         g.append("g")
             .attr("transform", "translate(0," + 0 + ")")
             .call(d3.axisLeft(yScale))
@@ -180,7 +180,7 @@ const handleGCData = (props, gcContent) => {
             .style("fill", "black")
             .attr("y", -50)
             .attr("x", -90)
-            .text("% of letters that are G or C");
+            .text("Fraction of letters that are G or C");
         g.selectAll("dot")
             .data(data)
             .enter()

@@ -10,6 +10,7 @@ import GCGraph from './GCGraph';
 import NucleotideGraph from './NucleotideGraph';
 // import enhanceWithClickOutside from 'react-click-outside';
 import OutsideAlerter from './OutsideAlerter';
+import bunny from '../public/images/bunny.gif';
 
 const OutputElement = (props) => {
     const listOpen = props.openDict[props.openName];
@@ -77,6 +78,7 @@ const OutputElement = (props) => {
                         loading={props.loading}
                         encodeHistory={props.encodeHistory}
                         putOutputInInput={props.putOutputInInput}
+                        getFasta={props.getFasta}
                     />
                     {/* <div>{num}</div> */}
                 </>
@@ -192,7 +194,8 @@ const OutputElement = (props) => {
             </div>
             {/* <img src={pic} /> */}
             <div className="output-element-content">
-                {props.mode === "encode" && content}
+                {props.loading && <img src={bunny} width="auto" height="auto" />}
+                {props.mode === "encode" && !props.loading && content}
             </div>
         </div>
     );
