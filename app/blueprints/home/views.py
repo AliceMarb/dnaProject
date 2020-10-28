@@ -32,12 +32,13 @@ def home():
     # wd = os.getcwd()
     subprocess.Popen("make", cwd="./master/Codec/c")
     subprocess.Popen("make", cwd="./dev/Codec/c")
+    session.clear()
     if 'visits' in session:
         session['visits'] = session.get('visits') + 1  # reading and updating session data
     else:
         session['visits'] = 1 # setting session data 
     if 'actions' not in session:
-        session['actions'] = []
+         session['actions'] = {"encode": [], "decode": []}
     return render_template("react-base.html", visits=session['visits'])
 
 # def string_en_decode(string, encode=True):

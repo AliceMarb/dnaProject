@@ -22,7 +22,7 @@ const TextInputBox = (props) => {
                     <h3 className={"accordion-label "}>Text String</h3>
                 </Button>
                 <Collapse in={open}>
-                    <form onSubmit={(e) => props.callCodecHandler(e, props.toEncode)}>
+                    <form onSubmit={(e) => props.callCodecHandler(e, true)}>
                         <textarea
                             value={props.toEncode}
                             onChange={(e) => handle(e)}
@@ -68,7 +68,7 @@ const DecodeInputBox = (props) => {
                 <h3 className={"accordion-label "}>DNA&nbsp;Sequence Decode</h3>
             </Button>
             <Collapse in={open}>
-                <form onSubmit={(e) => props.callCodecTyped(e, "decode", props.toDecode)} className="form">
+                <form onSubmit={(e) => props.callCodecHandler(e, false)} className="form">
                     <div className="accordion-item-content">
                         <textarea value={props.toDecode} onChange={(e) => handle(e)}
                             placeholder="DNA sequence, e.g. AGATGAG, ACGATCA, ATACTCT, TCGTCTC, TACGACT,"

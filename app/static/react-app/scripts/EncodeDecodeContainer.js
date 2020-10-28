@@ -1,14 +1,9 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-// import './jquery.js';
-// import $ from './jquery.js'; 
 import $ from 'jquery';
-// console.log('Hello:!' + $);
-// import plugin from 'jquery-plugin';
 window.jQuery = $;
 import arrow from '../public/images/arrow-mid-blue-down-96x96.png';
 import bunny from '../public/images/bunny.gif';
-// import otherArrow from '../dist/arrow-mid-blue-down-96x96.png';
 import Collapsible from 'react-collapsible';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
@@ -18,8 +13,6 @@ import { TextInputBox, DecodeInputBox } from './InputBlock.js';
 import OutputBox from './OutputBox';
 import OutputElement from './OutputElement';
 import GCGraph from './GCGraph';
-// import hi from '../public/frontend_textfiles/hi.txt';
-// import file from '../../../../app/codec_files/gc_content_rawBpa.txt';
 
 const EncodeDecodeContainer = () => {
 
@@ -37,17 +30,22 @@ const EncodeDecodeContainer = () => {
     const [loading, setLoading] = useState(false);
     const [editingRef, setEditing] = useState(null);
     const [fileToEncode, setFileToEncode] = useState(null);
+    const [fileToDecode, setFileToDecode] = useState(null);
+
     const [uploadLoading, setUploadLoading] = useState(false);
+    const [uploadLoading2, setUploadLoading2] = useState(false);
     // const [decodeOpen, setDecodeOpen] = useState(false);
     // const [textStringOpen, setTextStringOpen] = useState(false);
     // const [expandableOpen, setExpandableOpen] = useState(true);
     const startOpenDict = {
         decodeOpen: true, textStringOpen: true,
-        expandableOpen: true,
         outputOpen1: false,
         outputOpen2: false,
         outputOpen3: false,
         outputOpen4: false,
+        uploadDecodeBox: false,
+        uploadEncodeBox: false,
+        graphOutbox: false,
     };
     const [openDict, setOpenDict] = useState(startOpenDict);
     const [analytics, setAnalytics] = useState(
@@ -76,50 +74,14 @@ const EncodeDecodeContainer = () => {
     const gcContainer = useRef();
     const encodeInput = useRef();
     const decodeInput = useRef();
-    // useMountEffect( setInputFocus )
     useEffect(() => {
-        // console.log('rerendering' + editingRef);
         if (editingRef) {
-            // console.log(editingRef);
             editingRef.current.focus();
             editingRef.current.selectionStart = editingRef.current.value.length;
             editingRef.current.selectionEnd = editingRef.current.value.length;
         }
 
     }, [toEncode, toDecode]);
-
-    const ExpandableBox = (props) => {
-        // console.log('rerendering edxpandable box');
-        // const [open, setOpen] = useState(true);
-        var collapse;
-        var open = props.openDict["expandableOpen"];
-        if (props.renderWaitingScreen && loading) {
-            collapse = (
-                <Collapse in={open}>
-                    <img src={bunny} width="600px" height="450px" />
-                </Collapse>);
-
-        } else {
-            collapse = (<Collapse in={open}>
-                {props.children}
-            </Collapse>);
-        }
-        return (
-            <div key={props.divKey}>
-                <Button
-                    onClick={() => props.setOpenDict({ ...props.openDict, "expandableOpen": !open })}
-                    aria-controls="example-collapse-text"
-                    aria-expanded={open}
-                    variant="customized-accordion-closed"
-                    className={"accordion-closed-item-trigger " + props.buttonClass}
-                    key="bitton"
-                >
-                    <h3 className={"accordion-label " + props.labelClass}>{props.buttonLabel}</h3>
-                </Button>
-                {collapse}
-            </div>
-        );
-    }
 
     const GraphBox = () => {
         const width = 600;
@@ -138,10 +100,11 @@ const EncodeDecodeContainer = () => {
                             buttonLabel="GC Content Plot"
                             buttonClass="gc-content-plot-button"
                             renderWaitingScreen={true}
-                            key="graph-outbox"
-                            divKey="akey"
+                            key="graphOutbox"
+                            divKey="graphOutbox"
                             openDict={openDict}
                             setOpenDict={setOpenDict}
+                            loading={loading}
                         >
                             <div>
                                 <div
@@ -169,64 +132,6 @@ const EncodeDecodeContainer = () => {
                 </div>
             </div>
         );
-    }
-    const callCodecTyped = (e, buttonType, stringToDecode) => {
-        e.preventDefault();
-        console.log('this is string to decode' + stringToDecode);
-        setToDecode(stringToDecode);
-        if (buttonType === "encode") {
-            var url = "encode_string/json";
-        } else {
-            var url = "decode_string";
-            var cleanDNA = errorCheckDNA(stringToDecode);
-            if (!cleanDNA) {
-                return;
-            }
-        }
-        const options = {
-            method: "POST",
-            body: JSON.stringify({ "input": (buttonType === "encode" ? toEncode : cleanDNA) }),
-            headers: new Headers({
-                'content-type': 'application/json',
-                dataType: "json",
-            }),
-        };
-
-        if (location.pathname.includes('dev')) {
-            url = "/dev/" + url;
-        } else if (location.pathname.includes('master')) {
-            url = "/master/" + url;
-        }
-        fetch(url, options)
-            .then((data) => {
-                if (data.ok) {
-                    return data.json();
-                } else {
-                    alert('An error has occurred returning the data. Check console listOpendata log.');
-                    console.log("Error!");
-                    console.log(data);
-                }
-            })
-            .then((data) => {
-                if (buttonType === "encode") {
-                    var encoded = data['encoded'];
-                    setEncHistory((encodeHistory) => [[toEncode, encoded], ...encodeHistory]);
-                    setMode("encode");
-                    setPayloadTrits(data['payload_trits']);
-                    setGCContentPath(data['gc_content_fname']);
-                    setNucleotideContent(data['letter_dict']);
-                } else {
-                    var decoded = data['word'];
-                    setDecHistory((decodeHistory) => [[cleanDNA, decoded], ...decodeHistory]);
-                    setMode("decode");
-                    setSynthesisLength(data['synthesis_length']);
-                    setAddressLength(data['address_length']);
-                }
-            })
-            .catch((error) => {
-                alert('Catch: An error has occurred returning the data. Check console for data log.');
-                console.log(error);
-            });
     }
 
     const ResultBox = () => {
@@ -259,54 +164,150 @@ const EncodeDecodeContainer = () => {
             }
         }
     }
-    const codecGetFile = (input, buttonType, inputType) => {
+
+    const getUrl = (codecFunction, inputType) => {
+        if (location.pathname.includes('dev')) {
+            // return "/dev/" + "encode/" + inputType;
+            if (codecFunction == "get_fasta") {
+                return "/dev/" + codecFunction;
+            }
+            return "/dev/" + codecFunction + "/" + inputType;
+        } else if (location.pathname.includes('master')) {
+            if (codecFunction == "get_fasta") {
+                return "/master/" + codecFunction;
+            }
+            return "/master/" + codecFunction + "/" + inputType;
+        }
+    }
+    const getJsonOptions = (encode) => {
+        var input;
+        if (encode) {
+            input = toEncode;
+        } else {
+            input = errorCheckDNA(toDecode);
+            // need this for saving history
+            setToEncode(input);
+            if (!input) return null;
+        }
+        const options = {
+                method: "POST",
+                body: JSON.stringify({ "input": input}),
+                headers: new Headers({
+                    'content-type': 'application/json',
+                    dataType: "json",
+                }),
+        };
+        return options;
+    }
+    const getFileOptions = (formData) => {
+        return {
+                method: "POST",
+                body: formData,
+                mode: 'no-cors',
+            };
+    }
+
+    const codecDecode = (inputType) => {
+        var options;
+        if (inputType === "file") {
+            if (!fileToDecode) {
+                alert('Choose a file first!');
+                setLoading(false);
+                return;
+            } else if (uploadLoading2) {
+                alert('Waiting for your file to load!');
+                setLoading(false);
+                return;
+            }
+            var formData = new FormData();
+            formData.append("file", fileToDecode);
+            // // no headers or this doesn't work
+            options = getFileOptions(formData);
+        } else if (inputType === "json") {
+            options = getJsonOptions(true);
+            if (!options) return;
+        }
+        const url = getUrl("decode", inputType);
+        // var canFullDisplay;
+        
+        var fileName;
+        var date;
+        fetch(url, options)
+            .then((data) => {
+                if (data.ok) {
+                    for (var pair of data.headers.entries()) {
+                        switch (pair[0]) {
+                            case "payload_trits":
+                                setPayloadTrits(pair[1]);
+                                break;
+                            case "address_length":
+                                setAddressLength(pair[1]);
+                                break;
+                            case "synthesis_length":
+                                setSynthesisLength(pair[1]);
+                                break;
+                            // case "can_full_display":
+                            //     canFullDisplay = pair[1];
+                            //     break;
+                            case "base_file_name": 
+                                fileName = pair[1];
+                                break;
+                            case "date": 
+                            date = new Date(parseInt(pair[1]));
+                                break;
+                            // can't do dec_string because of \n
+                        }
+                    }
+                    return data.text();
+                } else {
+                    alert('An error has occurred returning the data. Check console for data log.');
+                    console.log("Error!");
+                    console.log(data);
+                }
+            })
+            .then((data) => {
+                // decode history:
+                // if decoded file is text file, display up to 1000 chars: data.slice(0, 1000)
+                // if an image, display it.
+                setDecHistory((decodeHistory) => [[inputType, inputType === "file" ? fileToDecode.name : toDecode, fileName, date], ...decodeHistory]);
+                setMode("decode");
+                setLoading(false);
+            })
+            .catch((error) => {
+                alert('Catch: An error has occurred returning the data. Check console for data log.');
+                console.log('heres the error!');
+                console.log(error);
+            });
+    }
+
+    // ENCODE FILES ONLY
+    const codecGetFile = (inputType) => {
         setLoading(true);
         var options;
-
         if (inputType === "file") {
             if (!fileToEncode) {
                 alert('Choose a file first!');
                 setLoading(false);
                 return;
+            } else if (uploadLoading) {
+                alert('Waiting for your file to load!');
+                setLoading(false);
+                return;
             }
-            // else {
-            //     var fileType = fileToEncode.type;
-            // }
             var formData = new FormData();
             formData.append("file", fileToEncode);
             // // no headers or this doesn't work
-            options = {
-                method: "POST",
-                body: formData,
-                mode: 'no-cors',
-            };
+            options = getFileOptions(formData);
         } else if (inputType === "json") {
-            setToEncode(input);
-            options = {
-                method: "POST",
-                body: JSON.stringify({ "input": (buttonType === "encode" ? input : cleanDNA) }),
-                headers: new Headers({
-                    'content-type': 'application/json',
-                    dataType: "json",
-                }),
-            };
+            options = getJsonOptions(true);
         }
-
-        if (buttonType === "encode") {
-            var url = "encode/" + inputType;
-        }
-
-        if (location.pathname.includes('dev')) {
-            url = "/dev/" + url;
-        } else if (location.pathname.includes('master')) {
-            url = "/master/" + url;
-        }
+        const url = getUrl("encode", inputType);
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
-                    // var encStringFound = false;
+                    var encoded;
+                    var canFullDisplay;
                     for (var pair of data.headers.entries()) {
-                        // console.log(pair[0] + ': ' + pair[1]);
                         switch (pair[0]) {
                             case "payload_trits":
                                 setPayloadTrits(pair[1]);
@@ -327,12 +328,14 @@ const EncodeDecodeContainer = () => {
                                 setGCContentPath(pair[1]);
                                 break;
                             case "enc_string":
-                                // encStringFound = true;
-                                var encoded = pair[1];
-                                setEncHistory((encodeHistory) => [[input, encoded], ...encodeHistory]);
+                                encoded = pair[1];
+                                break;
+                            case "can_full_display":
+                                canFullDisplay = pair[1];
                                 break;
                         }
                     }
+                    setEncHistory((encodeHistory) => [[toEncode, encoded, canFullDisplay], ...encodeHistory]);
                     return data.text();
                 } else {
                     alert('An error has occurred returning the data. Check console for data log.');
@@ -342,12 +345,7 @@ const EncodeDecodeContainer = () => {
             })
             .then((data) => {
                 setGCContent(data);
-                if (buttonType === "encode") {
-                    setMode("encode");
-                } else {
-                    setDecHistory((decodeHistory) => [[toDecode, decoded], ...decodeHistory]);
-                    setMode("decode");
-                }
+                setMode("encode");
                 setLoading(false);
             })
             .catch((error) => {
@@ -355,13 +353,18 @@ const EncodeDecodeContainer = () => {
                 console.log(error);
             });
     }
-    const callCodecHandler = (e, stringToEncode) => {
+    const callCodecHandler = (e, encode) => {
         e.preventDefault()
-        codecGetFile(stringToEncode, "encode", "json");
+        if (encode) {
+            codecGetFile("json");
+        } else {
+            codecDecode("json");
+        }
+        
     }
 
-    const readFile = (e) => {
-        console.log('started reaidng file...');
+    const readFileToEncode = (e) => {
+        console.log('started reading file...');
         e.preventDefault();
         let files = e.target.files;
         // const reader = new FileReader();
@@ -376,6 +379,15 @@ const EncodeDecodeContainer = () => {
         setFileToEncode(files[0]);
         console.log('finished reading file.');
         setUploadLoading(false);
+    }
+
+    const readFileToDecode = (e) => {
+        console.log('started reading file...');
+        e.preventDefault();
+        let files = e.target.files;
+        setFileToDecode(files[0]);
+        console.log('finished reading file.');
+        setUploadLoading2(false);
     }
 
 
@@ -399,14 +411,8 @@ const EncodeDecodeContainer = () => {
     }
     const getFasta = () => {
         // gets the most recently encoded file
-        var url = "";
         var fileName = "";
-        if (location.pathname.includes('dev')) {
-            url = "/dev/";
-        } else if (location.pathname.includes('master')) {
-            url = "/master/";
-        }
-        url = url + "get_fasta";
+        const url = getUrl("get_fasta", "");
         fetch(url, {
             method: 'GET',
         })
@@ -420,8 +426,7 @@ const EncodeDecodeContainer = () => {
                     }
                 }
                 return response.blob()
-            }
-            )
+            })
             .then(blob => {
                 var url = window.URL.createObjectURL(blob);
                 var a = document.createElement('a');
@@ -434,6 +439,26 @@ const EncodeDecodeContainer = () => {
     }
 
     console.log('rerender...');
+    console.log(openDict);
+    var inputChild = (
+        <FileInputWrapper
+            codecGetFile={codecGetFile}
+            fileToProcess={fileToEncode}
+            uploadLoading={uploadLoading}
+            readFile={readFileToEncode}
+            setUploadLoading={setUploadLoading}
+            buttonName={"Encode File"}
+        />);
+    var inputChild2 = (
+        <FileInputWrapper
+            codecGetFile={codecDecode}
+            fileToProcess={fileToDecode}
+            uploadLoading={uploadLoading2}
+            readFile={readFileToDecode}
+            setUploadLoading={setUploadLoading2}
+            buttonName={"Decode File"}
+        />);
+
     return (
         <div>
             <div className="body-4">
@@ -451,40 +476,66 @@ const EncodeDecodeContainer = () => {
                                 <div className="accordion-wrapper">
                                     <div className="w-form">
                                         <TextInputBox openDict={openDict} setToEncode={setToEncode} setEditing={setEditing} setOpenDict={setOpenDict} callCodecHandler={callCodecHandler} toEncode={toEncode} encodeInput={encodeInput} />
-                                        <DecodeInputBox openDict={openDict} setToDecode={setToDecode} setEditing={setEditing} callCodecTyped={callCodecTyped} setOpenDict={setOpenDict} toDecode={toDecode}
+                                        <DecodeInputBox openDict={openDict} setToDecode={setToDecode} setEditing={setEditing} callCodecHandler={callCodecHandler} setOpenDict={setOpenDict} toDecode={toDecode}
                                             decodeInput={decodeInput} />
-                                        <div className="accordion-closed-item input-file-upload-block">
+                                        <ExpandableBox
+                                            labelClass="input-file-upload-block-label"
+                                            buttonLabel="Upload Encode file"
+                                            buttonClass="input-file-upload-block-button"
+                                            renderWaitingScreen={false}
+                                            key="uploadEncodeBox"
+                                            divKey="uploadEncodeBox"
+                                            openDict={openDict}
+                                            setOpenDict={setOpenDict}
+                                            loading={loading}
+                                        >
+                                            {inputChild}
+                                        </ExpandableBox>
+                                        <ExpandableBox
+                                            labelClass="input-file-upload-block-label"
+                                            buttonLabel="Upload Decode file"
+                                            buttonClass="input-file-upload-block-button"
+                                            renderWaitingScreen={false}
+                                            key="uploadDecodeBox"
+                                            divKey="uploadDecodeBox"
+                                            openDict={openDict}
+                                            setOpenDict={setOpenDict}
+                                            loading={loading}
+                                        >
+                                            {inputChild2}
+                                        </ExpandableBox>
+                                        {/* <div className="accordion-closed-item input-file-upload-block">
                                             <ExpandableBox
                                                 labelClass="input-file-upload-block-label"
-                                                buttonLabel="Upload file"
+                                                buttonLabel="Upload Decode file"
                                                 buttonClass="input-file-upload-block-button"
                                                 renderWaitingScreen={false}
-                                                key="upload-box"
-                                                divKey="anotherkey"
+                                                key="uploadDecodeBox"
+                                                divKey="uploadDecodeBox"
                                                 openDict={openDict}
                                                 setOpenDict={setOpenDict}
+                                                loading={loading}
                                             >
                                                 <div className="accordion-item-content">
                                                     <FileInput
-                                                        key="alice"
                                                         fileToEncode={fileToEncode}
-                                                        readFile={readFile}
+                                                        readFile={readFileToEncode}
                                                         setUploadLoading={setUploadLoading}
                                                         toEncode={toEncode} />
                                                     <div className="text-block-6 payload-length-label">
-                                                        {/* {fileToEncode && !uploadLoading ? <p>{"File successfully uploaded: "}<br />{fileToEncode.name}</p> : "No file chosen"} */}
-                                                        {fileToEncode && !uploadLoading ? <p>{"File successfully uploaded: "}<br />{fileToEncode.name}</p> : uploadLoading? <img src={bunny}/>: "No file chosen"}
+                                                        {fileToEncode && !uploadLoading ? <p>{"File successfully uploaded: "}<br />{fileToEncode.name}</p> : "No file chosen"}
+                                                        {fileToEncode && !uploadLoading ? <p>{"File successfully uploaded: "}<br />{fileToEncode.name}</p> : uploadLoading ? <img src={bunny} /> : "No file chosen"}
                                                     </div>
                                                     <input
-                                                        onClick={() => codecGetFile(null, "encode", "file")}
+                                                        onClick={() => codecGetFile("file")}
                                                         type="submit"
                                                         name="submit_button_str"
-                                                        value="Encode File"
-                                                        className="submit-button w-button input-encode-submit-button"
+                                                        value="Decode File"
+                                                        className="submit-button w-button input-decode-submit-button"
                                                     />
                                                 </div>
                                             </ExpandableBox>
-                                        </div>
+                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -528,49 +579,96 @@ const EncodeDecodeContainer = () => {
     );
 }
 
-// const FileInput = () => {
-//         console.log('rerendering the file input');
-//         console.log(toEncode);
-//         const getContent = () => {
-//             var num = Math.random() * 100;
-//             var content = (
-//             <>
-//                 <input style={{ width: "120px" }} type="file"
-//                 onClick={() => { console.log('loading!'); console.log(fileToEncode); setUploadLoading(true); console.log('uploading?' + uploadLoading); }}
-//                 onChange={(e) => readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
-//                 <div>{num}</div>
-//             </>);
-//             return content;
-//         } 
-//         var content = useMemo(() => getContent(), [toEncode]);
-//         const getNum = () => {
-//             return Math.random() * 100;
-//         }
-//         var otherNum = useMemo(() => getNum(), [toEncode]);
-//         return (
-//             <>
-//                {content}
-//                <div>{otherNum}</div>
-//             </>
-//             );
-// }
-const areEqual = (prevProps, nextProps) => {
-    console.log(prevProps);
-    console.log(nextProps);
-    return true;
-};
+
+const FileInput = React.memo((props) => {
+    console.log('rerendering the file input');
+    const wrapperRef = useRef(null);
+    useChangeAlerter(wrapperRef, props.setUploadLoading, props.readFile);
+    return (
+        <>
+            <input
+                ref={wrapperRef}
+                style={{ width: "120px" }} type="file"
+                className="submit-button w-button input-file-upload-submit-button" />
+            {/* <div>{Math.random() * 100}</div> */}
+        </>
+    );
+});
+
+
+const FileInputWrapper = React.memo((props) => {
+    const fileinput = <FileInput
+        readFile={props.readFile}
+        setUploadLoading={props.setUploadLoading}
+    />;
+    return (
+        <div className="accordion-item-content">
+            {fileinput}
+            <div className="text-block-6 payload-length-label">
+                {props.fileToProcess && !props.uploadLoading ? <p>{"File successfully uploaded: "}<br />{props.fileToProcess.name}</p> : props.uploadLoading ? <img src={bunny} /> : "No file chosen"}
+            </div>
+            <input
+                onClick={() => props.codecGetFile("file")}
+                type="submit"
+                name="submit_button_str"
+                value={props.buttonName}
+                className="submit-button w-button input-encode-submit-button"
+            />
+
+        </div>);
+});
+
+
+const ExpandableBox = (props) => {
+    var collapse;
+    var open = props.openDict[props.divKey];
+    if (props.renderWaitingScreen && props.loading) {
+        collapse = (
+            <Collapse in={open}>
+                <img src={bunny} width="600px" height="450px" />
+            </Collapse>);
+
+    } else {
+        collapse = (
+            <Collapse in={open}>
+                <div>
+                    {/* {open ? <h3>open!!!</h3> : <h3>closed!!!</h3>} */}
+                    {props.children}
+                </div>
+            </Collapse>);
+    }
+    return (
+        <div key={props.divKey}>
+            <Button
+                onClick={() => props.setOpenDict({ ...props.openDict, [props.divKey]: !open })}
+                aria-controls="example-collapse-text"
+                aria-expanded={open}
+                variant="customized-accordion-closed"
+                className={"accordion-closed-item-trigger " + props.buttonClass}
+            >
+                <h3 className={"accordion-label " + props.labelClass}>{props.buttonLabel}</h3>
+            </Button>
+            {collapse}
+        </div>
+    );
+}
 
 const useChangeAlerter = (ref, setUploadLoading, readFile) => {
     useEffect(() => {
         /**
-         * Alert if clicked on outside of element
+         * Necessary because onChange actions happen after the file
+         * gets uploaded, so the loading screen won't be shown.
+         * Instead, 
          */
         function handleClickOutside(e) {
-            alert("Button has been clicked!!");
+            // e.preventDefault();
+            console.log("Button has been clicked!!");
             setUploadLoading(true);
+            // div.removeEventListener("click", handleClickOutside);
+            // div.click();
         }
-        function handleChange (e) {
-            alert("Value changed!!");
+        function handleChange(e) {
+            console.log("Value changed!!");
             readFile(e);
         }
         const div = ref.current;
@@ -582,41 +680,15 @@ const useChangeAlerter = (ref, setUploadLoading, readFile) => {
         // (i.e. when the dropdown is closed)
         return () => {
             // Unbind the event listener on clean up
+            console.log('cleaning up!!');
+            console.log(div.value);
             div.removeEventListener("click", handleClickOutside);
+            div.removeEventListener("change", handleChange);
         };
     }, [ref]);
 }
 
 
-const FileInput = React.memo((props) => {
-    console.log('rerendering the file input');
-    // const getContent = () => {
-    //     var num = Math.random() * 100;
-    //     var content = (
-    //         <>
-    //             <input
-    //                 key="please dont rerender"
-    //                 style={{ width: "120px" }} type="file"
-    //                 // onClick={(e) => {props.setUploadLoading(true);}}
-    //                 onChange={(e) => props.readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
-    //             <div>{num}</div>
-    //         </>);
-    //     return content;
-    // }
-    const wrapperRef = useRef(null);
-    useChangeAlerter(wrapperRef, props.setUploadLoading, props.readFile);
-
-    return (
-        <>
-            <input
-                ref={wrapperRef}
-                style={{ width: "120px" }} type="file"
-                // onClick={(e) => {props.setUploadLoading(true);}}
-                onChange={(e) => props.readFile(e)} className="submit-button w-button input-file-upload-submit-button" />
-            <div>{ Math.random() * 100}</div>
-        </>
-    );
-}, areEqual);
 
 const OutputElements = (props) => {
     const outputElements = [];
