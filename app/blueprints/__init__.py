@@ -21,7 +21,7 @@ def get_file_names(time_started, name="", extension="plain", encode=True, string
         out_path = fname + '_encoded.fa'
     else:
         in_path = fname + '_toencode.' + extension
-        out_path = fname + '_decoded'
+        out_path = fname + '_decoded.txt'
     return [fname, from_root + in_path, from_root + out_path, from_c_folder + in_path, from_c_folder + out_path]
 
 
@@ -320,10 +320,12 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                     mimetype="text/plain"),
                 200
             )
+            can_display_full = os.path.getsize(file_paths[2]) > 5000
             response.headers['letter_dict'] = letter_dict
             response.headers['payload_trits'] = payload_trits
             response.headers['address_length'] = address_length
             response.headers['can_full_display'] = True
+            response.headers['enc_string'] = enc_string
             response.headers['date'] = int(
                 time.mktime(time_started.timetuple())) * 1000
             response.headers['base_file_name'] = file_paths[0]
@@ -335,26 +337,28 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             abort(404)
         return
 
-    def get_extension(file_name):
+    def get_extension(input_file_name, out_file_name):
         extension = ""
         # for encoding in session["actions"]["encode"]:
         #     if encoding[2] + "_encoded.fa" == file_name:
         #         return encoding[1].split(".")[-1]
         # no previous encoding found, use LINUX file utility
+    
         process = subprocess.Popen(
-            ["file", "-b", os.path.join("app", "codec_files", file_name)],
+            ["file", "--mime-type", "-b", out_file_name],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
         out, err = process.communicate() 
         try:
             print(out, err)
-            file_type = out.decode("utf-8").split()[0]
-            if file_type in ["ASCII", "UTF-8", "UTF-16", "UTF-32"]:
+            mime_type = out.decode("utf-8").strip()
+            file_type, extension = mime_type.split('/')
+            if extension == "plain":
                 # .fa also counts as ASCII...
-                return 'txt'
+                return 'txt', mime_type
             else:
-                return file_type
+                return extension, mime_type
         except:
             print("Couldn't get extension")
             return 'txt'
@@ -394,35 +398,32 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             return jsonify(status="error")
 
         # Find out the output type of the decoded
-        extension = get_extension(input_word)
+        # input_type == json, assume it is .txt
+        if input_type == "file":
+            extension, mime_type = get_extension(input_word, out_path)
+            new_file = out_path.replace('.txt', '.' + extension)
+            os.rename(out_path, new_file)
+            out_path = new_file
 
-        decoded_str = ""
-        try:
-            with open(out_path, 'r') as f:
-                decoded_list = f.readlines()
-                decoded_str = ''.join(decoded_list)
-        except:
-            current_app.logger.error(
-                f"DECODING typed {in_path} {out_path} --- File not found error")
-            return jsonify(status="error", word="", letter_dict={}), 404
         current_app.logger.info(
             f"DECODING typed {in_path} {out_path} --- All good!")
 
         response = make_response(
             send_from_directory(
                 current_app.config['ENCODED_FILE_LOC'],
-                filename=file_paths[2].replace('app/codec_files/', ''),
-                as_attachment=True,
-                mimetype="text/plain"),
+                filename=out_path.replace('app/codec_files/', ''),
+                as_attachment=True),
             200,
         )
+        can_display_full = os.path.getsize(out_path) > 5000
         response.headers['synthesis_length'] = synthesis_length
         response.headers['address_length'] = address_length
-        # can't have \n in header
-        # response.headers['decoded_str'] = decoded_str
+        response.headers['mimetype'] = mime_type
+        # can't have \n in header so can't include decoded_str 
         time_in_seconds = int(time.mktime(time_started.timetuple())) * 1000
         response.headers['date'] = time_in_seconds
         response.headers['base_file_name'] = file_paths[0]
+        response.headers['can_display_full'] = can_display_full
         save_session(False, input_type, input_word,
                      file_paths[0], time_in_seconds)
         return response

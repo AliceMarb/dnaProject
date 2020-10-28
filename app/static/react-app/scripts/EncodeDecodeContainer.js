@@ -13,6 +13,7 @@ import { TextInputBox, DecodeInputBox } from './InputBlock.js';
 import OutputBox from './OutputBox';
 import OutputElement from './OutputElement';
 import GCGraph from './GCGraph';
+import { curveBasis } from 'd3';
 
 const EncodeDecodeContainer = () => {
 
@@ -34,9 +35,7 @@ const EncodeDecodeContainer = () => {
 
     const [uploadLoading, setUploadLoading] = useState(false);
     const [uploadLoading2, setUploadLoading2] = useState(false);
-    // const [decodeOpen, setDecodeOpen] = useState(false);
-    // const [textStringOpen, setTextStringOpen] = useState(false);
-    // const [expandableOpen, setExpandableOpen] = useState(true);
+
     const startOpenDict = {
         decodeOpen: true, textStringOpen: true,
         outputOpen1: false,
@@ -64,6 +63,8 @@ const EncodeDecodeContainer = () => {
             outputOpen4: "Nucleotide Content Plot"
         }
     );
+    const [decodeFileType, setDecodeFileType] = useState("text/plain");
+    const [decodeDisplayInfo, setDecodeDisplayInfo] = useState("");
     // const [sendFileType, setSendFileType] = useState("json");
     // acts like a class member, e.g. props or state, but without
     // a class. So it is retained between renders.
@@ -134,19 +135,6 @@ const EncodeDecodeContainer = () => {
         );
     }
 
-    const ResultBox = () => {
-        if (mode === "decode") {
-            return (
-                <>
-                    <div className="label dna-seq-output-block-label">DNA Sequence</div>
-                    <textarea value={loading ? "Loading results!" : (mode === "encode" ? encodeHistory[0][1] : (mode === "decode" ? decodeHistory[0][1] : ""))} readOnly
-                        disabled="disabled" placeholder={loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input" />
-                </>);
-
-        }
-        return (<></>);
-    }
-
     const putOutputInInput = (e) => {
         if (mode === "encode") {
             if (encodeHistory.length == 0) {
@@ -190,21 +178,21 @@ const EncodeDecodeContainer = () => {
             if (!input) return null;
         }
         const options = {
-                method: "POST",
-                body: JSON.stringify({ "input": input}),
-                headers: new Headers({
-                    'content-type': 'application/json',
-                    dataType: "json",
-                }),
+            method: "POST",
+            body: JSON.stringify({ "input": input }),
+            headers: new Headers({
+                'content-type': 'application/json',
+                dataType: "json",
+            }),
         };
         return options;
     }
     const getFileOptions = (formData) => {
         return {
-                method: "POST",
-                body: formData,
-                mode: 'no-cors',
-            };
+            method: "POST",
+            body: formData,
+            mode: 'no-cors',
+        };
     }
 
     const codecDecode = (inputType) => {
@@ -229,9 +217,11 @@ const EncodeDecodeContainer = () => {
         }
         const url = getUrl("decode", inputType);
         // var canFullDisplay;
-        
+
         var fileName;
         var date;
+        var fileType;
+        var canFullDisplay;
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
@@ -246,19 +236,22 @@ const EncodeDecodeContainer = () => {
                             case "synthesis_length":
                                 setSynthesisLength(pair[1]);
                                 break;
-                            // case "can_full_display":
-                            //     canFullDisplay = pair[1];
-                            //     break;
-                            case "base_file_name": 
+                            case "can_display_full":
+                                canFullDisplay = pair[1];
+                                break;
+                            case "base_file_name":
                                 fileName = pair[1];
                                 break;
-                            case "date": 
-                            date = new Date(parseInt(pair[1]));
+                            case "date":
+                                date = new Date(parseInt(pair[1]));
                                 break;
+                            case "content-type":
+                                fileType = pair[1];
+                                setDecodeFileType(fileType);
                             // can't do dec_string because of \n
                         }
                     }
-                    return data.text();
+                    return data.blob()
                 } else {
                     alert('An error has occurred returning the data. Check console for data log.');
                     console.log("Error!");
@@ -269,9 +262,45 @@ const EncodeDecodeContainer = () => {
                 // decode history:
                 // if decoded file is text file, display up to 1000 chars: data.slice(0, 1000)
                 // if an image, display it.
-                setDecHistory((decodeHistory) => [[inputType, inputType === "file" ? fileToDecode.name : toDecode, fileName, date], ...decodeHistory]);
-                setMode("decode");
-                setLoading(false);
+                var preview = "";
+                var url = URL.createObjectURL(data);
+                setDecodeDisplayInfo(url);
+                if (fileType.includes("text")) {
+                    const reader = new FileReader();
+                    reader.onload = async (event) => {
+                        const text = (event.target.result);
+                        console.log(text.slice(0, 5000));
+                        // max file size = 5000, so cut off at 5000 chars.
+                        preview = text.slice(0, 5000);
+                        setDecHistory((decodeHistory) =>
+                            [[inputType,
+                                inputType === "file" ? fileToDecode.name : toDecode,
+                                fileName, 
+                                date,
+                                fileType,
+                                preview,
+                                canFullDisplay
+                            ],
+                            ...decodeHistory]);
+                        setMode("decode");
+                        setLoading(false);
+                    };
+                    reader.readAsText(data);
+                } else {
+                    setDecHistory((decodeHistory) =>
+                        [[inputType,
+                            inputType === "file" ? fileToDecode.name : toDecode,
+                            fileName, date,
+                            fileType,
+                            preview,
+                            true
+                        ],
+                        ...decodeHistory]);
+                    setMode("decode");
+                    setLoading(false);
+                }
+
+
             })
             .catch((error) => {
                 alert('Catch: An error has occurred returning the data. Check console for data log.');
@@ -302,11 +331,13 @@ const EncodeDecodeContainer = () => {
             options = getJsonOptions(true);
         }
         const url = getUrl("encode", inputType);
+        var fileName;
+        var date;
+        var canFullDisplay;
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
                     var encoded;
-                    var canFullDisplay;
                     for (var pair of data.headers.entries()) {
                         switch (pair[0]) {
                             case "payload_trits":
@@ -330,12 +361,26 @@ const EncodeDecodeContainer = () => {
                             case "enc_string":
                                 encoded = pair[1];
                                 break;
-                            case "can_full_display":
+                            case "date":
+                                date = new Date(parseInt(pair[1]));
+                                break;
+                            case "base_file_name":
+                                fileName = pair[1];
+                                break;
+                            case "can_display_full":
                                 canFullDisplay = pair[1];
                                 break;
                         }
                     }
-                    setEncHistory((encodeHistory) => [[toEncode, encoded, canFullDisplay], ...encodeHistory]);
+                    var preview = encoded.slice(0, 5000);
+                    setEncHistory((encodeHistory) => [
+                        [inputType,
+                            inputType === "file" ? fileToEncode.name : toEncode,
+                            fileName,
+                            date,
+                            preview,
+                            canFullDisplay], ...encodeHistory]
+                    );
                     return data.text();
                 } else {
                     alert('An error has occurred returning the data. Check console for data log.');
@@ -360,22 +405,13 @@ const EncodeDecodeContainer = () => {
         } else {
             codecDecode("json");
         }
-        
+
     }
 
     const readFileToEncode = (e) => {
         console.log('started reading file...');
         e.preventDefault();
         let files = e.target.files;
-        // const reader = new FileReader();
-        // would use if we want to read the file before
-        // encoding for some reason
-        // reader.onload = async (event) => {
-        //     const text = (event.target.result);
-        //     setFileToEncode(files[0]);
-        //     console.log(fileToEncode);
-        // };
-        // reader.readAsText(files[0]);
         setFileToEncode(files[0]);
         console.log('finished reading file.');
         setUploadLoading(false);
@@ -390,25 +426,6 @@ const EncodeDecodeContainer = () => {
         setUploadLoading2(false);
     }
 
-
-    const DecodeDisplay = () => {
-        if (mode === "decode") {
-            return (
-                <div>
-                    <OutputBox payloadTrits={payloadTrits}
-                        synthesisLength={synthesisLength}
-                        addressLength={addressLength}
-                        mode={mode}
-                        nucleotideContent={nucleotideContent}
-                    />
-                </div>
-
-            );
-        } else {
-            return <></>;
-        }
-
-    }
     const getFasta = () => {
         // gets the most recently encoded file
         var fileName = "";
@@ -504,38 +521,6 @@ const EncodeDecodeContainer = () => {
                                         >
                                             {inputChild2}
                                         </ExpandableBox>
-                                        {/* <div className="accordion-closed-item input-file-upload-block">
-                                            <ExpandableBox
-                                                labelClass="input-file-upload-block-label"
-                                                buttonLabel="Upload Decode file"
-                                                buttonClass="input-file-upload-block-button"
-                                                renderWaitingScreen={false}
-                                                key="uploadDecodeBox"
-                                                divKey="uploadDecodeBox"
-                                                openDict={openDict}
-                                                setOpenDict={setOpenDict}
-                                                loading={loading}
-                                            >
-                                                <div className="accordion-item-content">
-                                                    <FileInput
-                                                        fileToEncode={fileToEncode}
-                                                        readFile={readFileToEncode}
-                                                        setUploadLoading={setUploadLoading}
-                                                        toEncode={toEncode} />
-                                                    <div className="text-block-6 payload-length-label">
-                                                        {fileToEncode && !uploadLoading ? <p>{"File successfully uploaded: "}<br />{fileToEncode.name}</p> : "No file chosen"}
-                                                        {fileToEncode && !uploadLoading ? <p>{"File successfully uploaded: "}<br />{fileToEncode.name}</p> : uploadLoading ? <img src={bunny} /> : "No file chosen"}
-                                                    </div>
-                                                    <input
-                                                        onClick={() => codecGetFile("file")}
-                                                        type="submit"
-                                                        name="submit_button_str"
-                                                        value="Decode File"
-                                                        className="submit-button w-button input-decode-submit-button"
-                                                    />
-                                                </div>
-                                            </ExpandableBox>
-                                        </div> */}
                                     </div>
                                 </div>
                             </div>
@@ -547,28 +532,31 @@ const EncodeDecodeContainer = () => {
                                     <div className="form-2">
                                         <div className="w-row">
                                             <div className="w-col w-col-4">
-                                                <DecodeDisplay />
+                                                {mode === "decode" && <DecodeDisplay decodeFileType={decodeFileType}
+                                                    decodeDisplayInfo={decodeDisplayInfo}
+                                                    decodeHistory={decodeHistory}
+                                                    loading={loading} />}
                                             </div>
                                             <div className="w-col w-col-8">
                                                 <div className="output-sub-block dna-seq-output-block">
-                                                    <ResultBox />
                                                     {mode === "decode" ? <button onClick={putOutputInInput} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button> : null}
                                                 </div>
 
                                             </div>
                                         </div>
                                     </div>
-                                    <OutputElements openDict={openDict} setOpenDict={setOpenDict} analytics={analytics} setAnalytics={setAnalytics} plots={plots} setPlots={setPlots} addressLength={addressLength}
-                                        synthesisLength={synthesisLength}
-                                        payloadTrits={payloadTrits}
-                                        mode={mode}
-                                        loading={loading}
-                                        encodeHistory={encodeHistory}
-                                        nucleotideContent={nucleotideContent}
-                                        gcContent={gcContent} gcContentPath={gcContentPath} width={500} height={500}
-                                        putOutputInInput={putOutputInInput} getFasta={getFasta}
-                                    />
-                                    {/* <GraphBox key="graphbox" /> */}
+                                    {mode === "encode" &&
+                                        <OutputElements openDict={openDict} setOpenDict={setOpenDict} analytics={analytics} setAnalytics={setAnalytics} plots={plots} setPlots={setPlots} addressLength={addressLength}
+                                            synthesisLength={synthesisLength}
+                                            payloadTrits={payloadTrits}
+                                            mode={mode}
+                                            loading={loading}
+                                            encodeHistory={encodeHistory}
+                                            nucleotideContent={nucleotideContent}
+                                            gcContent={gcContent} gcContentPath={gcContentPath} width={500} height={500}
+                                            putOutputInInput={putOutputInInput} getFasta={getFasta}
+                                        />
+                                    }
                                 </div>
                             </div>
                         </div>
@@ -579,6 +567,39 @@ const EncodeDecodeContainer = () => {
     );
 }
 
+const DecodeDisplay = React.memo((props) => {
+    var image = null;
+    var textbox = null;
+    var extension;
+    if (props.decodeFileType.includes("image")) {
+        image = <img src={props.decodeDisplayInfo} />
+        extension = props.decodeFileType.split("/")[1]
+    } else if (props.decodeFileType.includes("text")) {
+        extension = "txt";
+        console.log("here's decoded value " + props.decodeHistory[0][5]);
+        textbox = (<>
+            <div className="label dna-seq-output-block-label">DNA Sequence</div>
+            <textarea value={props.loading ? "Loading results!" : props.decodeHistory[0][5]} readOnly
+                disabled="disabled" placeholder={props.loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input" />
+        </>);
+    }
+    var downloadButton = (
+        <a
+            href={props.decodeDisplayInfo}
+            download={props.decodeHistory[0][2] + "." + extension}
+            className="submit-button w-button">Download Output</a>
+    );
+    return (
+        <div>
+            {image}
+            {textbox}
+            <div>{props.decodeHistory[0][6]? "": "Couldn't display full file."}</div>
+            {downloadButton}
+        </div>
+
+    );
+
+});
 
 const FileInput = React.memo((props) => {
     console.log('rerendering the file input');

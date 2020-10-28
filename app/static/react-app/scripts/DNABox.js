@@ -16,7 +16,7 @@ const DNABox = (props) => {
     return (
         <>
         <textarea
-            value={props.loading ? "Loading results!" : props.encodeHistory[0][1]}
+            value={props.loading ? "Loading results!" : props.encodeHistory[0][4] + (props.encodeHistory[0][5] ? "": "...")}
             readOnly
             disabled="disabled"
             placeholder={props.loading ? "Loading results!" : "DNA Sequence Output"}
