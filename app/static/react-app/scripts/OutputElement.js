@@ -11,6 +11,7 @@ import NucleotideGraph from './NucleotideGraph';
 // import enhanceWithClickOutside from 'react-click-outside';
 import OutsideAlerter from './OutsideAlerter';
 import bunny from '../public/images/bunny.gif';
+import TransitionsTable from './TransitionsTable';
 
 const OutputElement = (props) => {
     const listOpen = props.openDict[props.openName];
@@ -24,7 +25,7 @@ const OutputElement = (props) => {
     ]
     // console.log(props.openName, thisAnalytics, plot);
     // console.log('outputelt mode' + props.mode);
-    const analyticsOptions = ["Basic Data", "DNA Sequence"];
+    const analyticsOptions = ["Basic Data", "DNA Sequence", "Transitions Table"];
     const plotOptions = ["GC Content Plot", "Nucleotide Content Plot"]
     const [checked, setChecked] = useState(
         switches.reduce((map, obj) => (map[obj.name] = false, map), {}));
@@ -52,39 +53,29 @@ const OutputElement = (props) => {
     const otherNum = Math.random() * 100;
 
     const getAnalyticsContent = () => {
+        var output;
         if (thisAnalytics === "Basic Data") {
             // analytics chosen
             // var num = Math.random() * 100;
             // const renderOutput = () => {
-            return (<>
+            output = (
                 <OutputBox
                     addressLength={props.addressLength}
                     synthesisLength={props.synthesisLength}
                     payloadTrits={props.payloadTrits}
                     mode={props.mode}
-                    nucleotideContent={props.nucleotideContent}
-                />
-                {/* <div>{num}</div> */}
-            </>);
-            // };
-            // var basicData = useMemo(() => renderOutput(), [thisAnalytics, props.mode]);
-            // return (
-            // {basicData}
-            // );
+                    nucleotideContent={props.nucleotideContent}/>);
         } else if (thisAnalytics === "DNA Sequence") {
-            return (
-                <>
-                    <DNABox
+            output = (<DNABox
                         loading={props.loading}
                         encodeHistory={props.encodeHistory}
                         putOutputInInput={props.putOutputInInput}
                         getFasta={props.getFasta}
-                    />
-                    {/* <div>{num}</div> */}
-                </>
-
-            );
+                    />);
+        } else if (thisAnalytics === "Transitions Table") {
+            output = (<TransitionsTable transitions={props.transitions}/>);
         }
+        return (<>{output}</>);
     }
     const getPlotContent = () => {
         // var num = Math.random() * 100;
@@ -201,5 +192,4 @@ const OutputElement = (props) => {
     );
 }
 
-// export default enhanceWithClickOutside(OutputElement);
 export default OutputElement;

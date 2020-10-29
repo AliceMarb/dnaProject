@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
 @import url('https://fonts.googleapis.com/css?family=Karla:regular,bold,italic&subset=latin,latin-ext');
 
+td{
+  padding-right: 8px;
+}
+th {
+  padding-right: 8px;
+}
 .dd-wrapper {
   flex: 1;
 }

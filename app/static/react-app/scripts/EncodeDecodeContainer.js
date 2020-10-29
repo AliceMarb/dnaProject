@@ -28,6 +28,7 @@ const EncodeDecodeContainer = () => {
     const [encodeHistory, setEncHistory] = useState([]);
     const [decodeHistory, setDecHistory] = useState([]);
     const [nucleotideContent, setNucleotideContent] = useState({});
+    const [transitions, setTransitions] = useState({});
     const [loading, setLoading] = useState(false);
     const [editingRef, setEditing] = useState(null);
     const [fileToEncode, setFileToEncode] = useState(null);
@@ -140,14 +141,22 @@ const EncodeDecodeContainer = () => {
             if (encodeHistory.length == 0) {
                 alert('Please encode something first');
             } else {
-                setToDecode(encodeHistory[0][1]);
+                if (!encodeHistory[0][5]){
+                    alert("Full sequences too long, sorry!");
+                    return;
+                } 
+                setToDecode(encodeHistory[0][4]);
                 setOpenDict({ ...openDict, "decodeOpen": true });
             }
         } else {
             if (decodeHistory.length == 0) {
                 alert('Please encode something first');
             } else {
-                setToEncode(decodeHistory[0][1]);
+                if (!decodeHistory[0][6]) {
+                    alert("Full sequences too long, sorry!");
+                    return;
+                } 
+                setToEncode(decodeHistory[0][5]);
                 setOpenDict({ ...openDict, "textStringOpen": true });
             }
         }
@@ -196,6 +205,7 @@ const EncodeDecodeContainer = () => {
     }
 
     const codecDecode = (inputType) => {
+        setLoading(true);
         var options;
         if (inputType === "file") {
             if (!fileToDecode) {
@@ -222,6 +232,7 @@ const EncodeDecodeContainer = () => {
         var date;
         var fileType;
         var canFullDisplay;
+        setMode("decode");
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
@@ -237,7 +248,7 @@ const EncodeDecodeContainer = () => {
                                 setSynthesisLength(pair[1]);
                                 break;
                             case "can_display_full":
-                                canFullDisplay = pair[1];
+                                canFullDisplay = pair[1] === "True";
                                 break;
                             case "base_file_name":
                                 fileName = pair[1];
@@ -275,7 +286,7 @@ const EncodeDecodeContainer = () => {
                         setDecHistory((decodeHistory) =>
                             [[inputType,
                                 inputType === "file" ? fileToDecode.name : toDecode,
-                                fileName, 
+                                fileName,
                                 date,
                                 fileType,
                                 preview,
@@ -348,6 +359,11 @@ const EncodeDecodeContainer = () => {
                                     JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'))
                                 );
                                 break;
+                            case "transitions":
+                                setTransitions(
+                                    JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'))
+                                );
+                                break;
                             case "address_length":
                                 setAddressLength(pair[1]);
                                 break;
@@ -368,7 +384,7 @@ const EncodeDecodeContainer = () => {
                                 fileName = pair[1];
                                 break;
                             case "can_display_full":
-                                canFullDisplay = pair[1];
+                                canFullDisplay = pair[1] === "True";
                                 break;
                         }
                     }
@@ -456,7 +472,6 @@ const EncodeDecodeContainer = () => {
     }
 
     console.log('rerender...');
-    console.log(openDict);
     var inputChild = (
         <FileInputWrapper
             codecGetFile={codecGetFile}
@@ -555,6 +570,7 @@ const EncodeDecodeContainer = () => {
                                             nucleotideContent={nucleotideContent}
                                             gcContent={gcContent} gcContentPath={gcContentPath} width={500} height={500}
                                             putOutputInInput={putOutputInInput} getFasta={getFasta}
+                                            transitions={transitions}
                                         />
                                     }
                                 </div>
@@ -571,12 +587,15 @@ const DecodeDisplay = React.memo((props) => {
     var image = null;
     var textbox = null;
     var extension;
+    if (props.loading) {
+        return  <img src={bunny} />;
+    }
     if (props.decodeFileType.includes("image")) {
         image = <img src={props.decodeDisplayInfo} />
         extension = props.decodeFileType.split("/")[1]
     } else if (props.decodeFileType.includes("text")) {
         extension = "txt";
-        console.log("here's decoded value " + props.decodeHistory[0][5]);
+        // console.log("here's decoded value " + props.decodeHistory[0][5]);
         textbox = (<>
             <div className="label dna-seq-output-block-label">DNA Sequence</div>
             <textarea value={props.loading ? "Loading results!" : props.decodeHistory[0][5]} readOnly
@@ -593,7 +612,7 @@ const DecodeDisplay = React.memo((props) => {
         <div>
             {image}
             {textbox}
-            <div>{props.decodeHistory[0][6]? "": "Couldn't display full file."}</div>
+            <div>{props.decodeHistory[0][6] ? "" : "Couldn't display full file."}</div>
             {downloadButton}
         </div>
 
@@ -606,18 +625,19 @@ const FileInput = React.memo((props) => {
     const wrapperRef = useRef(null);
     useChangeAlerter(wrapperRef, props.setUploadLoading, props.readFile);
     return (
-        <>
-            <input
-                ref={wrapperRef}
-                style={{ width: "120px" }} type="file"
-                className="submit-button w-button input-file-upload-submit-button" />
-            {/* <div>{Math.random() * 100}</div> */}
-        </>
+        <input
+            ref={wrapperRef}
+            style={{ width: "120px" }} type="file"
+            className="submit-button w-button input-file-upload-submit-button" />
     );
 });
 
-
+const areEqual = (prevProps, nextProps) => {
+    return prevProps.fileToProcess == nextProps.fileToProcess && prevProps.uploadLoading == nextProps.uploadLoading;
+}
 const FileInputWrapper = React.memo((props) => {
+    console.log('here are the props');
+    console.log(props);
     const fileinput = <FileInput
         readFile={props.readFile}
         setUploadLoading={props.setUploadLoading}
@@ -635,9 +655,8 @@ const FileInputWrapper = React.memo((props) => {
                 value={props.buttonName}
                 className="submit-button w-button input-encode-submit-button"
             />
-
         </div>);
-});
+}, areEqual);
 
 
 const ExpandableBox = (props) => {
@@ -731,6 +750,7 @@ const OutputElements = (props) => {
                 putOutputInInput={props.putOutputInInput}
                 getFasta={props.getFasta}
                 gcContent={props.gcContent} gcContentPath={props.gcContentPath} inputWidth={props.width} inputHeight={props.height}
+                transitions={props.transitions}
             />
         );
     }

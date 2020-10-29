@@ -102,17 +102,23 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         out, err = process.communicate()
         return process, out, err, root_in_path, root_out_path
 
+
+    '''
+    1-indexed 
+     cat {} |  grep g | awk '{for (i = 2; i < length($0); i++) {arr[substr($0, i, 2)]+=1;}} END{for (variable in arr) {print variable " " arr[variable]}}'
+    '''
     def get_encoding_info(in_path, out_path, fname):
         start = time.time()
         enc_string = ""
         letters = [0] * 4
+        transitions = {}
         gc_content_fname = "gc_content_" + fname + '.txt'
         gc_content_path = "app/codec_files/" + gc_content_fname
         if os.path.isfile(out_path):
             # very slow to go line by line. Instead use awk (works on AWS Ubuntu)
             """
             To get total count of As, Gs, Cs and Ts:
-            cat {file} | grep g | awk 'BEGIN{a=0; c=0; g=0; t=0;} {a=gsub("A",""); c=gsub("C",""); g=gsub("G",""); t=gsub("T","");} END{print a,c,g,t}'
+            cat {file} | grep g | awk 'BEGIN{a=0; c=0; g=0; t=0;} {a=gsub("A",""); c=gsub("C",""); g=gsub("G",""); t=gsub("T","");} END{print a,g,c,t}'
             To get fraction of GC content per line:
             cat {file} | grep g | awk '{a=gsub("A",""); c=gsub("C",""); g=gsub("G",""); t=gsub("T",""); printf "%0.2f\\n", (g+c)/(a+g+c+t)}'
             """
@@ -121,11 +127,15 @@ def construct_blueprint(codec_location="./master/Codec/c"):
 
             count_letters_command = [
                 "awk",
-                'BEGIN{a=0; c=0; g=0; t=0;} {a+=gsub("A",""); c+=gsub("C",""); g+=gsub("G",""); t+=gsub("T","");} END{print a,c,g,t}'
+                'BEGIN{a=0; c=0; g=0; t=0;} {a+=gsub("A",""); c+=gsub("C",""); g+=gsub("G",""); t+=gsub("T","");} END{print a,g,c,t}'
             ]
             get_gc_command = [
                 "awk",
                 '{a=gsub("A",""); c=gsub("C",""); g=gsub("G",""); t=gsub("T",""); printf "%0.2f\\n", (g+c)/(a+g+c+t)}'
+            ]
+            transitions_command = [
+                "awk",
+                '{for (i = 2; i < length($0); i++) {arr[substr($0, i, 2)]+=1;}} END{for (variable in arr) {print variable " " arr[variable]}}'
             ]
             count_process = Popen(
                 count_letters_command,
@@ -148,6 +158,22 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             if err1:
                 # error found
                 print(err1)
+
+            transitions_process = Popen(
+                transitions_command,
+                stdin=get_seq_lines().stdout,
+                stdout=PIPE,
+                stderr=PIPE)
+            out2, err2, = transitions_process.communicate()
+            if err2:
+                # error found
+                print(err2)
+            else:
+                string_out = out2.decode('utf-8')
+                for pair in string_out.split('\n'):
+                    if pair:
+                        (letter_pair, count) = pair.split()
+                        transitions[letter_pair] = int(count)
 
             if int(a) < 1000:
                 for seq_record in SeqIO.parse(out_path, "fasta"):
@@ -173,7 +199,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             raise FileNotFoundError
         # with open('filesize_time.csv', 'a') as f:
             # f.write(str(secs) + '\n')
-        return enc_string, letter_dict, gc_content_fname
+        return enc_string, letter_dict, gc_content_fname, transitions
 
     def handle_enc_input(fnames=[]):
         # automatically waits for end of the process
@@ -194,12 +220,12 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             raise ValueError
         process.wait()
         try:
-            (enc_string, letter_dict, gc_content_fname) = get_encoding_info(
+            (enc_string, letter_dict, gc_content_fname, transitions) = get_encoding_info(
                 in_path, out_path, fnames[0])
         except:
             raise ValueError
         current_app.logger.info(f"ENCODING {in_path} {out_path} --- All good!")
-        return enc_string, letter_dict, payload_trits, address_length, gc_content_fname
+        return enc_string, letter_dict, payload_trits, address_length, gc_content_fname, transitions
 
     def save_session(encode, input_type, input_file_or_string, modified_filename, date):
         '''
@@ -302,7 +328,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             # input_word = wrapper.read()
             file_paths = save_file_info(fname_no_space, ftype, time_started)
         (enc_string, letter_dict, payload_trits, address_length,
-         gc_content_fname) = handle_enc_input(file_paths)
+         gc_content_fname, transitions) = handle_enc_input(file_paths)
         try:
             encoding_data_fname = "app/codec_files/" + \
                 "metadata_" + file_paths[0] + ".txt"
@@ -310,6 +336,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 f.write(str(letter_dict) + '\n')
                 f.write(str(payload_trits) + '\n')
                 f.write(str(address_length) + '\n')
+                f.write(str(transitions) + '\n')
                 f.write(str(enc_string) + '\n')
 
             response = make_response(
@@ -320,12 +347,13 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                     mimetype="text/plain"),
                 200
             )
-            can_display_full = os.path.getsize(file_paths[2]) > 5000
+            can_display_full = os.path.getsize(file_paths[2]) < 5000
             response.headers['letter_dict'] = letter_dict
             response.headers['payload_trits'] = payload_trits
             response.headers['address_length'] = address_length
-            response.headers['can_full_display'] = True
+            response.headers['can_display_full'] = can_display_full
             response.headers['enc_string'] = enc_string
+            response.headers['transitions'] = transitions
             response.headers['date'] = int(
                 time.mktime(time_started.timetuple())) * 1000
             response.headers['base_file_name'] = file_paths[0]
@@ -415,7 +443,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 as_attachment=True),
             200,
         )
-        can_display_full = os.path.getsize(out_path) > 5000
+        can_display_full = os.path.getsize(out_path) < 5000
         response.headers['synthesis_length'] = synthesis_length
         response.headers['address_length'] = address_length
         response.headers['mimetype'] = mime_type
@@ -430,17 +458,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         # return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)
 
     return home_bp
-    # @app.errorhandler(404)
-    # def page_not_found(error):
-    #     app.logger.error('Page not found %s', (request.path))
 
-    # if __name__ == "__main__":
-    # This is to set FLASK_ENV=development if this is being
-    # run using python app.py
-    # app.run(debug=True)
-    # app.run()
-    # app.run(host="0.0.0.0", port=80)
-    # app.run(port=5000)
 
 
 dev_bp = construct_blueprint("./dev/Codec/c")
