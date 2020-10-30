@@ -17,6 +17,12 @@ const OutputElement = (props) => {
     const listOpen = props.openDict[props.openName];
     const thisAnalytics = props.analytics[props.openName];
     const plot = props.plots[props.openName];
+    const currProcessJob = props.processJobDisplays[props.openName];
+    console.log("processing job:");
+    console.log(currProcessJob["name"]);
+    console.log(props.processJobDisplays);
+    console.log(props.openName);
+    console.log(props.processJobDisplays[props.openName]["name"]);
     const switches = [
         { name: "Some check" },
         { name: "Some other check" },
@@ -49,8 +55,16 @@ const OutputElement = (props) => {
         props.setPlots({ ...props.plots, [props.openName]: plotOption });
         props.setAnalytics({ ...props.analytics, [props.openName]: "" });
     }
-    const num = useMemo(() => Math.random() * 100, [thisAnalytics, plot]);
-    const otherNum = Math.random() * 100;
+    const handleJobClick = (processJob) => {
+        console.log(processJob, thisAnalytics, plot);
+        if (plot === "GC Content Plot") {
+            if (!processJob["gcContent"]) {
+                // we need to fetch the gc content
+                return;
+            }
+        }
+        props.setProcessJobDisplay({ ...props.processJobDisplays, [props.openName]: processJob });
+    }
 
     const getAnalyticsContent = () => {
         var output;
@@ -60,54 +74,49 @@ const OutputElement = (props) => {
             // const renderOutput = () => {
             output = (
                 <OutputBox
-                    addressLength={props.addressLength}
-                    synthesisLength={props.synthesisLength}
-                    payloadTrits={props.payloadTrits}
+                    addressLength={currProcessJob["metadataDict"]["addressLength"]}
+                    payloadTrits={currProcessJob["metadataDict"]["payloadData"]}
                     mode={props.mode}
-                    numSequences={props.numSequences}
-                    nucleotideContent={props.nucleotideContent}/>);
+                    numSequences={currProcessJob["metadataDict"]["numSequences"]}
+                    nucleotideContent={currProcessJob["metadataDict"]["nucleotideContent"]} />);
         } else if (thisAnalytics === "DNA Sequence") {
             output = (<DNABox
-                        loading={props.loading}
-                        encodeHistory={props.encodeHistory}
-                        putOutputInInput={props.putOutputInInput}
-                        getFasta={props.getFasta}
-                    />);
+                loading={props.loading}
+                preview={currProcessJob["preview"]}
+                canDisplayFull={currProcessJob["canDisplayFull"]}
+                putOutputInInput={props.putOutputInInput}
+                getFasta={props.getFasta}
+            />);
         } else if (thisAnalytics === "Transitions Table") {
-            output = (<TransitionsTable transitions={props.transitions}/>);
+            output = (<TransitionsTable transitions={currProcessJob["metadataDict"]["transitions"]} />);
         }
         return (<>{output}</>);
     }
     const getPlotContent = () => {
         // var num = Math.random() * 100;
-        if (plot == "GC Content Plot") {
+        if (plot === "GC Content Plot") {
             return (
-                <>
-                    {/* <div>{num}</div> */}
-                    <GCGraph gcContent={props.gcContent} gcContentPath={props.gcContentPath} inputWidth={props.inputWidth} inputHeight={props.inputHeight} />
-                </>
+                <GCGraph gcContent={currProcessJob["gcContent"]} gcContentPath={currProcessJob["metadataDict"]["gcContentPath"]}
+                    inputWidth={props.inputWidth} inputHeight={props.inputHeight} />
             );
         }
         else {
             return (
-                <>
-                    {/* <div>{num}</div> */}
-                    <NucleotideGraph
-                        nucleotideContent={props.nucleotideContent}
-                        inputWidth={500}
-                        inputHeight={500}
-                    />
-
-                </>);
+                <NucleotideGraph
+                    nucleotideContent={currProcessJob["metadataDict"]["nucleotideContent"]}
+                    inputWidth={500}
+                    inputHeight={500}
+                />
+            );
         }
     }
     var content;
     // console.log('mode! ' + props.mode);
     if (thisAnalytics) {
-        content = useMemo(() => getAnalyticsContent(), [thisAnalytics, props.mode, props.loading]);
+        content = useMemo(() => getAnalyticsContent(), [thisAnalytics, props.mode, props.loading, currProcessJob["name"]]);
     } else {
         // content = useMemo(() => getPlotContent(), [plot, props.mode, props.nucleotideContent]);
-        content = useMemo(() => getPlotContent(), [plot, props.loading]);
+        content = useMemo(() => getPlotContent(), [plot, props.loading, currProcessJob["name"]]);
     }
 
     // const content = getContent();
@@ -118,6 +127,7 @@ const OutputElement = (props) => {
                     <div className="output-element-dropdown-container output-element-dropdown-trigger" onClick={() => props.setOpenDict({ ...props.openDict, [props.openName]: !listOpen })}>
                         <div className="dd-header-title">{thisAnalytics ? thisAnalytics : plot}</div>
                         <img src={arrow} width="16" height="16"></img>
+                        <div className="dd-header-title-job">{genProcessJobTitle(currProcessJob["name"], null)}</div>
                     </div>
                 </div>
 
@@ -128,11 +138,26 @@ const OutputElement = (props) => {
                             openName={props.openName}
                         >
                             <ul className="dd-list">
+                                <li key="output-selection" className="dd-list-item">
+                                    <h3 className="accordion-label">Processing Job</h3>
+                                    <Dropdown>
+                                        <DropdownButton variant="dropdown" title={genProcessJobTitle(currProcessJob["name"], currProcessJob["date"])}>
+                                            {props.encodeHistory.map((processJob) => {
+                                                return (
+                                                    <Dropdown.Item key={processJob["basicFileName"]} onClick={() => handleJobClick(processJob)}>
+                                                        {genProcessJobTitle(processJob["name"], processJob["date"])}
+                                                    </Dropdown.Item>
+                                                );
+                                            })}
+                                        </DropdownButton>
+                                    </Dropdown>
+                                </li>
                                 <li key="analytics" className="dd-list-item">
                                     <h3 className="accordion-label">Analytics</h3>
                                     <Dropdown>
                                         <DropdownButton variant="dropdown" title={thisAnalytics ? thisAnalytics : "    "}>
                                             {analyticsOptions.map((analyticsOption) => {
+                                                if (analyticsOption == thisAnalytics) return;
                                                 return (
                                                     <Dropdown.Item key={analyticsOption} onClick={() => handleAnalyticsClick(analyticsOption)}>
                                                         {analyticsOption}
@@ -147,6 +172,7 @@ const OutputElement = (props) => {
                                     <Dropdown>
                                         <DropdownButton variant="dropdown" title={plot ? plot : "    "}>
                                             {plotOptions.map((plotOption) => {
+                                                if (plotOption == plot) return;
                                                 return (
                                                     <Dropdown.Item key={plotOption} onClick={() => handlePlotsClick(plotOption)}>
                                                         {plotOption}
@@ -193,4 +219,30 @@ const OutputElement = (props) => {
     );
 }
 
+const genProcessJobTitle = (currProcessJobName, date) => {
+    var returnString;
+    if (date) {
+        var currTime = new Date();
+        var hours = currTime.getHours() - date.getHours();
+        var minutes = currTime.getMinutes() - date.getMinutes();
+        var time;
+        if (hours > 0) {
+            if (hours == 1) time = hours + " hour ago";
+            else time = hours + " hours ago";
+        } else {
+            if (minutes == 1) time = minutes + " minute ago";
+            else time = minutes + " minutes ago";
+        }
+        returnString = time + " "
+    } else {
+        returnString = ""
+    }
+
+    // var time = date.getHours() + ":" + date.getMinutes();
+    if (currProcessJobName.length > 50) {
+        return returnString + currProcessJobName.slice(0, 50) + "...";
+    } else {
+        return returnString + currProcessJobName;
+    }
+}
 export default OutputElement;

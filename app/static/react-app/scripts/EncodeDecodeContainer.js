@@ -20,15 +20,10 @@ const EncodeDecodeContainer = () => {
     const [mode, setMode] = useState("default");
     const [toEncode, setToEncode] = useState("");
     const [toDecode, setToDecode] = useState("");
-    const [payloadTrits, setPayloadTrits] = useState("");
-    const [addressLength, setAddressLength] = useState("");
-    const [synthesisLength, setSynthesisLength] = useState("");
     const [gcContentPath, setGCContentPath] = useState("");
     const [gcContent, setGCContent] = useState("");
     const [encodeHistory, setEncHistory] = useState([]);
     const [decodeHistory, setDecHistory] = useState([]);
-    const [nucleotideContent, setNucleotideContent] = useState({});
-    const [transitions, setTransitions] = useState({});
     const [loading, setLoading] = useState(false);
     const [editingRef, setEditing] = useState(null);
     const [fileToEncode, setFileToEncode] = useState(null);
@@ -36,7 +31,6 @@ const EncodeDecodeContainer = () => {
 
     const [uploadLoading, setUploadLoading] = useState(false);
     const [uploadLoading2, setUploadLoading2] = useState(false);
-    const [numSequences, setNumSequences] = useState("");
 
     const startOpenDict = {
         decodeOpen: true, textStringOpen: true,
@@ -65,6 +59,7 @@ const EncodeDecodeContainer = () => {
             outputOpen4: "Nucleotide Content Plot"
         }
     );
+    const [processJobDisplays, setProcessJobDisplay] = useState({});
     const [decodeFileType, setDecodeFileType] = useState("text/plain");
     const [decodeDisplayInfo, setDecodeDisplayInfo] = useState("");
     // const [sendFileType, setSendFileType] = useState("json");
@@ -78,7 +73,7 @@ const EncodeDecodeContainer = () => {
     const encodeInput = useRef();
     const decodeInput = useRef();
     useEffect(() => {
-        if (editingRef && ! document.activeElement === editingRef.current) {
+        if (editingRef && !document.activeElement === editingRef.current) {
             editingRef.current.focus();
             editingRef.current.selectionStart = editingRef.current.value.length;
             editingRef.current.selectionEnd = editingRef.current.value.length;
@@ -142,10 +137,10 @@ const EncodeDecodeContainer = () => {
             if (encodeHistory.length == 0) {
                 alert('Please encode something first');
             } else {
-                if (!encodeHistory[0][5]){
+                if (!encodeHistory[0][5]) {
                     alert("Full sequences too long, sorry!");
                     return;
-                } 
+                }
                 setToDecode(encodeHistory[0][4]);
                 setOpenDict({ ...openDict, "decodeOpen": true });
             }
@@ -156,7 +151,7 @@ const EncodeDecodeContainer = () => {
                 if (!decodeHistory[0][6]) {
                     alert("Full sequences too long, sorry!");
                     return;
-                } 
+                }
                 setToEncode(decodeHistory[0][5]);
                 setOpenDict({ ...openDict, "textStringOpen": true });
             }
@@ -227,12 +222,12 @@ const EncodeDecodeContainer = () => {
             if (!options) return;
         }
         const url = getUrl("decode", inputType);
-        // var canFullDisplay;
+        // var canDisplayFull;
 
         var fileName;
         var date;
         var fileType;
-        var canFullDisplay;
+        var canDisplayFull;
         setMode("decode");
         fetch(url, options)
             .then((data) => {
@@ -249,7 +244,7 @@ const EncodeDecodeContainer = () => {
                                 setSynthesisLength(pair[1]);
                                 break;
                             case "can_display_full":
-                                canFullDisplay = pair[1] === "True";
+                                canDisplayFull = pair[1] === "True";
                                 break;
                             case "base_file_name":
                                 fileName = pair[1];
@@ -291,7 +286,7 @@ const EncodeDecodeContainer = () => {
                                 date,
                                 fileType,
                                 text.slice(0, 5000),
-                                canFullDisplay
+                                canDisplayFull
                             ],
                             ...decodeHistory]);
                         setMode("decode");
@@ -345,31 +340,28 @@ const EncodeDecodeContainer = () => {
         const url = getUrl("encode", inputType);
         var fileName;
         var date;
-        var canFullDisplay;
+        var canDisplayFull;
+        var metadataDict = {};
+        var encoded;
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
-                    var encoded;
                     for (var pair of data.headers.entries()) {
                         switch (pair[0]) {
                             case "payload_trits":
-                                setPayloadTrits(pair[1]);
+                                metadataDict["payloadData"] = pair[1];
                                 break;
                             case "letter_dict":
-                                setNucleotideContent(
-                                    JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'))
-                                );
+                                metadataDict["nucleotideContent"] = JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'));
                                 break;
                             case "transitions":
-                                setTransitions(
-                                    JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'))
-                                );
+                                metadataDict["transitions"] = JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'));
                                 break;
                             case "address_length":
-                                setAddressLength(pair[1]);
+                                metadataDict["addressLength"] = pair[1];
                                 break;
                             case "gc_content_fname":
-                                setGCContentPath(pair[1]);
+                                metadataDict["gcContentPath"] = pair[1];
                                 break;
                             case "enc_string":
                                 encoded = pair[1];
@@ -381,22 +373,13 @@ const EncodeDecodeContainer = () => {
                                 fileName = pair[1];
                                 break;
                             case "num_sequences":
-                                setNumSequences(pair[1]);
+                                metadataDict["numSequences"] = pair[1];
                                 break;
                             case "can_display_full":
-                                canFullDisplay = pair[1] === "True";
+                                canDisplayFull = pair[1] === "True";
                                 break;
                         }
                     }
-                    var preview = encoded.slice(0, 5000);
-                    setEncHistory((encodeHistory) => [
-                        [inputType,
-                            inputType === "file" ? fileToEncode.name : toEncode,
-                            fileName,
-                            date,
-                            preview,
-                            canFullDisplay], ...encodeHistory]
-                    );
                     return data.text();
                 } else {
                     alert('An error has occurred returning the data. Check console for data log.');
@@ -405,6 +388,28 @@ const EncodeDecodeContainer = () => {
                 }
             })
             .then((data) => {
+                var preview = encoded.slice(0, 5000);
+                var item = {
+                    "inputType": inputType,
+                    "name": inputType === "file" ? fileToEncode.name : toEncode,
+                    "basicFileName": fileName,
+                    "date": date,
+                    "preview": preview,
+                    "canDisplayFull": canDisplayFull,
+                    "metadataDict": metadataDict,
+                    "gcContent": data,
+                }
+                setEncHistory((encodeHistory) => [item, ...encodeHistory]
+                );
+                // if (Object.keys(processJobDisplays).length == 0) {
+                    // only set the job displays for the very first encoding.
+                    setProcessJobDisplay({
+                        outputOpen1: item,
+                        outputOpen2: item,
+                        outputOpen3: item,
+                        outputOpen4: item,
+                    });
+                // }
                 setGCContent(data);
                 setMode("encode");
                 setLoading(false);
@@ -492,6 +497,41 @@ const EncodeDecodeContainer = () => {
 
     return (
         <div>
+            <div>
+                <h3>Encode History</h3>
+                <table>
+                    <tbody>
+                        {encodeHistory.map((item, i) => {
+                            return (
+                                <tr key={i}>
+                                    {Object.entries(item).map(([key, value]) => {
+                                        if (key === "gcContent" || key === "metadataDict") return;
+                                        return (<td key={i + key}>{value.toString()}</td>);
+                                    })}
+                                    {/* <div>
+                                        <h2>Load to current panels</h2>
+                                        <div onClick={}></div>
+                                    </div> */}
+                                </tr>
+                            );
+                        })}
+                    </tbody>
+                </table>
+                <h3>Decode History</h3>
+                <table>
+                    <tbody>
+                        {/* {decodeHistory.map((item, i) => {
+                            return (
+                                <tr>
+                                {Object.entries(item).map(([key, value]) => {
+                                        return (<td key={i + key}>{value.toString()}</td>);
+                                    })}
+                                </tr>
+                            );
+                        })} */}
+                    </tbody>
+                </table>
+            </div>
             <div className="body-4">
                 <div>
                     <div className="section-heading-wrap">
@@ -560,17 +600,17 @@ const EncodeDecodeContainer = () => {
                                         </div>
                                     </div>
                                     {mode === "encode" &&
-                                        <OutputElements openDict={openDict} setOpenDict={setOpenDict} analytics={analytics} setAnalytics={setAnalytics} plots={plots} setPlots={setPlots} addressLength={addressLength}
-                                            synthesisLength={synthesisLength}
-                                            payloadTrits={payloadTrits}
+                                        <OutputElements openDict={openDict} setOpenDict={setOpenDict}
+                                            analytics={analytics} setAnalytics={setAnalytics}
+                                            plots={plots} setPlots={setPlots} 
                                             mode={mode}
                                             loading={loading}
                                             encodeHistory={encodeHistory}
-                                            nucleotideContent={nucleotideContent}
-                                            gcContent={gcContent} gcContentPath={gcContentPath} width={500} height={500}
+                                            gcContent={gcContent}
+                                            width={500} height={500}
                                             putOutputInInput={putOutputInInput} getFasta={getFasta}
-                                            transitions={transitions}
-                                            numSequences={numSequences}
+                                            processJobDisplays={processJobDisplays}
+                                            setProcessJobDisplay={setProcessJobDisplay}
                                         />
                                     }
                                 </div>
@@ -588,7 +628,7 @@ const DecodeDisplay = React.memo((props) => {
     var textbox = null;
     var extension;
     if (props.loading) {
-        return  <img src={bunny} />;
+        return <img src={bunny} />;
     }
     if (props.decodeFileType.includes("image")) {
         image = <img src={props.decodeDisplayInfo} />
@@ -739,23 +779,18 @@ const OutputElements = (props) => {
                 openDict={props.openDict}
                 openName={"outputOpen" + String(i)}
                 setOpenDict={props.setOpenDict}
-                analytics={props.analytics} setAnalytics={props.setAnalytics} plots={props.plots} setPlots={props.setPlots}
+                analytics={props.analytics} setAnalytics={props.setAnalytics}
+                plots={props.plots} setPlots={props.setPlots}
+                processJobDisplays={props.processJobDisplays} setProcessJobDisplay={props.setProcessJobDisplay}
                 // separate into things can't be changed by child elements (then we can
                 // put in a dictionary)
-                addressLength={props.addressLength}
-                synthesisLength={props.synthesisLength}
-                payloadTrits={props.payloadTrits}
-                transitions={props.transitions}
-                numSequences={props.numSequences}
-                nucleotideContent={props.nucleotideContent}
-
                 mode={props.mode}
                 loading={props.loading}
                 encodeHistory={props.encodeHistory}
                 putOutputInInput={props.putOutputInInput}
                 getFasta={props.getFasta}
-                gcContent={props.gcContent} gcContentPath={props.gcContentPath} inputWidth={props.width} inputHeight={props.height}
-                
+                gcContent={props.gcContent} inputWidth={props.width} inputHeight={props.height}
+
             />
         );
     }

@@ -77,9 +77,12 @@ th {
 }
 .output-element-dropdown-trigger {
   display: flex;
-    max-width: 200px;
-    align-items: center;
-    justify-content: flex-start;
+  max-width: 500px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.dd-header-title-job {
+  margin-left: 100px;
 }
 .my-individual-parameter {
   display: flex;

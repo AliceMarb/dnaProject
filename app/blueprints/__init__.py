@@ -329,13 +329,16 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         (enc_string, letter_dict, payload_trits, address_length,
          gc_content_fname, transitions, num_sequences) = handle_enc_input(file_paths)
         try:
+            can_display_full = os.path.getsize(file_paths[2]) < 5000
             encoding_data_fname = "app/codec_files/" + \
                 "metadata_" + file_paths[0] + ".txt"
             with open(encoding_data_fname, 'w+') as f:
                 f.write(str(letter_dict) + '\n')
+                f.write(str(transitions) + '\n')
                 f.write(str(payload_trits) + '\n')
                 f.write(str(address_length) + '\n')
-                f.write(str(transitions) + '\n')
+                f.write(str(can_display_full) + '\n')
+                f.write(str(num_sequences) + '\n')
                 f.write(str(enc_string) + '\n')
 
             response = make_response(
@@ -346,7 +349,6 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                     mimetype="text/plain"),
                 200
             )
-            can_display_full = os.path.getsize(file_paths[2]) < 5000
             response.headers['letter_dict'] = letter_dict
             response.headers['payload_trits'] = payload_trits
             response.headers['address_length'] = address_length
@@ -357,6 +359,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 time.mktime(time_started.timetuple())) * 1000
             response.headers['base_file_name'] = file_paths[0]
             response.headers['num_sequences'] = num_sequences
+            response.headers['gc_content_fname'] = gc_content_fname
 
             save_session(True, input_type, input_word,
                          file_paths[0], time_started)

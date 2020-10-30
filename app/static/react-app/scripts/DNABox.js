@@ -20,7 +20,7 @@ const DNABox = (props) => {
                 <div className="output-sub-block dna-seq-output-block">
                     <div className="label dna-seq-output-block-label">DNA Sequence</div>
                     <textarea
-                        value={props.loading ? "Loading results!" : props.encodeHistory[0][4] + (props.encodeHistory[0][5] ? "" : "...")}
+                        value={props.loading ? "Loading results!" : props.preview + (props.canDisplayFull ? "" : "...")}
                         readOnly
                         disabled="disabled"
                         placeholder={props.loading ? "Loading results!" : "DNA Sequence Output"}
