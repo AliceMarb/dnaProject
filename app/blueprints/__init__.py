@@ -127,7 +127,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
 
             count_letters_command = [
                 "awk",
-                'BEGIN{a=0; c=0; g=0; t=0;} {a+=gsub("A",""); c+=gsub("C",""); g+=gsub("G",""); t+=gsub("T","");} END{print a,g,c,t}'
+                'BEGIN{a=0; c=0; g=0; t=0; num_sequences=0;} {num_sequences+=1; a+=gsub("A",""); c+=gsub("C",""); g+=gsub("G",""); t+=gsub("T","");} END{print a,g,c,t, num_sequences}'
             ]
             get_gc_command = [
                 "awk",
@@ -144,7 +144,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 stderr=PIPE)
             out, err = count_process.communicate()
             if out:
-                (a, g, c, t) = out.decode('utf-8').strip().split(' ')
+                (a, g, c, t, num_sequences) = out.decode('utf-8').strip().split(' ')
             elif err:
                 print(err)
 
@@ -188,7 +188,6 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                     seq_str = str(seq_record.seq)[1:]
                     enc_string += (seq_str + ',')
 
-            letter_dict = {"A": a, "G": g, "T": t, "C": c}
             end = time.time()
             secs = end - start
             print('TIME TAKEN FOR THIS ENCODING COUNT: ' + str(secs) + "\n")
@@ -199,7 +198,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             raise FileNotFoundError
         # with open('filesize_time.csv', 'a') as f:
             # f.write(str(secs) + '\n')
-        return enc_string, letter_dict, gc_content_fname, transitions
+        return enc_string, {"A": a, "G": g, "T": t, "C": c}, gc_content_fname, transitions, num_sequences
 
     def handle_enc_input(fnames=[]):
         # automatically waits for end of the process
@@ -220,12 +219,12 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             raise ValueError
         process.wait()
         try:
-            (enc_string, letter_dict, gc_content_fname, transitions) = get_encoding_info(
+            (enc_string, letter_dict, gc_content_fname, transitions, num_sequences) = get_encoding_info(
                 in_path, out_path, fnames[0])
         except:
             raise ValueError
         current_app.logger.info(f"ENCODING {in_path} {out_path} --- All good!")
-        return enc_string, letter_dict, payload_trits, address_length, gc_content_fname, transitions
+        return enc_string, letter_dict, payload_trits, address_length, gc_content_fname, transitions, num_sequences
 
     def save_session(encode, input_type, input_file_or_string, modified_filename, date):
         '''
@@ -274,7 +273,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
 
     def save_decode_typed_input(input_word, time_started):
         file_paths = get_file_names(
-            string=input_word, time_started=time_started, extension="fa")
+            string=input_word, time_started=time_started, extension="fa", encode=False)
         root_in_path = file_paths[1]
         # write a fasta file
         try:
@@ -291,10 +290,11 @@ def construct_blueprint(codec_location="./master/Codec/c"):
     @home_bp.route("/get_fasta", methods=['GET'])
     def get_fasta():
         path_to_last_encoded = session["actions"]["encode"][0][2]
+        # sending as a .txt file for now so it can be opened.
         response = make_response(
             send_from_directory(
                 current_app.config['ENCODED_FILE_LOC'],
-                filename=path_to_last_encoded + "_encoded.fa",
+                filename=path_to_last_encoded + "_encoded.txt",
                 as_attachment=True,
                 mimetype="text/plain"),
             200,
@@ -302,7 +302,6 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         return response
 
     # DON'T PUT A SLASH, does not work
-
     @home_bp.route("/encode/<input_type>", methods=['POST'])
     def encode(input_type="json"):
         time_started = datetime.datetime.utcnow()
@@ -328,7 +327,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             # input_word = wrapper.read()
             file_paths = save_file_info(fname_no_space, ftype, time_started)
         (enc_string, letter_dict, payload_trits, address_length,
-         gc_content_fname, transitions) = handle_enc_input(file_paths)
+         gc_content_fname, transitions, num_sequences) = handle_enc_input(file_paths)
         try:
             encoding_data_fname = "app/codec_files/" + \
                 "metadata_" + file_paths[0] + ".txt"
@@ -357,6 +356,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             response.headers['date'] = int(
                 time.mktime(time_started.timetuple())) * 1000
             response.headers['base_file_name'] = file_paths[0]
+            response.headers['num_sequences'] = num_sequences
 
             save_session(True, input_type, input_word,
                          file_paths[0], time_started)
@@ -432,6 +432,8 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             new_file = out_path.replace('.txt', '.' + extension)
             os.rename(out_path, new_file)
             out_path = new_file
+        else:
+            mime_type = "text/plain"
 
         current_app.logger.info(
             f"DECODING typed {in_path} {out_path} --- All good!")

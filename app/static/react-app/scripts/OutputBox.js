@@ -35,6 +35,10 @@ const OutputBox = (props) => {
                     <div className="text-block-6 address-length-label">Address Length</div>
                     <div className="address-length-output-value">{props.addressLength}</div>
                 </div>
+                <div className="div-block-3">
+                    <div className="text-block-6 address-length-label">Number of Sequences</div>
+                    <div className="address-length-output-value">{props.numSequences}</div>
+                </div>
             </div>
         </div>
         <div className="output-sub-block nc-content-plot-block">

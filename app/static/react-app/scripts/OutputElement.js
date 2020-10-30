@@ -64,6 +64,7 @@ const OutputElement = (props) => {
                     synthesisLength={props.synthesisLength}
                     payloadTrits={props.payloadTrits}
                     mode={props.mode}
+                    numSequences={props.numSequences}
                     nucleotideContent={props.nucleotideContent}/>);
         } else if (thisAnalytics === "DNA Sequence") {
             output = (<DNABox

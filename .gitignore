@@ -23,3 +23,4 @@ filesize_time.csv
 filesize_time.csv
 instance/app.log
 app/static/react-app/public/frontend_textfiles/*
+*.log

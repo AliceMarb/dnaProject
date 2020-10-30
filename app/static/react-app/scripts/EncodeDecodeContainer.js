@@ -36,6 +36,7 @@ const EncodeDecodeContainer = () => {
 
     const [uploadLoading, setUploadLoading] = useState(false);
     const [uploadLoading2, setUploadLoading2] = useState(false);
+    const [numSequences, setNumSequences] = useState("");
 
     const startOpenDict = {
         decodeOpen: true, textStringOpen: true,
@@ -77,7 +78,7 @@ const EncodeDecodeContainer = () => {
     const encodeInput = useRef();
     const decodeInput = useRef();
     useEffect(() => {
-        if (editingRef) {
+        if (editingRef && ! document.activeElement === editingRef.current) {
             editingRef.current.focus();
             editingRef.current.selectionStart = editingRef.current.value.length;
             editingRef.current.selectionEnd = editingRef.current.value.length;
@@ -183,7 +184,7 @@ const EncodeDecodeContainer = () => {
         } else {
             input = errorCheckDNA(toDecode);
             // need this for saving history
-            setToEncode(input);
+            setToDecode(input);
             if (!input) return null;
         }
         const options = {
@@ -222,7 +223,7 @@ const EncodeDecodeContainer = () => {
             // // no headers or this doesn't work
             options = getFileOptions(formData);
         } else if (inputType === "json") {
-            options = getJsonOptions(true);
+            options = getJsonOptions(false);
             if (!options) return;
         }
         const url = getUrl("decode", inputType);
@@ -256,7 +257,7 @@ const EncodeDecodeContainer = () => {
                             case "date":
                                 date = new Date(parseInt(pair[1]));
                                 break;
-                            case "content-type":
+                            case "mimetype":
                                 fileType = pair[1];
                                 setDecodeFileType(fileType);
                             // can't do dec_string because of \n
@@ -282,14 +283,14 @@ const EncodeDecodeContainer = () => {
                         const text = (event.target.result);
                         console.log(text.slice(0, 5000));
                         // max file size = 5000, so cut off at 5000 chars.
-                        preview = text.slice(0, 5000);
+                        // preview = text.slice(0, 5000);
                         setDecHistory((decodeHistory) =>
                             [[inputType,
                                 inputType === "file" ? fileToDecode.name : toDecode,
                                 fileName,
                                 date,
                                 fileType,
-                                preview,
+                                text.slice(0, 5000),
                                 canFullDisplay
                             ],
                             ...decodeHistory]);
@@ -367,10 +368,6 @@ const EncodeDecodeContainer = () => {
                             case "address_length":
                                 setAddressLength(pair[1]);
                                 break;
-                            case "synthesis_length":
-                                // only encode available for now
-                                setSynthesisLength(pair[1]);
-                                break;
                             case "gc_content_fname":
                                 setGCContentPath(pair[1]);
                                 break;
@@ -382,6 +379,9 @@ const EncodeDecodeContainer = () => {
                                 break;
                             case "base_file_name":
                                 fileName = pair[1];
+                                break;
+                            case "num_sequences":
+                                setNumSequences(pair[1]);
                                 break;
                             case "can_display_full":
                                 canFullDisplay = pair[1] === "True";
@@ -471,7 +471,6 @@ const EncodeDecodeContainer = () => {
             });
     }
 
-    console.log('rerender...');
     var inputChild = (
         <FileInputWrapper
             codecGetFile={codecGetFile}
@@ -554,7 +553,7 @@ const EncodeDecodeContainer = () => {
                                             </div>
                                             <div className="w-col w-col-8">
                                                 <div className="output-sub-block dna-seq-output-block">
-                                                    {mode === "decode" ? <button onClick={putOutputInInput} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button> : null}
+                                                    {mode === "decode" ? <button onClick={putOutputInInput} value="Copy to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button> : null}
                                                 </div>
 
                                             </div>
@@ -571,6 +570,7 @@ const EncodeDecodeContainer = () => {
                                             gcContent={gcContent} gcContentPath={gcContentPath} width={500} height={500}
                                             putOutputInInput={putOutputInInput} getFasta={getFasta}
                                             transitions={transitions}
+                                            numSequences={numSequences}
                                         />
                                     }
                                 </div>
@@ -597,9 +597,9 @@ const DecodeDisplay = React.memo((props) => {
         extension = "txt";
         // console.log("here's decoded value " + props.decodeHistory[0][5]);
         textbox = (<>
-            <div className="label dna-seq-output-block-label">DNA Sequence</div>
+            <div className="label dna-seq-output-block-label">Decoded Output</div>
             <textarea value={props.loading ? "Loading results!" : props.decodeHistory[0][5]} readOnly
-                disabled="disabled" placeholder={props.loading ? "Loading results!" : "DNA Sequence Output"} maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output" className="dna-seq-output-text-area w-input" />
+                disabled="disabled" placeholder={props.loading ? "Loading results!" : "Decoded Output"} maxLength={5000} className="dna-seq-output-text-area w-input" />
         </>);
     }
     var downloadButton = (
@@ -740,17 +740,22 @@ const OutputElements = (props) => {
                 openName={"outputOpen" + String(i)}
                 setOpenDict={props.setOpenDict}
                 analytics={props.analytics} setAnalytics={props.setAnalytics} plots={props.plots} setPlots={props.setPlots}
+                // separate into things can't be changed by child elements (then we can
+                // put in a dictionary)
                 addressLength={props.addressLength}
                 synthesisLength={props.synthesisLength}
                 payloadTrits={props.payloadTrits}
+                transitions={props.transitions}
+                numSequences={props.numSequences}
+                nucleotideContent={props.nucleotideContent}
+
                 mode={props.mode}
                 loading={props.loading}
                 encodeHistory={props.encodeHistory}
-                nucleotideContent={props.nucleotideContent}
                 putOutputInInput={props.putOutputInInput}
                 getFasta={props.getFasta}
                 gcContent={props.gcContent} gcContentPath={props.gcContentPath} inputWidth={props.width} inputHeight={props.height}
-                transitions={props.transitions}
+                
             />
         );
     }
