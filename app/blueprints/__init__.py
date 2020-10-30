@@ -18,7 +18,7 @@ def get_file_names(time_started, name="", extension="plain", encode=True, string
         ':', '-').split(' ')) + '_' + name
     if encode:
         in_path = fname + '_toencode.' + extension
-        out_path = fname + '_encoded.fa'
+        out_path = fname + '_encoded.txt'
     else:
         in_path = fname + '_toencode.' + extension
         out_path = fname + '_decoded.txt'
