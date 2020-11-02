@@ -50,16 +50,15 @@ const EncodeDecodeContainer = () => {
     const [openDict, setOpenDict] = useState(startOpenDict);
     const [selectedDisplays, setSelectedDisplay] = useState({
         // job, encode/decode, type, plot
-        encodeOutputOpen1: ["Analytics", "Basic Data"],
-        encodeOutputOpen2: ["Analytics", "DNA Sequence"],
-        encodeOutputOpen3: ["Plots", "GC Content Plot"],
-        encodeOutputOpen4: ["Plots", "Nucleotide Content Plot"],
-        decodeOutputOpen1: ["Analytics", "Basic Data"],
-        decodeOutputOpen2: ["Analytics", "Decoded Output"],
+        outputOpen1: ["Analytics", "Basic Data"],
+        outputOpen2: ["Analytics", "DNA Sequence"],
+        outputOpen3: ["Plots", "GC Content Plot"],
+        outputOpen4: ["Plots", "Nucleotide Content Plot"],
+        // decodeOutputOpen1: ["Analytics", "Basic Data"],
+        // decodeOutputOpen2: ["Analytics", "Decoded Output"],
     });
 
-    const [processEncodeJobDisplays, setProcessEncodeJobDisplay] = useState({});
-    const [processDecodeJobDisplays, setProcessDecodeJobDisplay] = useState({});
+    const [processJobDisplays, setProcessJobDisplay] = useState({});
     const [decodeFileType, setDecodeFileType] = useState("text/plain");
     const [decodeDisplayInfo, setDecodeDisplayInfo] = useState("");
     // const [sendFileType, setSendFileType] = useState("json");
@@ -401,7 +400,7 @@ const EncodeDecodeContainer = () => {
                 setEncHistory((encodeHistory) => [item, ...encodeHistory]);
                 // if (Object.keys(processJobDisplays).length == 0) {
                 // only set the job displays for the very first encoding.
-                setProcessEncodeJobDisplay({
+                setProcessJobDisplay({
                     outputOpen1: item,
                     outputOpen2: item,
                     outputOpen3: item,
@@ -492,22 +491,23 @@ const EncodeDecodeContainer = () => {
             setUploadLoading={setUploadLoading2}
             buttonName={"Decode File"}
         />);
-    const encodeOutputElements = <EncodeOutputElements selectedDisplays={setSelectedDisplay}
+    const encodeOutputElements = <EncodeOutputElements selectedDisplays={selectedDisplays}
         setSelectedDisplay={setSelectedDisplay}
-        processJobDisplays={processEncodeJobDisplays}
-        setProcessJobDisplay={setProcessEncodeJobDisplay}
+        processJobDisplays={processJobDisplays}
+        setProcessJobDisplay={setProcessJobDisplay}
         history={encodeHistory}
         loading={loading}
         putOutputInInput={putOutputInInput}
         getFasta={getFasta}
         setOpenDict={setOpenDict}
-        openDict={openDict} />;
-    const decodeOutputElements = <DecodeOutputElements
-        processJobDisplays={processDecodeJobDisplays}
-        setProcessJobDisplay={setProcessDecodeJobDisplay}
-        history={decodeHistory}
+        openDict={openDict}
+        mode={mode} />;
+    // const decodeOutputElements = <DecodeOutputElements
+    //     processJobDisplays={processDecodeJobDisplays}
+    //     setProcessJobDisplay={setProcessDecodeJobDisplay}
+    //     history={decodeHistory}
     
-    />;
+    // />;
     return (
         <div>
             <div>
@@ -544,8 +544,8 @@ const EncodeDecodeContainer = () => {
                         })} */}
                     </tbody>
                 </table>
-                <h3>Testing output element template</h3>
-                {mode === "encode" && encodeOutputElements}
+                {/* <h3>Testing output element template</h3>
+                {mode === "encode" && encodeOutputElements} */}
             </div>
             <div className="body-4">
                 <div>
@@ -615,7 +615,7 @@ const EncodeDecodeContainer = () => {
                                         </div>
                                     </div>
                                     {mode === "encode" && encodeOutputElements}
-                                    {mode === "decode" && decodeOutputElements}
+                                    {/* {mode === "decode" && decodeOutputElements} */}
                                     {/* {mode === "encode" &&
                                         <OutputElements openDict={openDict} setOpenDict={setOpenDict}
                                             analytics={analytics} setAnalytics={setAnalytics}
@@ -648,7 +648,8 @@ const EncodeOutputElements = (props) => {
         ["Plots", ["GC Content Plot", "Nucleotide Content Plot"]]
     ];
     for (var i = 1; i < 5; i++) {
-        const currProcessJob = props.processJobDisplays["encodeOutputOpen" + String(i)]
+        const currProcessJob = props.processJobDisplays["outputOpen" + String(i)]
+        const openName = "outputOpen" + String(i);
         outputElements.push(
             <OutputElementTemplate
                 // types must be ordered!!!
@@ -656,7 +657,7 @@ const EncodeOutputElements = (props) => {
                 types={types}
                 selectedDisplays={props.selectedDisplays}
                 setSelectedDisplay={props.setSelectedDisplay}
-                openName={"encodeOutputOpen" + String(i)}
+                openName={openName}
                 processJobDisplays={props.processJobDisplays}
                 setProcessJobDisplay={props.setProcessJobDisplay}
                 history={props.history}
@@ -664,7 +665,7 @@ const EncodeOutputElements = (props) => {
                     "Basic Data": (<OutputBox
                         addressLength={currProcessJob["metadataDict"]["addressLength"]}
                         payloadTrits={currProcessJob["metadataDict"]["payloadData"]}
-                        mode={mode}
+                        mode={props.mode}
                         numSequences={currProcessJob["metadataDict"]["numSequences"]}
                         nucleotideContent={currProcessJob["metadataDict"]["nucleotideContent"]} />),
                     "DNA Sequence": (<DNABox
@@ -684,8 +685,8 @@ const EncodeOutputElements = (props) => {
                     />,
                 }}
                 dependencies={{
-                    "Analytics": [props.mode, currProcessJob["name"]],
-                    "Plots": [props.mode, props.loading, currProcessJob["name"]],
+                    "Analytics": [props.mode, currProcessJob["name"], props.selectedDisplays[openName][1]],
+                    "Plots": [props.mode, props.loading, currProcessJob["name"], props.selectedDisplays[openName][1]],
                 }}
                 loading={props.loading}
                 mode={props.mode}

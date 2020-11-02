@@ -10,6 +10,7 @@ import NucleotideGraph from './NucleotideGraph';
 import OutsideAlerter from './OutsideAlerter';
 import bunny from '../public/images/bunny.gif';
 import TransitionsTable from './TransitionsTable';
+import { type } from 'jquery';
 
 
 var areEqual = (prevProps, newProps) => {
@@ -74,7 +75,7 @@ const OutputElementTemplate = (props) => {
             <div className="dd-wrapper">
                 <div className="dd-header output-element-window-bar">
                     <div className="output-element-dropdown-container output-element-dropdown-trigger" onClick={() => props.setOpenDict({ ...props.openDict, [props.openName]: !listOpen })}>
-                        <div className="dd-header-title">{currHeader}</div> 
+                        <div className="dd-header-title">{currHeader}</div>
                         <img src={arrow} width="16" height="16"></img>
                         <div className="dd-header-title-job">{genProcessJobTitle(currProcessJob["name"], null)}</div>
                     </div>
