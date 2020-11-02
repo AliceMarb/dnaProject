@@ -12,8 +12,13 @@ import Collapse from 'react-bootstrap/Collapse';
 import { TextInputBox, DecodeInputBox } from './InputBlock.js';
 import OutputBox from './OutputBox';
 import OutputElement from './OutputElement';
-import GCGraph from './GCGraph';
+import OutputElementTemplate from './OutputElementTemplate';
 import { curveBasis } from 'd3';
+import TransitionsTable from './TransitionsTable';
+import GCGraph from './GCGraph';
+import NucleotideGraph from './NucleotideGraph';
+import DNABox from './DNABox';
+
 
 const EncodeDecodeContainer = () => {
 
@@ -43,23 +48,18 @@ const EncodeDecodeContainer = () => {
         graphOutbox: false,
     };
     const [openDict, setOpenDict] = useState(startOpenDict);
-    const [analytics, setAnalytics] = useState(
-        {
-            outputOpen1: "Basic Data",
-            outputOpen2: "DNA Sequence",
-            outputOpen3: "",
-            outputOpen4: "",
-        }
-    );
-    const [plots, setPlots] = useState(
-        {
-            outputOpen1: "",
-            outputOpen2: "",
-            outputOpen3: "GC Content Plot",
-            outputOpen4: "Nucleotide Content Plot"
-        }
-    );
-    const [processJobDisplays, setProcessJobDisplay] = useState({});
+    const [selectedDisplays, setSelectedDisplay] = useState({
+        // job, encode/decode, type, plot
+        encodeOutputOpen1: ["Analytics", "Basic Data"],
+        encodeOutputOpen2: ["Analytics", "DNA Sequence"],
+        encodeOutputOpen3: ["Plots", "GC Content Plot"],
+        encodeOutputOpen4: ["Plots", "Nucleotide Content Plot"],
+        decodeOutputOpen1: ["Analytics", "Basic Data"],
+        decodeOutputOpen2: ["Analytics", "Decoded Output"],
+    });
+
+    const [processEncodeJobDisplays, setProcessEncodeJobDisplay] = useState({});
+    const [processDecodeJobDisplays, setProcessDecodeJobDisplay] = useState({});
     const [decodeFileType, setDecodeFileType] = useState("text/plain");
     const [decodeDisplayInfo, setDecodeDisplayInfo] = useState("");
     // const [sendFileType, setSendFileType] = useState("json");
@@ -132,16 +132,16 @@ const EncodeDecodeContainer = () => {
         );
     }
 
-    const putOutputInInput = (e) => {
+    const putOutputInInput = (valueInOutput, canDisplayFull) => {
         if (mode === "encode") {
             if (encodeHistory.length == 0) {
                 alert('Please encode something first');
             } else {
-                if (!encodeHistory[0][5]) {
+                if (!canDisplayFull) {
                     alert("Full sequences too long, sorry!");
                     return;
                 }
-                setToDecode(encodeHistory[0][4]);
+                setToDecode(valueInOutput);
                 setOpenDict({ ...openDict, "decodeOpen": true });
             }
         } else {
@@ -226,22 +226,24 @@ const EncodeDecodeContainer = () => {
 
         var fileName;
         var date;
-        var fileType;
+        var decodedFileType;
         var canDisplayFull;
+        var metadataDict = {};
         setMode("decode");
+        // UPDATE THIS
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
                     for (var pair of data.headers.entries()) {
                         switch (pair[0]) {
                             case "payload_trits":
-                                setPayloadTrits(pair[1]);
+                                metadataDict["payloadData"] = pair[1];
                                 break;
                             case "address_length":
-                                setAddressLength(pair[1]);
+                                metadataDict["addressLength"] = pair[1];
                                 break;
                             case "synthesis_length":
-                                setSynthesisLength(pair[1]);
+                                metadataDict["synthesisLength"] = pair[1];
                                 break;
                             case "can_display_full":
                                 canDisplayFull = pair[1] === "True";
@@ -253,8 +255,8 @@ const EncodeDecodeContainer = () => {
                                 date = new Date(parseInt(pair[1]));
                                 break;
                             case "mimetype":
-                                fileType = pair[1];
-                                setDecodeFileType(fileType);
+                                decodedFileType = pair[1];
+                                setDecodeFileType(decodedFileType);
                             // can't do dec_string because of \n
                         }
                     }
@@ -266,12 +268,20 @@ const EncodeDecodeContainer = () => {
                 }
             })
             .then((data) => {
-                // decode history:
-                // if decoded file is text file, display up to 1000 chars: data.slice(0, 1000)
-                // if an image, display it.
-                var preview = "";
+                // display the decoded file and make it downloadable
                 var url = URL.createObjectURL(data);
                 setDecodeDisplayInfo(url);
+                var item = {
+                    "inputType": inputType,
+                    "name": inputType === "file" ? fileToDecode.name : toDecode,
+                    "basicFileName": fileName,
+                    "date": date,
+                    "canDisplayFull": canDisplayFull,
+                    "metadataDict": metadataDict,
+                    "gcContent": data,
+                    "decodedFileType": decodedFileType,
+                }
+
                 if (fileType.includes("text")) {
                     const reader = new FileReader();
                     reader.onload = async (event) => {
@@ -279,35 +289,24 @@ const EncodeDecodeContainer = () => {
                         console.log(text.slice(0, 5000));
                         // max file size = 5000, so cut off at 5000 chars.
                         // preview = text.slice(0, 5000);
-                        setDecHistory((decodeHistory) =>
-                            [[inputType,
-                                inputType === "file" ? fileToDecode.name : toDecode,
-                                fileName,
-                                date,
-                                fileType,
-                                text.slice(0, 5000),
-                                canDisplayFull
-                            ],
-                            ...decodeHistory]);
+                        item["preview"] = text.slice(0, 5000)
+                        setDecHistory((decodeHistory) => [item, ...decodeHistory]);
                         setMode("decode");
                         setLoading(false);
                     };
                     reader.readAsText(data);
                 } else {
-                    setDecHistory((decodeHistory) =>
-                        [[inputType,
-                            inputType === "file" ? fileToDecode.name : toDecode,
-                            fileName, date,
-                            fileType,
-                            preview,
-                            true
-                        ],
-                        ...decodeHistory]);
+                    item["preview"] = "";
+                    setDecHistory((decodeHistory) => [item, ...decodeHistory]);
                     setMode("decode");
                     setLoading(false);
                 }
-
-
+                setProcessDecodeJobDisplay({
+                    outputOpen1: item,
+                    outputOpen2: item,
+                    outputOpen3: item,
+                    outputOpen4: item,
+                });
             })
             .catch((error) => {
                 alert('Catch: An error has occurred returning the data. Check console for data log.');
@@ -399,16 +398,15 @@ const EncodeDecodeContainer = () => {
                     "metadataDict": metadataDict,
                     "gcContent": data,
                 }
-                setEncHistory((encodeHistory) => [item, ...encodeHistory]
-                );
+                setEncHistory((encodeHistory) => [item, ...encodeHistory]);
                 // if (Object.keys(processJobDisplays).length == 0) {
-                    // only set the job displays for the very first encoding.
-                    setProcessJobDisplay({
-                        outputOpen1: item,
-                        outputOpen2: item,
-                        outputOpen3: item,
-                        outputOpen4: item,
-                    });
+                // only set the job displays for the very first encoding.
+                setProcessEncodeJobDisplay({
+                    outputOpen1: item,
+                    outputOpen2: item,
+                    outputOpen3: item,
+                    outputOpen4: item,
+                });
                 // }
                 setGCContent(data);
                 setMode("encode");
@@ -494,7 +492,22 @@ const EncodeDecodeContainer = () => {
             setUploadLoading={setUploadLoading2}
             buttonName={"Decode File"}
         />);
-
+    const encodeOutputElements = <EncodeOutputElements selectedDisplays={setSelectedDisplay}
+        setSelectedDisplay={setSelectedDisplay}
+        processJobDisplays={processEncodeJobDisplays}
+        setProcessJobDisplay={setProcessEncodeJobDisplay}
+        history={encodeHistory}
+        loading={loading}
+        putOutputInInput={putOutputInInput}
+        getFasta={getFasta}
+        setOpenDict={setOpenDict}
+        openDict={openDict} />;
+    const decodeOutputElements = <DecodeOutputElements
+        processJobDisplays={processDecodeJobDisplays}
+        setProcessJobDisplay={setProcessDecodeJobDisplay}
+        history={decodeHistory}
+    
+    />;
     return (
         <div>
             <div>
@@ -531,6 +544,8 @@ const EncodeDecodeContainer = () => {
                         })} */}
                     </tbody>
                 </table>
+                <h3>Testing output element template</h3>
+                {mode === "encode" && encodeOutputElements}
             </div>
             <div className="body-4">
                 <div>
@@ -599,10 +614,12 @@ const EncodeDecodeContainer = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {mode === "encode" &&
+                                    {mode === "encode" && encodeOutputElements}
+                                    {mode === "decode" && decodeOutputElements}
+                                    {/* {mode === "encode" &&
                                         <OutputElements openDict={openDict} setOpenDict={setOpenDict}
                                             analytics={analytics} setAnalytics={setAnalytics}
-                                            plots={plots} setPlots={setPlots} 
+                                            plots={plots} setPlots={setPlots}
                                             mode={mode}
                                             loading={loading}
                                             encodeHistory={encodeHistory}
@@ -612,7 +629,7 @@ const EncodeDecodeContainer = () => {
                                             processJobDisplays={processJobDisplays}
                                             setProcessJobDisplay={setProcessJobDisplay}
                                         />
-                                    }
+                                    } */}
                                 </div>
                             </div>
                         </div>
@@ -622,6 +639,111 @@ const EncodeDecodeContainer = () => {
         </div>
     );
 }
+
+
+const EncodeOutputElements = (props) => {
+    const outputElements = [];
+    var types = [
+        ["Analytics", ["Basic Data", "DNA Sequence", "Transitions Table"]],
+        ["Plots", ["GC Content Plot", "Nucleotide Content Plot"]]
+    ];
+    for (var i = 1; i < 5; i++) {
+        const currProcessJob = props.processJobDisplays["encodeOutputOpen" + String(i)]
+        outputElements.push(
+            <OutputElementTemplate
+                // types must be ordered!!!
+                key={i}
+                types={types}
+                selectedDisplays={props.selectedDisplays}
+                setSelectedDisplay={props.setSelectedDisplay}
+                openName={"encodeOutputOpen" + String(i)}
+                processJobDisplays={props.processJobDisplays}
+                setProcessJobDisplay={props.setProcessJobDisplay}
+                history={props.history}
+                displays={{
+                    "Basic Data": (<OutputBox
+                        addressLength={currProcessJob["metadataDict"]["addressLength"]}
+                        payloadTrits={currProcessJob["metadataDict"]["payloadData"]}
+                        mode={mode}
+                        numSequences={currProcessJob["metadataDict"]["numSequences"]}
+                        nucleotideContent={currProcessJob["metadataDict"]["nucleotideContent"]} />),
+                    "DNA Sequence": (<DNABox
+                        loading={props.loading}
+                        preview={currProcessJob["preview"]}
+                        canDisplayFull={currProcessJob["canDisplayFull"]}
+                        putOutputInInput={props.putOutputInInput}
+                        getFasta={props.getFasta}
+                    />),
+                    "Transitions Table": <TransitionsTable transitions={currProcessJob["metadataDict"]["transitions"]} />,
+                    "GC Content Plot": <GCGraph gcContent={currProcessJob["gcContent"]} gcContentPath={currProcessJob["metadataDict"]["gcContentPath"]}
+                        inputWidth={500} inputHeight={500} />,
+                    "Nucleotide Content Plot": <NucleotideGraph
+                        nucleotideContent={currProcessJob["metadataDict"]["nucleotideContent"]}
+                        inputWidth={500}
+                        inputHeight={500}
+                    />,
+                }}
+                dependencies={{
+                    "Analytics": [props.mode, currProcessJob["name"]],
+                    "Plots": [props.mode, props.loading, currProcessJob["name"]],
+                }}
+                loading={props.loading}
+                mode={props.mode}
+                setOpenDict={props.setOpenDict}
+                openDict={props.openDict}
+            />);
+    }
+    return (
+        <div className="w-layout-grid output-block-grid">
+            {outputElements}
+        </div>);
+}
+
+// const DecodeOutputElements = () => {
+//     const outputElements = [];
+//     var types = [["Analytics", ["Basic Data", "Decoded Output"]]];
+//     for (var i = 1; i < 5; i++) {
+//         outputElements.push(
+//             <OutputElementTemplate
+//                 // types must be ordered!!!
+//                 types={types}
+//                 selectedDisplays={selectedDisplays}
+//                 setSelectedDisplay={setSelectedDisplay}
+//                 openName={"outputOpen1"}
+//                 processJobDisplays={processJobDisplays}
+//                 setProcessJobDisplay={setProcessJobDisplay}
+//                 history={props.history}
+//                 displays={{
+//                     "Basic Data": (<OutputBox
+//                         addressLength={currProcessJob["metadataDict"]["addressLength"]}
+//                         payloadTrits={currProcessJob["metadataDict"]["payloadData"]}
+//                         mode={mode}
+//                         numSequences={currProcessJob["metadataDict"]["numSequences"]}
+//                         nucleotideContent={currProcessJob["metadataDict"]["nucleotideContent"]} />),
+//                     "Decoded Output": (<DNABox
+//                         loading={loading}
+//                         preview={currProcessJob["preview"]}
+//                         canDisplayFull={currProcessJob["canDisplayFull"]}
+//                         putOutputInInput={putOutputInInput}
+//                         getFasta={getFasta}
+//                     />),
+//                 }}
+//                 dependencies={{
+//                     "Analytics": [mode, currProcessJob["name"]],
+//                 }}
+//                 loading={loading}
+//                 mode={mode}
+//                 setOpenDict={setOpenDict}
+//                 openDict={openDict}
+//             />
+//         );
+//     }
+//     return (
+//         <div className="w-layout-grid output-block-grid">
+//             {outputElements}
+//         </div>);
+// }
+
 
 const DecodeDisplay = React.memo((props) => {
     var image = null;
@@ -645,19 +767,18 @@ const DecodeDisplay = React.memo((props) => {
     var downloadButton = (
         <a
             href={props.decodeDisplayInfo}
-            download={props.decodeHistory[0][2] + "." + extension}
+            download={props.decodeHistory[0]["basicFileName"] + "." + extension}
             className="submit-button w-button">Download Output</a>
     );
     return (
         <div>
             {image}
             {textbox}
-            <div>{props.decodeHistory[0][6] ? "" : "Couldn't display full file."}</div>
+            <div>{props.decodeHistory[0]["canDisplayFull"] ? "" : "Couldn't display full file."}</div>
             {downloadButton}
         </div>
 
     );
-
 });
 
 const FileInput = React.memo((props) => {
@@ -667,7 +788,7 @@ const FileInput = React.memo((props) => {
     return (
         <input
             ref={wrapperRef}
-            style={{ width: "120px" }} type="file"
+            style={{ width: "110px" }} type="file"
             className="submit-button w-button input-file-upload-submit-button" />
     );
 });
@@ -767,7 +888,6 @@ const useChangeAlerter = (ref, setUploadLoading, readFile) => {
         };
     }, [ref]);
 }
-
 
 
 const OutputElements = (props) => {

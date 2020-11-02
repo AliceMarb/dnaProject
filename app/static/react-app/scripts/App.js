@@ -9,6 +9,7 @@ import './style.css';
 // import image from '../public/images/Kern_logo.png';
 import $ from 'jquery'; 
 // import './kern-dna-synth.js';
+import OutputElementTemplate from './OutputElementTemplate';
 
 import {
   BrowserRouter as Router,

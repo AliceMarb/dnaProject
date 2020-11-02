@@ -3,12 +3,10 @@ import Dropdown from 'react-bootstrap/Dropdown';
 import DropdownButton from 'react-bootstrap/DropdownButton';
 import arrow from '../public/images/arrow-mid-blue-down-96x96.png';
 import Switch from "react-switch";
-import pic from '../public/images/webclip.png';
 import OutputBox from './OutputBox';
 import DNABox from './DNABox';
 import GCGraph from './GCGraph';
 import NucleotideGraph from './NucleotideGraph';
-// import enhanceWithClickOutside from 'react-click-outside';
 import OutsideAlerter from './OutsideAlerter';
 import bunny from '../public/images/bunny.gif';
 import TransitionsTable from './TransitionsTable';
@@ -18,11 +16,7 @@ const OutputElement = (props) => {
     const thisAnalytics = props.analytics[props.openName];
     const plot = props.plots[props.openName];
     const currProcessJob = props.processJobDisplays[props.openName];
-    console.log("processing job:");
-    console.log(currProcessJob["name"]);
-    console.log(props.processJobDisplays);
-    console.log(props.openName);
-    console.log(props.processJobDisplays[props.openName]["name"]);
+
     const switches = [
         { name: "Some check" },
         { name: "Some other check" },
@@ -93,7 +87,6 @@ const OutputElement = (props) => {
         return (<>{output}</>);
     }
     const getPlotContent = () => {
-        // var num = Math.random() * 100;
         if (plot === "GC Content Plot") {
             return (
                 <GCGraph gcContent={currProcessJob["gcContent"]} gcContentPath={currProcessJob["metadataDict"]["gcContentPath"]}

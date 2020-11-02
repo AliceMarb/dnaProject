@@ -4,9 +4,6 @@ import React from 'react';
 
 const DNABox = (props) => {
     var downloadButton;
-    // console.log(props.encodeHistory[0][1]);
-    // if (props.encodeHistory[0][1].includes("...")) {
-    // if enc_string is too big
     downloadButton = (
         <>
             <button onClick={props.getFasta} className="submit-button w-button">Download DNA Sequences</button>
@@ -27,7 +24,7 @@ const DNABox = (props) => {
                         maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output"
                         className="dna-seq-output-text-area w-input"
                     />
-                    <button onClick={props.putOutputInInput} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button>
+                    <button onClick={() => props.putOutputInInput(props.preview, props.canDisplayFull)} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button>
                 </div>
                 {downloadButton}
             </div>

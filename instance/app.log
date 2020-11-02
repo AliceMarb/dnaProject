@@ -2519,3 +2519,1004 @@ INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - P
 INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:227 - ENCODING app/codec_files/2020-10-29_16-05-43_Screen_Shot_2020-09-29_at_6.43.06_PM_toencode.png app/codec_files/2020-10-29_16-05-43_Screen_Shot_2020-09-29_at_6.43.06_PM_encoded.fa --- All good!
 [2020-10-29 16:06:31,122] 127.0.0.1 requested http://127.0.0.1:5000/master/
 INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:07:08,722] 127.0.0.1 requested http://127.0.0.1:5001/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-10-30 10:27:29,016] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:227 - ENCODING app/codec_files/2020-10-30_10-27-28_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_10-27-28_sdfsdfsdf_encoded.fa --- All good!
+[2020-10-30 10:30:20,532] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:30:24,378] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:227 - ENCODING app/codec_files/2020-10-30_10-30-24_sdfsdf_toencode.txt app/codec_files/2020-10-30_10-30-24_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:30:28,694] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:30:32,999] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:227 - ENCODING app/codec_files/2020-10-30_10-30-32_sdfsdf_toencode.txt app/codec_files/2020-10-30_10-30-32_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:30:46,536] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:31:05,340] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:227 - ENCODING app/codec_files/2020-10-30_10-31-05_sdfsdf_toencode.txt app/codec_files/2020-10-30_10-31-05_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:31:06,720] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:39:26,070] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:40:33,103] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:227 - ENCODING app/codec_files/2020-10-30_10-40-33_aasdfdssdf_toencode.txt app/codec_files/2020-10-30_10-40-33_aasdfdssdf_encoded.fa --- All good!
+[2020-10-30 10:41:30,967] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:41:43,086] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:227 - ENCODING app/codec_files/2020-10-30_10-41-43_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_10-41-43_sdfsdfsdf_encoded.fa --- All good!
+[2020-10-30 10:42:10,947] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:227 - ENCODING app/codec_files/2020-10-30_10-42-10_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_10-42-10_sdfsdfsdf_encoded.fa --- All good!
+[2020-10-30 10:42:27,939] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+ERROR in /Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py:1892 - Exception on /master/encode/json [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py", line 223, in handle_enc_input
+    in_path, out_path, fnames[0])
+ValueError: too many values to unpack (expected 4)
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py", line 330, in encode
+    gc_content_fname, transitions, num_sequences) = handle_enc_input(file_paths)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py", line 225, in handle_enc_input
+    raise ValueError
+ValueError
+[2020-10-30 10:43:21,770] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:43:25,309] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_10-43-25_sdfsdf_toencode.txt app/codec_files/2020-10-30_10-43-25_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:43:52,628] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:43:57,411] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_10-43-57_sdfsdf_toencode.txt app/codec_files/2020-10-30_10-43-57_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:44:40,838] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:44:46,663] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_10-44-46_sdfsdf_toencode.txt app/codec_files/2020-10-30_10-44-46_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:44:53,703] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:44:56,893] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_10-44-56_sdfsdf_toencode.txt app/codec_files/2020-10-30_10-44-56_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:46:22,429] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:46:26,229] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_10-46-26_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_10-46-26_sdfsdfsdf_encoded.fa --- All good!
+[2020-10-30 10:47:54,457] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:47:58,641] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_10-47-58_sdfsdf_toencode.txt app/codec_files/2020-10-30_10-47-58_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:49:04,279] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:49:10,573] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_10-49-10_sdfsdf_toencode.txt app/codec_files/2020-10-30_10-49-10_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:49:16,753] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:437 - DECODING typed app/codec_files/2020-10-30_10-49-13_sdfsdf_toencode.fa app/codec_files/2020-10-30_10-49-13_sdfsdf_encoded.fa --- All good!
+[2020-10-30 10:49:16,758] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+ERROR in /Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py:1892 - Exception on /master/decode/json [POST]
+Traceback (most recent call last):
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Users/alicemarbach/Desktop/dnaProject/virtual/lib/python3.7/site-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py", line 449, in decode
+    response.headers['mimetype'] = mime_type
+UnboundLocalError: local variable 'mime_type' referenced before assignment
+[2020-10-30 10:50:10,642] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:50:15,281] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_10-50-15_aasdasdasd_toencode.txt app/codec_files/2020-10-30_10-50-15_aasdasdasd_encoded.fa --- All good!
+[2020-10-30 10:50:24,471] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_10-50-20_aasdasdasd_toencode.fa app/codec_files/2020-10-30_10-50-20_aasdasdasd_encoded.fa --- All good!
+[2020-10-30 10:52:06,127] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_10-52-00_aasdasdasd_toencode.fa app/codec_files/2020-10-30_10-52-00_aasdasdasd_encoded.fa --- All good!
+[2020-10-30 10:53:47,884] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_10-53-47_aasdasdasd_toencode.fa app/codec_files/2020-10-30_10-53-47_aasdasdasd_encoded.fa --- All good!
+[2020-10-30 10:54:37,661] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_10-54-37_aasdasdasd_toencode.fa app/codec_files/2020-10-30_10-54-37_aasdasdasd_encoded.fa --- All good!
+[2020-10-30 10:57:26,043] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:58:03,279] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:58:04,300] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 10:58:28,561] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_10-58-28_asdasd_toencode.txt app/codec_files/2020-10-30_10-58-28_asdasd_encoded.fa --- All good!
+[2020-10-30 10:58:32,421] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_10-58-32_asdasd_toencode.fa app/codec_files/2020-10-30_10-58-32_asdasd_encoded.fa --- All good!
+[2020-10-30 11:00:28,057] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 11:00:34,485] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-00-34_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_11-00-34_sdfsdfsdf_encoded.fa --- All good!
+[2020-10-30 11:00:40,711] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_10-59-08_asdasd_toencode.fa app/codec_files/2020-10-30_10-59-08_asdasd_encoded.fa --- All good!
+[2020-10-30 11:00:40,717] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-00-38_sdfsdfsdf_toencode.fa app/codec_files/2020-10-30_11-00-38_sdfsdfsdf_encoded.fa --- All good!
+[2020-10-30 11:03:56,730] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-03-31_sdfsdfsdf_toencode.fa app/codec_files/2020-10-30_11-03-31_sdfsdfsdf_decoded.txt --- All good!
+[2020-10-30 11:04:51,248] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-04-51_WHAT_IS_HA_toencode.txt app/codec_files/2020-10-30_11-04-51_WHAT_IS_HA_encoded.fa --- All good!
+[2020-10-30 11:04:57,954] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-04-55_WHAT_IS_HA_toencode.fa app/codec_files/2020-10-30_11-04-55_WHAT_IS_HA_decoded.txt --- All good!
+[2020-10-30 11:06:47,028] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-05-42_WHAT_IS_HA_toencode.fa app/codec_files/2020-10-30_11-05-42_WHAT_IS_HA_decoded.txt --- All good!
+[2020-10-30 11:07:43,369] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-06-47_WHAT_IS_HA_toencode.fa app/codec_files/2020-10-30_11-06-47_WHAT_IS_HA_decoded.txt --- All good!
+[2020-10-30 11:10:32,740] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-10-32_WHAT_IS_HA_toencode.fa app/codec_files/2020-10-30_11-10-32_WHAT_IS_HA_decoded.txt --- All good!
+[2020-10-30 11:14:40,409] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-14-37_WHAT_IS_HA_toencode.fa app/codec_files/2020-10-30_11-14-37_WHAT_IS_HA_decoded.txt --- All good!
+[2020-10-30 11:15:00,972] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 11:15:04,389] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-15-01_WHAT_IS_HA_toencode.fa app/codec_files/2020-10-30_11-15-01_WHAT_IS_HA_decoded.txt --- All good!
+[2020-10-30 11:15:07,845] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 11:15:08,975] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 11:15:23,533] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-15-23_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_11-15-23_sdfsdfsdfs_encoded.fa --- All good!
+[2020-10-30 11:15:44,910] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-15-42_AGACGATA,A_toencode.fa app/codec_files/2020-10-30_11-15-42_AGACGATA,A_decoded.txt --- All good!
+[2020-10-30 11:16:54,802] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 11:16:58,685] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 11:17:03,416] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-17-03_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_11-17-03_sdfsdfsdf_encoded.fa --- All good!
+[2020-10-30 11:17:12,590] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-17-10_AGTAGCG,AC_toencode.fa app/codec_files/2020-10-30_11-17-10_AGTAGCG,AC_decoded.txt --- All good!
+[2020-10-30 11:18:08,551] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 11:18:14,065] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-18-13_dfsdfsdf_toencode.txt app/codec_files/2020-10-30_11-18-13_dfsdfsdf_encoded.fa --- All good!
+[2020-10-30 11:18:26,062] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-18-23_AGTCAGT,AC_toencode.fa app/codec_files/2020-10-30_11-18-23_AGTCAGT,AC_decoded.txt --- All good!
+[2020-10-30 11:18:36,831] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-18-36_dfsdfsdfsd_toencode.txt app/codec_files/2020-10-30_11-18-36_dfsdfsdfsd_encoded.fa --- All good!
+[2020-10-30 11:19:16,054] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/file
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-19-13_2020-10-30_11-14-37_WHAT_IS_HA_toencode_toencode.fa app/codec_files/2020-10-30_11-19-13_2020-10-30_11-14-37_WHAT_IS_HA_toencode_decoded.x-empty --- All good!
+[2020-10-30 11:20:02,192] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/file
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-19-41_2020-10-30_11-14-37_WHAT_IS_HA_toencode_toencode.fa app/codec_files/2020-10-30_11-19-41_2020-10-30_11-14-37_WHAT_IS_HA_toencode_decoded.x-empty --- All good!
+[2020-10-30 11:21:48,029] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/file
+ERROR in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:425 - DECODING typed app/codec_files/2020-10-30_11-20-56_2020-10-30_11-14-37_WHAT_IS_HA_toencode_toencode.fa app/codec_files/2020-10-30_11-20-56_2020-10-30_11-14-37_WHAT_IS_HA_toencode_decoded.txt --- Problem finding payload/address info. C stdout: b'dnad_decode version: v2 9a49e71881e7b01809d08844c48a73418a35d7db Mon Oct 12 21:35:22 2020 +0900\nCompile time: Oct 14 2020 10:25:32\nUnable to open fasta file\n' C stderr: b''
+[2020-10-30 11:25:36,401] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 11:26:05,894] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-26-05_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_11-26-05_sdfsdfsdfs_encoded.fa --- All good!
+[2020-10-30 11:27:54,651] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/file
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-26-40_2020-10-30_11-26-05_sdfsdfsdfs_encoded_toencode.fa app/codec_files/2020-10-30_11-26-40_2020-10-30_11-26-05_sdfsdfsdfs_encoded_decoded.txt --- All good!
+[2020-10-30 11:28:05,240] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-28-05_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_11-28-05_sdfsdfsdfs_encoded.fa --- All good!
+[2020-10-30 11:28:16,453] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:439 - DECODING typed app/codec_files/2020-10-30_11-28-15_AGACGATA,A_toencode.fa app/codec_files/2020-10-30_11-28-15_AGACGATA,A_decoded.txt --- All good!
+[2020-10-30 11:39:13,428] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-39-13_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_11-39-13_sdfsdfsdfs_encoded.fa --- All good!
+[2020-10-30 11:41:04,226] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-41-03_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_11-41-03_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 11:44:39,898] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/file
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_11-44-02_poem_toencode.txt app/codec_files/2020-10-30_11-44-02_poem_encoded.txt --- All good!
+[2020-10-30 12:10:05,681] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:10:15,666] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:10:32,887] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:10:42,435] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-10-42_sdfsdf_toencode.txt app/codec_files/2020-10-30_12-10-42_sdfsdf_encoded.txt --- All good!
+[2020-10-30 12:10:52,828] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:441 - DECODING typed app/codec_files/2020-10-30_12-10-51_AGTAGCG,AC_toencode.fa app/codec_files/2020-10-30_12-10-51_AGTAGCG,AC_decoded.txt --- All good!
+[2020-10-30 12:11:29,719] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:11:38,909] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-11-38_sdfsdf_toencode.txt app/codec_files/2020-10-30_12-11-38_sdfsdf_encoded.txt --- All good!
+[2020-10-30 12:11:50,533] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:441 - DECODING typed app/codec_files/2020-10-30_12-11-49_AGTAGCG,AC_toencode.fa app/codec_files/2020-10-30_12-11-49_AGTAGCG,AC_decoded.txt --- All good!
+[2020-10-30 12:12:38,929] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:12:49,322] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:12:52,690] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-12-52_sdfsdf_toencode.txt app/codec_files/2020-10-30_12-12-52_sdfsdf_encoded.txt --- All good!
+[2020-10-30 12:13:49,040] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:13:53,199] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-13-53_sdfsdf_toencode.txt app/codec_files/2020-10-30_12-13-53_sdfsdf_encoded.txt --- All good!
+[2020-10-30 12:14:27,424] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:14:30,808] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-14-30_sdfsdf_toencode.txt app/codec_files/2020-10-30_12-14-30_sdfsdf_encoded.txt --- All good!
+[2020-10-30 12:17:10,258] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:17:14,190] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-17-14_sdfsdf_toencode.txt app/codec_files/2020-10-30_12-17-14_sdfsdf_encoded.txt --- All good!
+[2020-10-30 12:17:23,157] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-17-22_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_12-17-22_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 12:17:26,328] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-17-26_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_12-17-26_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 12:17:35,723] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-17-35_s_toencode.txt app/codec_files/2020-10-30_12-17-35_s_encoded.txt --- All good!
+[2020-10-30 12:17:43,452] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:17:45,934] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-17-45_sd_toencode.txt app/codec_files/2020-10-30_12-17-45_sd_encoded.txt --- All good!
+[2020-10-30 12:17:48,135] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-17-47_sds_toencode.txt app/codec_files/2020-10-30_12-17-47_sds_encoded.txt --- All good!
+[2020-10-30 12:18:03,242] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-18-03_sdss_toencode.txt app/codec_files/2020-10-30_12-18-03_sdss_encoded.txt --- All good!
+[2020-10-30 12:18:30,777] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:18:34,666] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-18-34_sdf_toencode.txt app/codec_files/2020-10-30_12-18-34_sdf_encoded.txt --- All good!
+[2020-10-30 12:18:41,515] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:441 - DECODING typed app/codec_files/2020-10-30_12-18-40_ACGATA,TAG_toencode.fa app/codec_files/2020-10-30_12-18-40_ACGATA,TAG_decoded.txt --- All good!
+[2020-10-30 12:24:52,640] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-24-52_k_toencode.txt app/codec_files/2020-10-30_12-24-52_k_encoded.txt --- All good!
+[2020-10-30 12:25:03,930] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-25-03_kern_toencode.txt app/codec_files/2020-10-30_12-25-03_kern_encoded.txt --- All good!
+[2020-10-30 12:25:14,722] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-25-14_kernyy_toencode.txt app/codec_files/2020-10-30_12-25-14_kernyy_encoded.txt --- All good!
+[2020-10-30 12:25:24,573] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-25-24_kernyyyyy_toencode.txt app/codec_files/2020-10-30_12-25-24_kernyyyyy_encoded.txt --- All good!
+[2020-10-30 12:25:31,887] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-25-31_kernyyyyyy_toencode.txt app/codec_files/2020-10-30_12-25-31_kernyyyyyy_encoded.txt --- All good!
+[2020-10-30 12:25:37,359] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-25-37_kernyyyyyy_toencode.txt app/codec_files/2020-10-30_12-25-37_kernyyyyyy_encoded.txt --- All good!
+[2020-10-30 12:26:08,274] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-26-08_kernyyyyyy_toencode.txt app/codec_files/2020-10-30_12-26-08_kernyyyyyy_encoded.txt --- All good!
+[2020-10-30 12:26:15,532] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-26-15_ke_toencode.txt app/codec_files/2020-10-30_12-26-15_ke_encoded.txt --- All good!
+[2020-10-30 12:43:39,405] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:43:45,386] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-43-45_sdfsdf_toencode.txt app/codec_files/2020-10-30_12-43-45_sdfsdf_encoded.txt --- All good!
+[2020-10-30 12:45:19,501] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:45:23,882] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-45-23_sdfsdf_toencode.txt app/codec_files/2020-10-30_12-45-23_sdfsdf_encoded.txt --- All good!
+[2020-10-30 12:45:55,044] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:45:59,211] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-45-59_sdfsd_toencode.txt app/codec_files/2020-10-30_12-45-59_sdfsd_encoded.txt --- All good!
+[2020-10-30 12:46:31,475] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 12:46:36,432] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_12-46-36_sdfsdf_toencode.txt app/codec_files/2020-10-30_12-46-36_sdfsdf_encoded.txt --- All good!
+[2020-10-30 14:23:08,646] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 14:23:18,011] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_14-23-17_kjkljk_toencode.txt app/codec_files/2020-10-30_14-23-17_kjkljk_encoded.txt --- All good!
+[2020-10-30 14:48:16,995] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 14:48:22,473] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_14-48-22_sdfsdf_toencode.txt app/codec_files/2020-10-30_14-48-22_sdfsdf_encoded.txt --- All good!
+[2020-10-30 14:52:30,216] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 14:52:35,377] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_14-52-35_,nm,n,mn,m_toencode.txt app/codec_files/2020-10-30_14-52-35_,nm,n,mn,m_encoded.txt --- All good!
+[2020-10-30 14:53:18,595] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 14:53:24,066] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_14-53-23_dsfdfsdf_toencode.txt app/codec_files/2020-10-30_14-53-23_dsfdfsdf_encoded.txt --- All good!
+[2020-10-30 14:55:53,391] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 14:55:59,971] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 14:56:00,940] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 14:56:17,471] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_14-56-17_asdasdsada_toencode.txt app/codec_files/2020-10-30_14-56-17_asdasdsada_encoded.txt --- All good!
+[2020-10-30 15:01:12,165] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:01:23,845] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:01:24,150] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:01:52,380] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-01-52_sssdfsdfsd_toencode.txt app/codec_files/2020-10-30_15-01-52_sssdfsdfsd_encoded.txt --- All good!
+[2020-10-30 15:03:36,982] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:03:45,457] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-03-45_sdfdsfsdfs_toencode.txt app/codec_files/2020-10-30_15-03-45_sdfdsfsdfs_encoded.txt --- All good!
+[2020-10-30 15:05:03,765] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:05:19,486] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-05-19_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-05-19_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:05:46,191] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:05:52,236] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-05-52_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_15-05-52_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 15:06:59,131] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:07:03,857] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-07-03_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_15-07-03_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 15:08:32,207] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:08:39,086] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:08:39,529] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:09:18,708] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-09-18_sdfsdf_toencode.txt app/codec_files/2020-10-30_15-09-18_sdfsdf_encoded.txt --- All good!
+[2020-10-30 15:09:57,152] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:10:01,488] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-10-01_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-10-01_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:11:25,644] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:11:29,726] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-11-29_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-11-29_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:14:01,484] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:14:04,857] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-14-04_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-14-04_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:17:14,644] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:17:19,011] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-17-18_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_15-17-18_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 15:17:54,628] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:17:58,782] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-17-58_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-17-58_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:18:11,415] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:18:15,008] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-18-14_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-18-14_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:21:46,261] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:21:49,991] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-21-49_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-21-49_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:21:52,234] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:21:55,530] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-21-55_sdfsdf_toencode.txt app/codec_files/2020-10-30_15-21-55_sdfsdf_encoded.txt --- All good!
+[2020-10-30 15:22:29,640] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:22:33,658] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-22-33_dsfsdfsdfs_toencode.txt app/codec_files/2020-10-30_15-22-33_dsfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 15:23:14,493] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-23-14_dsfsdfsdfs_toencode.txt app/codec_files/2020-10-30_15-23-14_dsfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 15:23:45,291] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:23:55,993] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:23:56,776] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:24:07,338] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-24-07_sdfsdf_toencode.txt app/codec_files/2020-10-30_15-24-07_sdfsdf_encoded.txt --- All good!
+[2020-10-30 15:24:19,120] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-24-19_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_15-24-19_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 15:26:01,132] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:26:13,718] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:26:14,144] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:26:52,815] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-26-52_sdfsdf_toencode.txt app/codec_files/2020-10-30_15-26-52_sdfsdf_encoded.txt --- All good!
+[2020-10-30 15:27:13,995] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-27-13_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_15-27-13_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 15:29:31,810] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-29-31_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_15-29-31_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 15:31:14,628] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:31:20,116] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-31-20_sdfsdf_toencode.txt app/codec_files/2020-10-30_15-31-20_sdfsdf_encoded.txt --- All good!
+[2020-10-30 15:31:25,611] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-31-25_sdfsdfALSJ_toencode.txt app/codec_files/2020-10-30_15-31-25_sdfsdfALSJ_encoded.txt --- All good!
+[2020-10-30 15:31:29,339] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-31-29_sdfsdfALSJ_toencode.txt app/codec_files/2020-10-30_15-31-29_sdfsdfALSJ_encoded.txt --- All good!
+[2020-10-30 15:32:39,971] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:32:44,196] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-32-44_sdfsdf_toencode.txt app/codec_files/2020-10-30_15-32-44_sdfsdf_encoded.txt --- All good!
+[2020-10-30 15:32:49,372] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-32-49_sdfsdfA>FK_toencode.txt app/codec_files/2020-10-30_15-32-49_sdfsdfA>FK_encoded.txt --- All good!
+[2020-10-30 15:33:46,674] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:34:07,626] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:34:08,228] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:34:29,589] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-34-29_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_15-34-29_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 15:34:42,030] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-34-41_HELLO_toencode.txt app/codec_files/2020-10-30_15-34-41_HELLO_encoded.txt --- All good!
+[2020-10-30 15:40:25,964] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:40:33,052] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-40-32_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-40-32_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:40:43,143] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-40-42_sdfsdfsdfA_toencode.txt app/codec_files/2020-10-30_15-40-42_sdfsdfsdfA_encoded.txt --- All good!
+[2020-10-30 15:41:44,875] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:41:50,056] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-41-49_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-41-49_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:41:52,684] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-41-52_ALICE_toencode.txt app/codec_files/2020-10-30_15-41-52_ALICE_encoded.txt --- All good!
+[2020-10-30 15:43:23,886] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:43:28,985] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-43-28_sdfsdfsdsd_toencode.txt app/codec_files/2020-10-30_15-43-28_sdfsdfsdsd_encoded.txt --- All good!
+[2020-10-30 15:43:34,036] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-43-33_sdfsdfsdsd_toencode.txt app/codec_files/2020-10-30_15-43-33_sdfsdfsdsd_encoded.txt --- All good!
+[2020-10-30 15:44:47,584] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:44:52,899] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-44-52_ALICEALICE_toencode.txt app/codec_files/2020-10-30_15-44-52_ALICEALICE_encoded.txt --- All good!
+[2020-10-30 15:44:56,209] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-44-56_ALICEALICE_toencode.txt app/codec_files/2020-10-30_15-44-56_ALICEALICE_encoded.txt --- All good!
+[2020-10-30 15:45:57,279] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-45-57_ALICEALICE_toencode.txt app/codec_files/2020-10-30_15-45-57_ALICEALICE_encoded.txt --- All good!
+[2020-10-30 15:48:26,735] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:48:31,698] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-48-31_dsfsdfsdf_toencode.txt app/codec_files/2020-10-30_15-48-31_dsfsdfsdf_encoded.txt --- All good!
+[2020-10-30 15:48:45,226] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-48-44_dsfsdfsdfA_toencode.txt app/codec_files/2020-10-30_15-48-44_dsfsdfsdfA_encoded.txt --- All good!
+[2020-10-30 15:56:56,257] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:57:10,354] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:57:17,823] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-57-17_ALICE_IS_C_toencode.txt app/codec_files/2020-10-30_15-57-17_ALICE_IS_C_encoded.txt --- All good!
+[2020-10-30 15:57:23,131] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-57-22_ALICE_IS_N_toencode.txt app/codec_files/2020-10-30_15-57-22_ALICE_IS_N_encoded.txt --- All good!
+[2020-10-30 15:57:44,059] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-57-43__ALICE_IS__toencode.txt app/codec_files/2020-10-30_15-57-43__ALICE_IS__encoded.txt --- All good!
+[2020-10-30 15:57:55,996] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:58:01,314] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-58-01_ALICE_IS_N_toencode.txt app/codec_files/2020-10-30_15-58-01_ALICE_IS_N_encoded.txt --- All good!
+[2020-10-30 15:58:25,982] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 15:58:49,873] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_15-58-49__ALICE_IS__toencode.txt app/codec_files/2020-10-30_15-58-49__ALICE_IS__encoded.txt --- All good!
+[2020-10-30 16:01:23,765] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:01:39,097] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-01-39_Alice_is_c_toencode.txt app/codec_files/2020-10-30_16-01-39_Alice_is_c_encoded.txt --- All good!
+[2020-10-30 16:02:15,695] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:02:29,464] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-02-29_I_am_going_toencode.txt app/codec_files/2020-10-30_16-02-29_I_am_going_encoded.txt --- All good!
+[2020-10-30 16:02:35,876] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-02-35_And_then_I_toencode.txt app/codec_files/2020-10-30_16-02-35_And_then_I_encoded.txt --- All good!
+[2020-10-30 16:02:43,123] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-02-42_I'll_think_toencode.txt app/codec_files/2020-10-30_16-02-42_I'll_think_encoded.txt --- All good!
+[2020-10-30 16:09:50,763] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-09-50_I'll_think_toencode.txt app/codec_files/2020-10-30_16-09-50_I'll_think_encoded.txt --- All good!
+[2020-10-30 16:10:05,503] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:10:11,853] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:10:12,410] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:10:20,703] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-10-20_asdasdasda_toencode.txt app/codec_files/2020-10-30_16-10-20_asdasdasda_encoded.txt --- All good!
+[2020-10-30 16:21:46,893] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:22:08,799] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:22:09,489] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:22:20,637] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-22-20_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_16-22-20_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 16:22:38,335] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:22:45,103] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-22-45_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_16-22-45_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 16:22:58,089] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:23:01,787] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-23-01_sdfsdfsd_toencode.txt app/codec_files/2020-10-30_16-23-01_sdfsdfsd_encoded.txt --- All good!
+[2020-10-30 16:23:17,230] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:23:21,523] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-23-21_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_16-23-21_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 16:23:29,718] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-23-29_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_16-23-29_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 16:23:41,717] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-23-41_RABBIT_RAB_toencode.txt app/codec_files/2020-10-30_16-23-41_RABBIT_RAB_encoded.txt --- All good!
+[2020-10-30 16:23:56,513] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 16:24:03,118] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-24-03_ALICE_IS_C_toencode.txt app/codec_files/2020-10-30_16-24-03_ALICE_IS_C_encoded.txt --- All good!
+[2020-10-30 16:24:09,298] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_16-24-09_ALICE_IS_C_toencode.txt app/codec_files/2020-10-30_16-24-09_ALICE_IS_C_encoded.txt --- All good!
+[2020-10-30 18:08:12,585] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-08-12_ALICE_IS_C_toencode.txt app/codec_files/2020-10-30_18-08-12_ALICE_IS_C_encoded.txt --- All good!
+[2020-10-30 18:08:23,949] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:08:30,741] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-08-30_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_18-08-30_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 18:08:35,953] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-08-35_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_18-08-35_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 18:11:48,171] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:11:52,719] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-11-52_sdfsdf_toencode.txt app/codec_files/2020-10-30_18-11-52_sdfsdf_encoded.txt --- All good!
+[2020-10-30 18:12:22,924] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:12:26,524] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-12-26_sdfsdf_toencode.txt app/codec_files/2020-10-30_18-12-26_sdfsdf_encoded.txt --- All good!
+[2020-10-30 18:15:57,641] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:16:01,696] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-16-01_sdfsdf_toencode.txt app/codec_files/2020-10-30_18-16-01_sdfsdf_encoded.txt --- All good!
+[2020-10-30 18:16:35,231] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:16:38,745] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-16-38_sdfsdf_toencode.txt app/codec_files/2020-10-30_18-16-38_sdfsdf_encoded.txt --- All good!
+[2020-10-30 18:16:40,560] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:16:43,713] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-16-43_sdfsdf_toencode.txt app/codec_files/2020-10-30_18-16-43_sdfsdf_encoded.txt --- All good!
+[2020-10-30 18:17:35,842] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:17:39,433] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-17-39_asdasd_toencode.txt app/codec_files/2020-10-30_18-17-39_asdasd_encoded.txt --- All good!
+[2020-10-30 18:17:41,320] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:17:44,026] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-17-43_sdfsdf_toencode.txt app/codec_files/2020-10-30_18-17-43_sdfsdf_encoded.txt --- All good!
+[2020-10-30 18:18:15,210] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-18-15_WHAT"S_UPP_toencode.txt app/codec_files/2020-10-30_18-18-15_WHAT"S_UPP_encoded.txt --- All good!
+[2020-10-30 18:37:25,303] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:37:30,774] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-37-30_sdfsdf_toencode.txt app/codec_files/2020-10-30_18-37-30_sdfsdf_encoded.txt --- All good!
+[2020-10-30 18:37:54,960] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:38:03,289] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-38-03_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_18-38-03_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 18:38:24,500] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-38-24_sdfsdfsdfs_toencode.txt app/codec_files/2020-10-30_18-38-24_sdfsdfsdfs_encoded.txt --- All good!
+[2020-10-30 18:39:29,448] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:39:35,804] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-39-35_ALICEL_ILI_toencode.txt app/codec_files/2020-10-30_18-39-35_ALICEL_ILI_encoded.txt --- All good!
+[2020-10-30 18:39:44,046] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-39-43_ALICEL_ILI_toencode.txt app/codec_files/2020-10-30_18-39-43_ALICEL_ILI_encoded.txt --- All good!
+[2020-10-30 18:54:38,118] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:54:45,007] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:54:45,823] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:55:12,569] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-55-12_The_first__toencode.txt app/codec_files/2020-10-30_18-55-12_The_first__encoded.txt --- All good!
+[2020-10-30 18:55:45,644] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-55-45_The_second_toencode.txt app/codec_files/2020-10-30_18-55-45_The_second_encoded.txt --- All good!
+[2020-10-30 18:59:25,586] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 18:59:30,377] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-59-30_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_18-59-30_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 18:59:51,747] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_18-59-51_ALICE_LALL_toencode.txt app/codec_files/2020-10-30_18-59-51_ALICE_LALL_encoded.txt --- All good!
+[2020-10-30 19:03:41,467] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/file
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_19-02-53_poem_toencode.txt app/codec_files/2020-10-30_19-02-53_poem_encoded.txt --- All good!
+[2020-10-30 19:07:06,944] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/file
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_19-06-54_rawBpa_toencode.txt app/codec_files/2020-10-30_19-06-54_rawBpa_encoded.txt --- All good!
+[2020-10-30 19:07:39,868] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/file
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_19-07-34_paper-link_toencode.txt app/codec_files/2020-10-30_19-07-34_paper-link_encoded.txt --- All good!
+[2020-10-30 19:11:58,010] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 19:12:02,299] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_19-12-02_sdfsdfsdf_toencode.txt app/codec_files/2020-10-30_19-12-02_sdfsdfsdf_encoded.txt --- All good!
+[2020-10-30 19:25:06,484] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:442 - DECODING typed app/codec_files/2020-10-30_19-25-05_AGTAGCG,AC_toencode.fa app/codec_files/2020-10-30_19-25-05_AGTAGCG,AC_decoded.txt --- All good!
+[2020-10-30 19:25:33,877] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 19:25:56,315] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-10-30 19:26:01,962] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-10-30_19-26-01_sdsfdsfsdf_toencode.txt app/codec_files/2020-10-30_19-26-01_sdsfdsfsdf_encoded.txt --- All good!
+[2020-11-02 10:35:04,419] 127.0.0.1 requested http://127.0.0.1:5001/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/home/views.py:29 - Processing request for home.
+[2020-11-02 10:35:44,025] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_10-35-43_sdfsdfsdfd_toencode.txt app/codec_files/2020-11-02_10-35-43_sdfsdfsdfd_encoded.txt --- All good!
+[2020-11-02 10:35:59,956] 127.0.0.1 requested http://127.0.0.1:5001/master/decode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:442 - DECODING typed app/codec_files/2020-11-02_10-35-55_AGACGATA,A_toencode.fa app/codec_files/2020-11-02_10-35-55_AGACGATA,A_decoded.txt --- All good!
+[2020-11-02 10:37:41,710] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 10:38:07,859] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:24:14,007] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:24:33,462] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:24:38,791] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:25:41,940] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:25:49,729] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:26:19,528] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:26:31,530] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:26:58,609] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:26:59,530] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:27:07,281] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:28:04,348] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:28:18,770] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:29:05,322] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:29:43,412] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:29:51,940] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:30:06,740] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:36:54,379] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:37:07,348] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:37:08,161] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:37:17,813] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:38:02,046] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:43:56,373] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:44:02,657] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:44:03,646] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:44:12,514] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:44:30,894] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:55:07,170] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:55:49,978] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 11:57:45,959] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:02:48,370] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:03:13,231] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:03:25,013] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:13:21,997] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:16:43,806] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:19:12,841] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:19:45,221] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:19:46,289] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:20:03,984] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:20:11,166] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:21:33,994] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:21:45,105] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:23:49,728] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:23:55,293] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:25:55,347] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:26:02,401] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:26:03,519] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:26:09,432] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:26:43,511] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:26:48,646] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:26:56,478] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:27:02,974] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:28:54,153] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 12:29:36,611] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:12:03,552] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:13:37,286] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:13:55,166] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:13:56,118] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:14:25,385] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:21:44,140] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:21:52,433] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:21:53,405] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:22:40,858] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:22:53,096] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:23:25,510] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:23:31,641] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:26:18,291] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:26:29,358] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:32:28,994] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:32:43,184] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:33:14,145] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:33:25,059] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:33:31,612] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:34:14,425] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:45:55,144] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:47:24,239] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:47:33,941] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:48:40,519] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:48:46,712] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:48:51,689] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-48-51_sdfsdfsdf_toencode.txt app/codec_files/2020-11-02_14-48-51_sdfsdfsdf_encoded.txt --- All good!
+[2020-11-02 14:49:09,923] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:49:18,682] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-49-18_sdfsdf_toencode.txt app/codec_files/2020-11-02_14-49-18_sdfsdf_encoded.txt --- All good!
+[2020-11-02 14:49:27,995] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:49:32,276] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-49-32_sdfsdf_toencode.txt app/codec_files/2020-11-02_14-49-32_sdfsdf_encoded.txt --- All good!
+[2020-11-02 14:50:17,828] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:50:22,057] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-50-22_sdfsdf_toencode.txt app/codec_files/2020-11-02_14-50-22_sdfsdf_encoded.txt --- All good!
+[2020-11-02 14:50:59,295] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:55:05,629] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:55:14,394] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:56:05,080] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:56:08,889] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-56-08_sdfsdf_toencode.txt app/codec_files/2020-11-02_14-56-08_sdfsdf_encoded.txt --- All good!
+[2020-11-02 14:58:19,543] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:58:37,924] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:58:41,966] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-58-41_sdfsdf_toencode.txt app/codec_files/2020-11-02_14-58-41_sdfsdf_encoded.txt --- All good!
+[2020-11-02 14:58:59,176] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:59:07,158] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-59-07_sdfsdf_toencode.txt app/codec_files/2020-11-02_14-59-07_sdfsdf_encoded.txt --- All good!
+[2020-11-02 14:59:16,522] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:59:20,333] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-59-20_sdfsdf_toencode.txt app/codec_files/2020-11-02_14-59-20_sdfsdf_encoded.txt --- All good!
+[2020-11-02 14:59:26,940] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:59:31,758] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-59-31_sdfsdf_toencode.txt app/codec_files/2020-11-02_14-59-31_sdfsdf_encoded.txt --- All good!
+[2020-11-02 14:59:51,202] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 14:59:56,980] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_14-59-56_sdfsdf_toencode.txt app/codec_files/2020-11-02_14-59-56_sdfsdf_encoded.txt --- All good!
+[2020-11-02 14:59:59,927] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:00:02,341] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:00:04,599] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:00:26,067] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:00:30,301] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-00-30_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-00-30_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:00:46,117] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:00:50,203] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-00-50_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-00-50_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:00:52,094] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:00:57,749] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-00-57_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-00-57_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:01:53,587] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:02:00,511] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-02-00_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-02-00_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:02:03,469] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:02:07,169] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-02-07_sdfsdfsdf_toencode.txt app/codec_files/2020-11-02_15-02-07_sdfsdfsdf_encoded.txt --- All good!
+[2020-11-02 15:02:09,487] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:02:17,532] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-02-17_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-02-17_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:02:35,615] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:02:39,581] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-02-39_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-02-39_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:06:42,002] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:06:45,657] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-06-45_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-06-45_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:07:11,481] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:07:17,326] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-07-17_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-07-17_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:08:43,317] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:10:26,103] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:10:32,263] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-10-32_ssdfsdfsdf_toencode.txt app/codec_files/2020-11-02_15-10-32_ssdfsdfsdf_encoded.txt --- All good!
+[2020-11-02 15:12:31,949] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:12:38,494] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:12:39,317] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:12:49,335] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:13:00,756] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:13:04,677] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-13-04_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-13-04_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:19:12,506] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:19:23,148] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-19-23_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-19-23_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:19:44,753] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:19:49,440] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-19-49_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-19-49_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:20:12,040] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:20:15,603] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-20-15_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-20-15_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:20:34,621] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:20:40,986] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:20:42,249] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:20:50,968] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-20-50_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-20-50_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:22:45,419] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:22:52,257] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:23:04,690] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-23-04_sfdf_toencode.txt app/codec_files/2020-11-02_15-23-04_sfdf_encoded.txt --- All good!
+[2020-11-02 15:23:25,738] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:23:36,695] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:23:49,209] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:23:53,337] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-23-53_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-23-53_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:24:32,896] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:24:36,918] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-24-36_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-24-36_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:26:52,064] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:27:21,932] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:27:22,839] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:27:28,833] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-27-28_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-27-28_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:29:20,090] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:29:27,883] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:29:32,169] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-29-32_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-29-32_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:31:02,346] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:31:10,130] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:31:17,850] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-31-17_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-31-17_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:40:36,531] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:40:39,920] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:41:02,198] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:41:06,214] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-41-06_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-41-06_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:43:27,896] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:43:32,691] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-43-32_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-43-32_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:44:18,771] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:44:24,410] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:44:25,653] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:44:38,158] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-44-38_adadasd_toencode.txt app/codec_files/2020-11-02_15-44-38_adadasd_encoded.txt --- All good!
+[2020-11-02 15:50:35,705] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:50:46,733] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-50-46_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-50-46_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:52:35,592] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:52:41,379] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:53:09,544] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:53:30,617] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-53-30_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-53-30_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:53:34,097] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:53:38,170] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-53-38_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-53-38_sdfsdf_encoded.txt --- All good!
+[2020-11-02 15:58:25,409] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:58:31,062] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:58:32,249] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 15:58:50,024] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_15-58-49_sdfsdf_toencode.txt app/codec_files/2020-11-02_15-58-49_sdfsdf_encoded.txt --- All good!
+[2020-11-02 16:00:10,089] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 16:00:18,476] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 16:00:25,319] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_16-00-25_sdfsdf_toencode.txt app/codec_files/2020-11-02_16-00-25_sdfsdf_encoded.txt --- All good!
+[2020-11-02 16:01:15,510] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 16:01:39,914] 127.0.0.1 requested http://127.0.0.1:5001/master/
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:78 - Processing request for home from ./master/Codec/c.
+[2020-11-02 16:01:47,642] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_16-01-47_sfdsdf_toencode.txt app/codec_files/2020-11-02_16-01-47_sfdsdf_encoded.txt --- All good!
+[2020-11-02 17:45:12,992] 127.0.0.1 requested http://127.0.0.1:5001/master/encode/json
+INFO in /Users/alicemarbach/Desktop/dnaProject/app/blueprints/__init__.py:226 - ENCODING app/codec_files/2020-11-02_17-45-12_sfdsdf_toencode.txt app/codec_files/2020-11-02_17-45-12_sfdsdf_encoded.txt --- All good!
