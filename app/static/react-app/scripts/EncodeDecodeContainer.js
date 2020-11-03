@@ -47,15 +47,16 @@ const EncodeDecodeContainer = () => {
         uploadEncodeBox: false,
         graphOutbox: false,
     };
-    const [openDict, setOpenDict] = useState(startOpenDict);
-    const [selectedDisplays, setSelectedDisplay] = useState({
+    const encodeInitialDisplay = {
         // job, encode/decode, type, plot
         outputOpen1: ["Analytics", "Basic Data"],
         outputOpen2: ["Analytics", "DNA Sequence"],
         outputOpen3: ["Plots", "GC Content Plot"],
         outputOpen4: ["Plots", "Nucleotide Content Plot"],
-    });
-
+    };
+    
+    const [openDict, setOpenDict] = useState(startOpenDict);
+    const [selectedDisplays, setSelectedDisplay] = useState(encodeInitialDisplay);
     const [processJobDisplays, setProcessJobDisplay] = useState({});
     const [decodeFileType, setDecodeFileType] = useState("text/plain");
     const [decodeDisplayInfo, setDecodeDisplayInfo] = useState("");
@@ -166,8 +167,8 @@ const EncodeDecodeContainer = () => {
         } else {
             input = errorCheckDNA(toDecode);
             // need this for saving history
-            setToDecode(input);
             if (!input) return null;
+            setToDecode(input);
         }
         const options = {
             method: "POST",
@@ -189,6 +190,7 @@ const EncodeDecodeContainer = () => {
 
     const codecDecode = (inputType) => {
         setLoading(true);
+        setMode("default");
         var options;
         if (inputType === "file") {
             if (!fileToDecode) {
@@ -313,6 +315,9 @@ const EncodeDecodeContainer = () => {
     // ENCODE FILES ONLY
     const codecGetFile = (inputType) => {
         setLoading(true);
+        // prevent it going into OutputElementTemplate unless the current process job
+        // is ready.
+        setMode("default");
         var options;
         if (inputType === "file") {
             if (!fileToEncode) {
@@ -397,6 +402,7 @@ const EncodeDecodeContainer = () => {
                 setHistory((history) => [item, ...history]);
                 // if (Object.keys(processJobDisplays).length == 0) {
                 // only set the job displays for the very first encoding.
+                setSelectedDisplay(encodeInitialDisplay);
                 setProcessJobDisplay({
                     outputOpen1: item,
                     outputOpen2: item,
@@ -600,22 +606,7 @@ const EncodeDecodeContainer = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    {(mode === "encode" || mode == "decode") && encodeOutputElements}
-                                    {/* {mode === "decode" && decodeOutputElements} */}
-                                    {/* {mode === "encode" &&
-                                        <OutputElements openDict={openDict} setOpenDict={setOpenDict}
-                                            analytics={analytics} setAnalytics={setAnalytics}
-                                            plots={plots} setPlots={setPlots}
-                                            mode={mode}
-                                            loading={loading}
-                                            encodeHistory={encodeHistory}
-                                            gcContent={gcContent}
-                                            width={500} height={500}
-                                            putOutputInInput={putOutputInInput} getFasta={getFasta}
-                                            processJobDisplays={processJobDisplays}
-                                            setProcessJobDisplay={setProcessJobDisplay}
-                                        />
-                                    } */}
+                                    {(mode === "encode" || mode === "decode") && encodeOutputElements}
                                 </div>
                             </div>
                         </div>

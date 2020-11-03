@@ -36,7 +36,6 @@ const App = () => {
                 <div className="text-block-4">Version:</div>
                 <NavLink to="/master" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link nav-bar-master-link">Master</NavLink>
                 <NavLink to="/dev" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link nav-bar-master-link-2">Development</NavLink>
-                <NavLink to="/dev" aria-current="page" activeClassName="active-route" className="nav-link w-nav-link nav-bar-master-link-3">Output Box</NavLink>
                 <div className="text-block-4 nav-bar-link-3">1.3</div>
               </nav>
             </div>
@@ -49,9 +48,6 @@ const App = () => {
           <Route path="/master">
             <EncodeDecodeContainer />
           </Route>
-          {/* <Route path="/output-box">
-            
-          </Route> */}
         </Switch>
       </div>
     </Router>

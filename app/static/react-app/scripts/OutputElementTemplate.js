@@ -36,7 +36,8 @@ const OutputElementTemplate = (props) => {
         props.setSelectedDisplay({ ...props.selectedDisplays, [props.openName]: [event.target.getAttribute("typename"), option] });
     }
     const currProcessJob = props.processJobDisplays[props.openName];
-    // boolean
+    // TO DO: INLCUDE THIS IN THE DEPENDENCIES FOR RETURNVAL SO IT CHANGES ON A DIFFERENT
+    // ENCODING 
     const encode = currProcessJob["encode"];
     var listItems = [];
 
@@ -93,7 +94,7 @@ const OutputElementTemplate = (props) => {
                                 <div className="dd-header-title">{currHeader}</div>
                                 <img className="arrow-dropdown" src={arrow} width="16" height="16"></img>
                             </div>
-                            <div className="dd-header-title-job">{genProcessJobTitle(currProcessJob["name"], null)}</div>
+                            <div className="dd-header-title-job">{genProcessJobTitle(currProcessJob["name"], null, encode)}</div>
                         </div>
                     </div>
                     <div className={"my-output-dropdown-menu" + (listOpen ? " " : "-closed")}>
@@ -106,11 +107,12 @@ const OutputElementTemplate = (props) => {
                                     <li key="output-selection" className="dd-list-item">
                                         <h3 className="accordion-label">Processing Job</h3>
                                         <Dropdown>
-                                            <DropdownButton variant="dropdown" title={genProcessJobTitle(currProcessJob["name"], currProcessJob["date"])}>
+                                            <DropdownButton variant="dropdown" title={genProcessJobTitle(currProcessJob["name"], currProcessJob["date"], encode)}>
                                                 {props.history.map((processJob) => {
+                                                    if (processJob["basicFileName"] == currProcessJob["basicFileName"]) return;
                                                     return (
                                                         <Dropdown.Item key={processJob["basicFileName"]} onClick={(e) => handleJobClick(e, [processJob, encode])}>
-                                                            {genProcessJobTitle(processJob["name"], processJob["date"])}
+                                                            {genProcessJobTitle(processJob["name"], processJob["date"], encode)}
                                                         </Dropdown.Item>
                                                     );
                                                 })}
@@ -136,19 +138,29 @@ const OutputElementTemplate = (props) => {
     );
 }
 
-const genProcessJobTitle = (currProcessJobName, date) => {
+const genProcessJobTitle = (currProcessJobName, date, encode) => {
     var returnString;
     if (date) {
         var currTime = new Date();
+        var days = currTime.getDay() - date.getDay();
         var hours = currTime.getHours() - date.getHours();
-        var minutes = currTime.getMinutes() - date.getMinutes();
+        var currMins = currTime.getMinutes()
+        var dateMins = date.getMinutes()
+        var minutes =  currMins - dateMins;
         var time;
-        if (hours > 0) {
-            if (hours == 1) time = hours + " hour ago";
-            else time = hours + " hours ago";
+        if (days > 0) {
+            time = days + " day" + (days == 1 ? "" : "s") + " ago";
+        }
+        else if (hours > 0) {
+            // check if the hour has changed but fewer less than hours
+            if (minutes < 0) {
+                var difference = (60 - dateMins) + currMins;
+                time = difference + " minute" + (difference == 1 ? "" : "s") + " ago";
+            } else {
+                time = hours + " hour" + (hours == 1 ? "" : "s") + " ago";
+            }
         } else {
-            if (minutes == 1) time = minutes + " minute ago";
-            else time = minutes + " minutes ago";
+            time = minutes + " minute" + (minutes == 1 ? "" : "s") + " ago";
         }
         returnString = time + " "
     } else {
@@ -156,11 +168,8 @@ const genProcessJobTitle = (currProcessJobName, date) => {
     }
 
     // var time = date.getHours() + ":" + date.getMinutes();
-    if (currProcessJobName.length > 50) {
-        return returnString + currProcessJobName.slice(0, 50) + "...";
-    } else {
-        return returnString + currProcessJobName;
-    }
+    return (encode ? "ENCODED: " : "DECODED: ") + returnString + currProcessJobName.slice(0, 50) + (currProcessJobName.length > 50 ? "..." : "");
+    
 }
-
+// genProcessJobTitle("hello", new Date(2020, 10, 3, 17, 55))
 export default OutputElementTemplate;
