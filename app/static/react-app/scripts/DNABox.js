@@ -24,7 +24,7 @@ const DNABox = (props) => {
                         maxLength={5000} id="DNA-Sequence-Output" name="DNA-Sequence-Output"
                         className="dna-seq-output-text-area w-input"
                     />
-                    <button onClick={() => props.putOutputInInput(props.preview, props.canDisplayFull)} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button>
+                    <button onClick={() => props.putOutputInInput(props.preview, props.canDisplayFull, true)} value="Copy DNA Sequence to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button>
                 </div>
                 {downloadButton}
             </div>

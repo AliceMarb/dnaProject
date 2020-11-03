@@ -18,6 +18,7 @@ import TransitionsTable from './TransitionsTable';
 import GCGraph from './GCGraph';
 import NucleotideGraph from './NucleotideGraph';
 import DNABox from './DNABox';
+import DecodeOutput from './DecodeOutput';
 
 
 const EncodeDecodeContainer = () => {
@@ -27,8 +28,7 @@ const EncodeDecodeContainer = () => {
     const [toDecode, setToDecode] = useState("");
     const [gcContentPath, setGCContentPath] = useState("");
     const [gcContent, setGCContent] = useState("");
-    const [encodeHistory, setEncHistory] = useState([]);
-    const [decodeHistory, setDecHistory] = useState([]);
+    const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(false);
     const [editingRef, setEditing] = useState(null);
     const [fileToEncode, setFileToEncode] = useState(null);
@@ -54,8 +54,6 @@ const EncodeDecodeContainer = () => {
         outputOpen2: ["Analytics", "DNA Sequence"],
         outputOpen3: ["Plots", "GC Content Plot"],
         outputOpen4: ["Plots", "Nucleotide Content Plot"],
-        // decodeOutputOpen1: ["Analytics", "Basic Data"],
-        // decodeOutputOpen2: ["Analytics", "Decoded Output"],
     });
 
     const [processJobDisplays, setProcessJobDisplay] = useState({});
@@ -77,8 +75,9 @@ const EncodeDecodeContainer = () => {
             editingRef.current.selectionStart = editingRef.current.value.length;
             editingRef.current.selectionEnd = editingRef.current.value.length;
         }
-
-    }, [toEncode, toDecode]);
+        console.log("afte rendering");
+        console.log(openDict);
+    }, [toEncode, toDecode, openDict]);
 
     const GraphBox = () => {
         const width = 600;
@@ -131,29 +130,20 @@ const EncodeDecodeContainer = () => {
         );
     }
 
-    const putOutputInInput = (valueInOutput, canDisplayFull) => {
-        if (mode === "encode") {
-            if (encodeHistory.length == 0) {
-                alert('Please encode something first');
-            } else {
-                if (!canDisplayFull) {
-                    alert("Full sequences too long, sorry!");
-                    return;
-                }
-                setToDecode(valueInOutput);
-                setOpenDict({ ...openDict, "decodeOpen": true });
-            }
+    const putOutputInInput = (valueInOutput, canDisplayFull, putInToDecode) => {
+        if (!canDisplayFull) {
+            alert("Full sequences too long, sorry!");
+            return;
+        }
+
+        if (putInToDecode) {
+            setToDecode(valueInOutput);
+            setOpenDict({ ...openDict, "decodeOpen": true });
+            
         } else {
-            if (decodeHistory.length == 0) {
-                alert('Please encode something first');
-            } else {
-                if (!decodeHistory[0][6]) {
-                    alert("Full sequences too long, sorry!");
-                    return;
-                }
-                setToEncode(decodeHistory[0][5]);
-                setOpenDict({ ...openDict, "textStringOpen": true });
-            }
+            setToEncode(valueInOutput);
+            setOpenDict({ ...openDict, "textStringOpen": true });
+            
         }
     }
 
@@ -228,7 +218,7 @@ const EncodeDecodeContainer = () => {
         var decodedFileType;
         var canDisplayFull;
         var metadataDict = {};
-        setMode("decode");
+        // setMode("decode");
         // UPDATE THIS
         fetch(url, options)
             .then((data) => {
@@ -267,21 +257,29 @@ const EncodeDecodeContainer = () => {
                 }
             })
             .then((data) => {
+                setSelectedDisplay({
+                    outputOpen1: ["Analytics", "Decode Output"],
+                    outputOpen2: ["Analytics", ""],
+                    outputOpen3: ["Plots", ""],
+                    outputOpen4: ["Plots", ""],
+                });
                 // display the decoded file and make it downloadable
                 var url = URL.createObjectURL(data);
                 setDecodeDisplayInfo(url);
                 var item = {
+                    "encode": false,
                     "inputType": inputType,
                     "name": inputType === "file" ? fileToDecode.name : toDecode,
                     "basicFileName": fileName,
                     "date": date,
                     "canDisplayFull": canDisplayFull,
                     "metadataDict": metadataDict,
-                    "gcContent": data,
                     "decodedFileType": decodedFileType,
+                    // has to be converted to blob and available at frontend
+                    "decodedDisplayUrl": url,
                 }
 
-                if (fileType.includes("text")) {
+                if (decodedFileType.includes("text")) {
                     const reader = new FileReader();
                     reader.onload = async (event) => {
                         const text = (event.target.result);
@@ -289,18 +287,18 @@ const EncodeDecodeContainer = () => {
                         // max file size = 5000, so cut off at 5000 chars.
                         // preview = text.slice(0, 5000);
                         item["preview"] = text.slice(0, 5000)
-                        setDecHistory((decodeHistory) => [item, ...decodeHistory]);
+                        setHistory((history) => [item, ...history]);
                         setMode("decode");
                         setLoading(false);
                     };
                     reader.readAsText(data);
                 } else {
                     item["preview"] = "";
-                    setDecHistory((decodeHistory) => [item, ...decodeHistory]);
+                    setHistory((history) => [item, ...history]);
                     setMode("decode");
                     setLoading(false);
                 }
-                setProcessDecodeJobDisplay({
+                setProcessJobDisplay({
                     outputOpen1: item,
                     outputOpen2: item,
                     outputOpen3: item,
@@ -388,6 +386,7 @@ const EncodeDecodeContainer = () => {
             .then((data) => {
                 var preview = encoded.slice(0, 5000);
                 var item = {
+                    "encode": true,
                     "inputType": inputType,
                     "name": inputType === "file" ? fileToEncode.name : toEncode,
                     "basicFileName": fileName,
@@ -397,7 +396,7 @@ const EncodeDecodeContainer = () => {
                     "metadataDict": metadataDict,
                     "gcContent": data,
                 }
-                setEncHistory((encodeHistory) => [item, ...encodeHistory]);
+                setHistory((history) => [item, ...history]);
                 // if (Object.keys(processJobDisplays).length == 0) {
                 // only set the job displays for the very first encoding.
                 setProcessJobDisplay({
@@ -495,26 +494,30 @@ const EncodeDecodeContainer = () => {
         setSelectedDisplay={setSelectedDisplay}
         processJobDisplays={processJobDisplays}
         setProcessJobDisplay={setProcessJobDisplay}
-        history={encodeHistory}
+        history={history}
         loading={loading}
         putOutputInInput={putOutputInInput}
         getFasta={getFasta}
         setOpenDict={setOpenDict}
         openDict={openDict}
-        mode={mode} />;
+        mode={mode}
+        putOutputInInput={putOutputInInput}
+        />;
     // const decodeOutputElements = <DecodeOutputElements
     //     processJobDisplays={processDecodeJobDisplays}
     //     setProcessJobDisplay={setProcessDecodeJobDisplay}
     //     history={decodeHistory}
-    
+
     // />;
+    console.log('rerendering from encode');
+    console.log(openDict);
     return (
         <div>
             <div>
                 <h3>Encode History</h3>
                 <table>
                     <tbody>
-                        {encodeHistory.map((item, i) => {
+                        {history.map((item, i) => {
                             return (
                                 <tr key={i}>
                                     {Object.entries(item).map(([key, value]) => {
@@ -601,20 +604,16 @@ const EncodeDecodeContainer = () => {
                                     <div className="form-2">
                                         <div className="w-row">
                                             <div className="w-col w-col-4">
-                                                {mode === "decode" && <DecodeDisplay decodeFileType={decodeFileType}
-                                                    decodeDisplayInfo={decodeDisplayInfo}
-                                                    decodeHistory={decodeHistory}
-                                                    loading={loading} />}
                                             </div>
                                             <div className="w-col w-col-8">
-                                                <div className="output-sub-block dna-seq-output-block">
+                                                {/* <div className="output-sub-block dna-seq-output-block">
                                                     {mode === "decode" ? <button onClick={putOutputInInput} value="Copy to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button> : null}
-                                                </div>
+                                                </div> */}
 
                                             </div>
                                         </div>
                                     </div>
-                                    {mode === "encode" && encodeOutputElements}
+                                    {(mode === "encode" || mode == "decode") && encodeOutputElements}
                                     {/* {mode === "decode" && decodeOutputElements} */}
                                     {/* {mode === "encode" &&
                                         <OutputElements openDict={openDict} setOpenDict={setOpenDict}
@@ -643,9 +642,12 @@ const EncodeDecodeContainer = () => {
 
 const EncodeOutputElements = (props) => {
     const outputElements = [];
-    var types = [
+    var encodeTypes = [
         ["Analytics", ["Basic Data", "DNA Sequence", "Transitions Table"]],
         ["Plots", ["GC Content Plot", "Nucleotide Content Plot"]]
+    ];
+    var decodeTypes = [
+        ["Analytics", ["Decode Output"]]
     ];
     for (var i = 1; i < 5; i++) {
         const currProcessJob = props.processJobDisplays["outputOpen" + String(i)]
@@ -654,7 +656,8 @@ const EncodeOutputElements = (props) => {
             <OutputElementTemplate
                 // types must be ordered!!!
                 key={i}
-                types={types}
+                encodeTypes={encodeTypes}
+                decodeTypes={decodeTypes}
                 selectedDisplays={props.selectedDisplays}
                 setSelectedDisplay={props.setSelectedDisplay}
                 openName={openName}
@@ -683,13 +686,17 @@ const EncodeOutputElements = (props) => {
                         inputWidth={500}
                         inputHeight={500}
                     />,
+                    "Decode Output": <DecodeOutput loading={props.loading} putOutputInInput={props.putOutputInInput}
+                        currProcessJob={currProcessJob} />,
                 }}
                 dependencies={{
                     "Analytics": [props.mode, currProcessJob["name"], props.selectedDisplays[openName][1]],
                     "Plots": [props.mode, props.loading, currProcessJob["name"], props.selectedDisplays[openName][1]],
                 }}
                 loading={props.loading}
-                mode={props.mode}
+                // Can't use this because if you choose from a dropdown, it won't reset 
+                // the mode. Can't have only one mode, each element is different.
+                // mode={props.mode}
                 setOpenDict={props.setOpenDict}
                 openDict={props.openDict}
             />);
@@ -699,88 +706,6 @@ const EncodeOutputElements = (props) => {
             {outputElements}
         </div>);
 }
-
-// const DecodeOutputElements = () => {
-//     const outputElements = [];
-//     var types = [["Analytics", ["Basic Data", "Decoded Output"]]];
-//     for (var i = 1; i < 5; i++) {
-//         outputElements.push(
-//             <OutputElementTemplate
-//                 // types must be ordered!!!
-//                 types={types}
-//                 selectedDisplays={selectedDisplays}
-//                 setSelectedDisplay={setSelectedDisplay}
-//                 openName={"outputOpen1"}
-//                 processJobDisplays={processJobDisplays}
-//                 setProcessJobDisplay={setProcessJobDisplay}
-//                 history={props.history}
-//                 displays={{
-//                     "Basic Data": (<OutputBox
-//                         addressLength={currProcessJob["metadataDict"]["addressLength"]}
-//                         payloadTrits={currProcessJob["metadataDict"]["payloadData"]}
-//                         mode={mode}
-//                         numSequences={currProcessJob["metadataDict"]["numSequences"]}
-//                         nucleotideContent={currProcessJob["metadataDict"]["nucleotideContent"]} />),
-//                     "Decoded Output": (<DNABox
-//                         loading={loading}
-//                         preview={currProcessJob["preview"]}
-//                         canDisplayFull={currProcessJob["canDisplayFull"]}
-//                         putOutputInInput={putOutputInInput}
-//                         getFasta={getFasta}
-//                     />),
-//                 }}
-//                 dependencies={{
-//                     "Analytics": [mode, currProcessJob["name"]],
-//                 }}
-//                 loading={loading}
-//                 mode={mode}
-//                 setOpenDict={setOpenDict}
-//                 openDict={openDict}
-//             />
-//         );
-//     }
-//     return (
-//         <div className="w-layout-grid output-block-grid">
-//             {outputElements}
-//         </div>);
-// }
-
-
-const DecodeDisplay = React.memo((props) => {
-    var image = null;
-    var textbox = null;
-    var extension;
-    if (props.loading) {
-        return <img src={bunny} />;
-    }
-    if (props.decodeFileType.includes("image")) {
-        image = <img src={props.decodeDisplayInfo} />
-        extension = props.decodeFileType.split("/")[1]
-    } else if (props.decodeFileType.includes("text")) {
-        extension = "txt";
-        // console.log("here's decoded value " + props.decodeHistory[0][5]);
-        textbox = (<>
-            <div className="label dna-seq-output-block-label">Decoded Output</div>
-            <textarea value={props.loading ? "Loading results!" : props.decodeHistory[0][5]} readOnly
-                disabled="disabled" placeholder={props.loading ? "Loading results!" : "Decoded Output"} maxLength={5000} className="dna-seq-output-text-area w-input" />
-        </>);
-    }
-    var downloadButton = (
-        <a
-            href={props.decodeDisplayInfo}
-            download={props.decodeHistory[0]["basicFileName"] + "." + extension}
-            className="submit-button w-button">Download Output</a>
-    );
-    return (
-        <div>
-            {image}
-            {textbox}
-            <div>{props.decodeHistory[0]["canDisplayFull"] ? "" : "Couldn't display full file."}</div>
-            {downloadButton}
-        </div>
-
-    );
-});
 
 const FileInput = React.memo((props) => {
     console.log('rerendering the file input');
@@ -907,7 +832,7 @@ const OutputElements = (props) => {
                 // put in a dictionary)
                 mode={props.mode}
                 loading={props.loading}
-                encodeHistory={props.encodeHistory}
+                history={props.history}
                 putOutputInInput={props.putOutputInInput}
                 getFasta={props.getFasta}
                 gcContent={props.gcContent} inputWidth={props.width} inputHeight={props.height}

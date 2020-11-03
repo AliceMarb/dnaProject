@@ -21,7 +21,10 @@ var areEqual = (prevProps, newProps) => {
 }
 
 const ReturnVal = React.memo((props) => {
-    return props.displays[props.currHeader];
+    if (props.currHeader) {
+        return props.displays[props.currHeader];
+    }
+    return <></>;
 }, areEqual);
 
 const OutputElementTemplate = (props) => {
@@ -34,20 +37,29 @@ const OutputElementTemplate = (props) => {
         props.setSelectedDisplay({ ...props.selectedDisplays, [props.openName]: [event.target.getAttribute("typename"), option] });
     }
     const currProcessJob = props.processJobDisplays[props.openName];
+    // boolean
+    const encode = currProcessJob["encode"];
     var listItems = [];
 
-    var content = <ReturnVal dependencies={props.dependencies} displays={props.displays} currHeader={currHeader} />;
+    var content = <ReturnVal currHeader={currHeader} dependencies={props.dependencies} displays={props.displays} currHeader={currHeader} />;
 
-    const handleJobClick = (processJob) => {
-        if (plot === "GC Content Plot") {
-            if (!processJob["gcContent"]) {
-                // we need to fetch the gc content
-                return;
+    const handleJobClick = (e, pair) => {
+        const processJob = pair[0];
+        const encode = pair[1];
+        // if encoded -> decoded or decoded -> encoded, change the output element displayed
+        props.setProcessJobDisplay({ ...props.processJobDisplays, [props.openName]: processJob });
+        if (processJob["encode"] != encode) {
+            if (processJob["encode"]) {
+                // changing to encode, set to basic data
+                props.setSelectedDisplay({ ...props.selectedDisplays, [props.openName]: ["Analytics", "Basic Data"] });
+            } else {
+                // changing to decode
+                props.setSelectedDisplay({ ...props.selectedDisplays, [props.openName]: ["Analytics", "Decode Output"] });
             }
         }
-        props.setProcessJobDisplay({ ...props.processJobDisplays, [props.openName]: processJob });
     }
-    for (var selectionType of props.types) {
+    var listofTypes = encode ? props.encodeTypes : props.decodeTypes;
+    for (var selectionType of listofTypes) {
         var typeName = selectionType[0];
         var options = selectionType[1];
 
@@ -70,46 +82,60 @@ const OutputElementTemplate = (props) => {
         );
         listItems.push(innerList);
     }
+    if (props.openName === "outputOpen1") {
+        console.log('before? ' + listOpen);
+    }
+    // console.log(props.openDict);
+    // console.log(props.openDict[props.openName]);
+    // console.log(props.openName);
     return (
         <div className="relative">
             <div className="dd-wrapper">
-                <div className="dd-header output-element-window-bar">
-                    <div className="output-element-dropdown-container output-element-dropdown-trigger" onClick={() => props.setOpenDict({ ...props.openDict, [props.openName]: !listOpen })}>
-                        <div className="dd-header-title">{currHeader}</div>
-                        <img src={arrow} width="16" height="16"></img>
-                        <div className="dd-header-title-job">{genProcessJobTitle(currProcessJob["name"], null)}</div>
+
+                <div>
+                    <div className="dd-header output-element-window-bar">
+                        <div className="output-element-dropdown-container output-element-dropdown-trigger" onClick={() => { console.log("is list open? " + listOpen); props.setOpenDict({ ...props.openDict, [props.openName]: !listOpen }); }}>
+                            <div className="header-arrow-container">
+                                <div className="dd-header-title">{currHeader}</div>
+                                <img src={arrow} width="16" height="16"></img>
+                            </div>
+                            <div className="dd-header-title-job">{genProcessJobTitle(currProcessJob["name"], null)}</div>
+                        </div>
+                    </div>
+                    <div className={"my-output-dropdown-menu" + (listOpen ? " " : "-closed")}>
+                        {listOpen &&
+                            <OutsideAlerter
+                                setOpenDict={props.setOpenDict} openDict={props.openDict}
+                                openName={props.openName}
+                            >
+                                <ul className="dd-list">
+                                    <li key="output-selection" className="dd-list-item">
+                                        <h3 className="accordion-label">Processing Job</h3>
+                                        <Dropdown>
+                                            <DropdownButton variant="dropdown" title={genProcessJobTitle(currProcessJob["name"], currProcessJob["date"])}>
+                                                {props.history.map((processJob) => {
+                                                    return (
+                                                        <Dropdown.Item key={processJob["basicFileName"]} onClick={(e) => handleJobClick(e, [processJob, encode])}>
+                                                            {genProcessJobTitle(processJob["name"], processJob["date"])}
+                                                        </Dropdown.Item>
+                                                    );
+                                                })}
+                                            </DropdownButton>
+                                        </Dropdown>
+                                    </li>
+                                    {listItems}
+                                </ul>
+                            </OutsideAlerter>
+                        }
+                    </div>
+
+                    <div className="output-element-content">
+                        {props.loading && <img src={bunny} width="auto" height="auto" />}
+                        {encode && !props.loading && content}
+                        {!encode && !props.loading && content}
                     </div>
                 </div>
-                <div className={"my-output-dropdown-menu" + (listOpen ? " " : "-closed")}>
-                    {listOpen &&
-                        <OutsideAlerter
-                            setOpenDict={props.setOpenDict} openDict={props.openDict}
-                            openName={props.openName}
-                        >
-                            <ul className="dd-list">
-                                <li key="output-selection" className="dd-list-item">
-                                    <h3 className="accordion-label">Processing Job</h3>
-                                    <Dropdown>
-                                        <DropdownButton variant="dropdown" title={genProcessJobTitle(currProcessJob["name"], currProcessJob["date"])}>
-                                            {props.history.map((processJob) => {
-                                                return (
-                                                    <Dropdown.Item key={processJob["basicFileName"]} onClick={() => handleJobClick(processJob)}>
-                                                        {genProcessJobTitle(processJob["name"], processJob["date"])}
-                                                    </Dropdown.Item>
-                                                );
-                                            })}
-                                        </DropdownButton>
-                                    </Dropdown>
-                                </li>
-                                {listItems}
-                            </ul>
-                        </OutsideAlerter>
-                    }
-                </div>
-                <div className="output-element-content">
-                    {props.loading && <img src={bunny} width="auto" height="auto" />}
-                    {props.mode === "encode" && !props.loading && content}
-                </div>
+                {/* </OutsideAlerter> */}
             </div>
         </div>
 
