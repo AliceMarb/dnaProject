@@ -86,7 +86,6 @@ const OutputElementTemplate = (props) => {
     return (
         <div className="relative">
             <div className="dd-wrapper">
-
                 <div>
                     <div className="dd-header output-element-window-bar">
                         <div className="output-element-dropdown-container output-element-dropdown-trigger" onClick={() => { console.log("OPEN IT " + listOpen); props.setOpenDict({ ...props.openDict, [props.openName]: !listOpen }); }}>

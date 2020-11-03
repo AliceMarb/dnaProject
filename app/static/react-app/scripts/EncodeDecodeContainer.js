@@ -511,7 +511,7 @@ const EncodeDecodeContainer = () => {
     return (
         <div>
             <div>
-                <h3>Encode History</h3>
+                <h3>History</h3>
                 <table>
                     <tbody>
                         {history.map((item, i) => {
@@ -526,22 +526,6 @@ const EncodeDecodeContainer = () => {
                         })}
                     </tbody>
                 </table>
-                <h3>Decode History</h3>
-                <table>
-                    <tbody>
-                        {/* {decodeHistory.map((item, i) => {
-                            return (
-                                <tr>
-                                {Object.entries(item).map(([key, value]) => {
-                                        return (<td key={i + key}>{value.toString()}</td>);
-                                    })}
-                                </tr>
-                            );
-                        })} */}
-                    </tbody>
-                </table>
-                {/* <h3>Testing output element template</h3>
-                {mode === "encode" && encodeOutputElements} */}
             </div>
             <div className="body-4">
                 <div>
