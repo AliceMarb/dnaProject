@@ -15,16 +15,24 @@ function useOutsideAlerter(ref, setOpenDict, openDict, openName) {
 
         function handleClickOutside(event) {
             if (ref.current && !ref.current.contains(event.target)) {
-                // alert("You clicked outside of me!");
-                // close the dropdown 
-                if (openName === "outputOpen1" && openDict[openName]) {
-                    console.log("output 1 is open");
-                    console.log(ref.current);
-                } else if (openName === "outputOpen1" && !openDict[openName]){
-                    console.log("output 1 is closed");
-                    console.log(openDict);
-                }
+                // close the dropdown if necessary
+                // if (openName === "outputOpen1" && openDict[openName]) {
+                //     console.log("output 1 is open");
+                //     console.log(ref.current);
+                // } else if (openName === "outputOpen1" && !openDict[openName]) {
+                //     console.log("output 1 is closed");
+                //     console.log(openDict);
+                // }
                 if (openDict[openName]) {
+                    // console.log("CLOSE IT!");
+                    var targetClass = event.target.getAttribute("class");
+                    var topRowClasses = ["output-element-dropdown-container output-element-dropdown-trigger", "header-arrow-container", "dd-header-title", "dd-header-title-job", "arrow-dropdown"];
+                    if (topRowClasses.includes(targetClass)) {
+                        return;
+                    }
+                    else {
+                        console.log(event.target.innerHTML);
+                    }
                     setOpenDict({
                         ...openDict,
                         [openName]: false

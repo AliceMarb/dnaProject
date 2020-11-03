@@ -28,7 +28,6 @@ const ReturnVal = React.memo((props) => {
 }, areEqual);
 
 const OutputElementTemplate = (props) => {
-    console.log('rerender template');
     const listOpen = props.openDict[props.openName];
     var currHeader = props.selectedDisplays[props.openName][1];
     var currType = props.selectedDisplays[props.openName][0];
@@ -82,22 +81,17 @@ const OutputElementTemplate = (props) => {
         );
         listItems.push(innerList);
     }
-    if (props.openName === "outputOpen1") {
-        console.log('before? ' + listOpen);
-    }
-    // console.log(props.openDict);
-    // console.log(props.openDict[props.openName]);
-    // console.log(props.openName);
+
     return (
         <div className="relative">
             <div className="dd-wrapper">
 
                 <div>
                     <div className="dd-header output-element-window-bar">
-                        <div className="output-element-dropdown-container output-element-dropdown-trigger" onClick={() => { console.log("is list open? " + listOpen); props.setOpenDict({ ...props.openDict, [props.openName]: !listOpen }); }}>
+                        <div className="output-element-dropdown-container output-element-dropdown-trigger" onClick={() => { console.log("OPEN IT " + listOpen); props.setOpenDict({ ...props.openDict, [props.openName]: !listOpen }); }}>
                             <div className="header-arrow-container">
                                 <div className="dd-header-title">{currHeader}</div>
-                                <img src={arrow} width="16" height="16"></img>
+                                <img className="arrow-dropdown" src={arrow} width="16" height="16"></img>
                             </div>
                             <div className="dd-header-title-job">{genProcessJobTitle(currProcessJob["name"], null)}</div>
                         </div>

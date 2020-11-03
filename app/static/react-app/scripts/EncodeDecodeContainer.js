@@ -75,9 +75,7 @@ const EncodeDecodeContainer = () => {
             editingRef.current.selectionStart = editingRef.current.value.length;
             editingRef.current.selectionEnd = editingRef.current.value.length;
         }
-        console.log("afte rendering");
-        console.log(openDict);
-    }, [toEncode, toDecode, openDict]);
+    }, [toEncode, toDecode]);
 
     const GraphBox = () => {
         const width = 600;
@@ -503,14 +501,7 @@ const EncodeDecodeContainer = () => {
         mode={mode}
         putOutputInInput={putOutputInInput}
         />;
-    // const decodeOutputElements = <DecodeOutputElements
-    //     processJobDisplays={processDecodeJobDisplays}
-    //     setProcessJobDisplay={setProcessDecodeJobDisplay}
-    //     history={decodeHistory}
 
-    // />;
-    console.log('rerendering from encode');
-    console.log(openDict);
     return (
         <div>
             <div>
@@ -524,10 +515,6 @@ const EncodeDecodeContainer = () => {
                                         if (key === "gcContent" || key === "metadataDict") return;
                                         return (<td key={i + key}>{value.toString()}</td>);
                                     })}
-                                    {/* <div>
-                                        <h2>Load to current panels</h2>
-                                        <div onClick={}></div>
-                                    </div> */}
                                 </tr>
                             );
                         })}
