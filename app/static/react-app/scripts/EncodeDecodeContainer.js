@@ -78,57 +78,116 @@ const EncodeDecodeContainer = () => {
         }
     }, [toEncode, toDecode]);
 
-    const GraphBox = () => {
-        const width = 600;
-        const height = 500;
-        const pixelWidth = width + "px"
-        const pixelHeight = height + "px"
-        // console.log('rendering graph box, gccontent ' + gcContentPath)
-        const child = <GCGraph key="gcgraph" gcContent={gcContent} gcContentPath={gcContentPath} inputWidth={width} inputHeight={height} />;
 
-        return (
-            <div>
-                <div className="output-sub-block gc-content-plot-block">
-                    <div className="accordion-closed-item">
-                        <ExpandableBox
-                            labelClass="gc-content-plot-block-label"
-                            buttonLabel="GC Content Plot"
-                            buttonClass="gc-content-plot-button"
-                            renderWaitingScreen={true}
-                            key="graphOutbox"
-                            divKey="graphOutbox"
-                            openDict={openDict}
-                            setOpenDict={setOpenDict}
-                            loading={loading}
-                        >
-                            <div>
-                                <div
-                                    width={pixelWidth}
-                                    height={pixelHeight}
-                                    className="accordion-item-content gc-content-plot-value"
-                                >
-                                    <div
-                                        ref={gcContainer}
-                                        className="graphContainer"
-                                        id="graph2"
-                                        svg-container="true"
-                                        preserveAspectRatio="xMinYMin"
-                                        width={pixelWidth}
-                                        height={pixelHeight}
-                                    // svg-content-responsive="true"
-                                    >
-                                        {mode != "decode" && gcContentPath && gcContent ? child : null}
-                                        {/* <GCGraph gcContentPath={gcContentPath} inputWidth={width} inputHeight={height} /> */}
-                                    </div>
-                                </div>
-                            </div>
-                        </ExpandableBox>
-                    </div>
-                </div>
-            </div>
-        );
+    if (location.pathname.includes('history')) {
+        var fileName = "", date = "", canDisplayFull = "", preview = "", configuration = "", encode = "" , inputName = "" , inputType = "";
+        var metadataDict = {};
+        fetch(location.pathname.replace("history", "show-history")).then((data) => {
+            if (data.ok) {
+                [metadataDict,
+                    preview,
+                    date,
+                    fileName,
+                    canDisplayFull,
+                    configuration,
+                    encode,
+                    inputType,
+                    inputName] = parseHeaders(data.headers, true);
+                return data.text();
+            } else {
+                alert('An error has occurred returning the data. Check console for data log.');
+                console.log("Error!");
+                console.log(data);
+            }
+        }).then((data) => {
+            // TO DO - enc_string will already be up to 5000 chars
+            // var preview = encoded.slice(0, 5000);
+            var item = {
+                "encode": true,
+                "inputType": inputType,
+                "name": name,
+                "basicFileName": fileName,
+                "date": date,
+                "preview": preview,
+                "canDisplayFull": canDisplayFull,
+                "metadataDict": metadataDict,
+                "gcContent": data,
+            }
+            setHistory((history) => [item, ...history]);
+            // if (Object.keys(processJobDisplays).length == 0) {
+            // only set the job displays for the very first encoding.
+            var specialSelectedDisplay = getSelectedDisplay(configuration);
+            setSelectedDisplay(specialSelectedDisplay);
+            setProcessJobDisplay({
+                outputOpen1: item,
+                outputOpen2: item,
+                outputOpen3: item,
+                outputOpen4: item,
+            });
+            // }
+            setGCContent(data);
+            setMode("encode");
+            setLoading(false);
+        })
+        .catch((error) => {
+            alert('Catch: An error has occurred returning the data. Check console for data log.');
+            console.log(error);
+        });
     }
 
+    const getSelectedDisplay = (configuration) => {
+        var config = {
+            // job, encode/decode, type, plot
+            outputOpen1: [],
+            outputOpen2: [],
+            outputOpen3: [],
+            outputOpen4: [],
+        };
+        var output = "";
+        var type = "";
+        for (var letter of configuration) {
+            if (parseInt(letter)) {
+                output = "outputOpen" + letter;
+                type = "";
+            } else if (output && !type) {
+                if (letter == "A") {
+                    type = "Analytics";
+                } else {
+                    type = "Plots";
+                }
+            } else {
+                var display;
+                if (type === "Analytics") {
+                    switch (letter) {
+                        case "B":
+                            display = "Basic Data";
+                            break;
+                        case "D":
+                            display = "DNA Sequence";
+                            break;
+                        case "T":
+                            display = "Transitions Table";
+                            break;
+                    }
+                } else {
+                    switch (letter) {
+                        case "G":
+                            display = "GC Content Plot";
+                            break;
+                        case "D":
+                            display = "DNA Sequence";
+                            break;
+                        case "T":
+                            display = "Nucleotide Content Plot";
+                            break;
+                    }
+                }
+                config[output] = [type, display]
+            }
+        }
+        return config;
+            
+    }
     const putOutputInInput = (valueInOutput, canDisplayFull, putInToDecode) => {
         if (!canDisplayFull) {
             alert("Full sequences too long, sorry!");
@@ -312,6 +371,59 @@ const EncodeDecodeContainer = () => {
             });
     }
 
+    const parseHeaders = (headers, callGetHistory) => {
+        var fileName = "", date = "", canDisplayFull = "", preview = "", configuration = "", encode = "", inputType = "" , inputName = "";
+        var metadataDict = {};
+        for (var pair of headers.entries()) {
+            switch (pair[0]) {
+                case "payload_trits":
+                    metadataDict["payloadData"] = pair[1];
+                    break;
+                case "letter_dict":
+                    metadataDict["nucleotideContent"] = JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'));
+                    break;
+                case "transitions":
+                    metadataDict["transitions"] = JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'));
+                    break;
+                case "address_length":
+                    metadataDict["addressLength"] = pair[1];
+                    break;
+                case "gc_content_fname":
+                    metadataDict["gcContentPath"] = pair[1];
+                    break;
+                case "preview":
+                    preview = pair[1];
+                    break;
+                case "date":
+                    date = new Date(parseInt(pair[1]));
+                    break;
+                case "base_file_name":
+                    fileName = pair[1];
+                    break;
+                case "num_sequences":
+                    metadataDict["numSequences"] = pair[1];
+                    break;
+                case "can_display_full":
+                    canDisplayFull = pair[1] === "True";
+                    break;
+                case "configuration":
+                    configuration = pair[1];
+                    break;
+                case "encode":
+                    encode = pair[1] === "True";
+                    break;
+                case "input_type":
+                    inputType = pair[1] === "True";
+                    break;
+                case "input_name":
+                    inputName = pair[1];
+                    break;
+            }
+        }
+        var arr = [metadataDict, preview, date, fileName, canDisplayFull];
+        if (callGetHistory) {arr.push(configuration); arr.push(encode); arr.push(inputType); arr.push(inputName);}
+        return arr;
+    }
     // ENCODE FILES ONLY
     const codecGetFile = (inputType) => {
         setLoading(true);
@@ -337,48 +449,12 @@ const EncodeDecodeContainer = () => {
             options = getJsonOptions(true);
         }
         const url = getUrl("encode", inputType);
-        var fileName;
-        var date;
-        var canDisplayFull;
+        var fileName = "", date = "", canDisplayFull = "", preview = "";
         var metadataDict = {};
-        var encoded;
         fetch(url, options)
             .then((data) => {
                 if (data.ok) {
-                    for (var pair of data.headers.entries()) {
-                        switch (pair[0]) {
-                            case "payload_trits":
-                                metadataDict["payloadData"] = pair[1];
-                                break;
-                            case "letter_dict":
-                                metadataDict["nucleotideContent"] = JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'));
-                                break;
-                            case "transitions":
-                                metadataDict["transitions"] = JSON.parse(pair[1].replaceAll(' ', '').replaceAll("'", '"'));
-                                break;
-                            case "address_length":
-                                metadataDict["addressLength"] = pair[1];
-                                break;
-                            case "gc_content_fname":
-                                metadataDict["gcContentPath"] = pair[1];
-                                break;
-                            case "enc_string":
-                                encoded = pair[1];
-                                break;
-                            case "date":
-                                date = new Date(parseInt(pair[1]));
-                                break;
-                            case "base_file_name":
-                                fileName = pair[1];
-                                break;
-                            case "num_sequences":
-                                metadataDict["numSequences"] = pair[1];
-                                break;
-                            case "can_display_full":
-                                canDisplayFull = pair[1] === "True";
-                                break;
-                        }
-                    }
+                    [metadataDict, preview, date, fileName, canDisplayFull] = parseHeaders(data.headers);
                     return data.text();
                 } else {
                     alert('An error has occurred returning the data. Check console for data log.');
@@ -387,7 +463,8 @@ const EncodeDecodeContainer = () => {
                 }
             })
             .then((data) => {
-                var preview = encoded.slice(0, 5000);
+                // TO DO - enc_string will already be up to 5000 chars
+                // var preview = encoded.slice(0, 5000);
                 var item = {
                     "encode": true,
                     "inputType": inputType,

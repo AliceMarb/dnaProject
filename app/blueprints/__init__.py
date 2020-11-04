@@ -57,7 +57,6 @@ def construct_blueprint(codec_location="./master/Codec/c"):
     import json
     from flask import current_app
     from flask import abort
-    # from app.factory import app
 
     import subprocess
     from Bio import SeqIO
@@ -68,9 +67,6 @@ def construct_blueprint(codec_location="./master/Codec/c"):
 
     import time
     from subprocess import Popen, PIPE
-
-    # app = Flask(__name__)
-    # add C files to path (??), OR docker/virtual environment
 
     @home_bp.route("/", methods=['GET', 'POST'])
     def home():
@@ -301,6 +297,41 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         )
         return response
 
+    # Get a previous encoding or decoding from the 
+    @home_bp.route("/show-history/<basic_file_name>/<encode>/<configuration>", methods=['GET'])
+    def get_history(encode=True, basic_file_name="", configuration=""):
+        if encode:
+            gc_content_fname = "gc_content_" + basic_file_name + ".txt"
+            metadata_fname = "metadata_" + basic_file_name + ".txt"
+            # input_type, letter_dict, transitions, payload_trits, address_length, num_sequences
+            # time_started, can_display_full, preview
+            metadata = {}
+            categories = ["input_type", "input_name", "letter_dict", "transitions", "payload_trits", "address_length", "num_sequences",
+                    "date", "can_display_full", "preview"]
+            with open(os.path.join("app", "codec_files", metadata_fname), 'r') as f:
+                for i, line in enumerate(f.readlines()):
+                    metadata[categories[i]] = line.rstrip()
+            response = make_response(
+                send_from_directory(
+                    current_app.config['ENCODED_FILE_LOC'],
+                    filename=gc_content_fname,
+                    as_attachment=True,
+                    mimetype="text/plain"),
+                200
+            )
+            for category in categories:
+                response.headers[category] = metadata[category]
+            response.headers["base_file_name"] = basic_file_name
+            response.headers["gc_content_fname"] = gc_content_fname
+            response.headers["configuration"] = configuration
+            response.headers['encode'] = encode
+            return response
+    
+    @home_bp.route("/history/<basic_file_name>/<encode>/<configuration>", methods=['GET'])
+    def show_history(basic_file_name="", encode=True, configuration=""):
+        # render the React, then React should check for this pathname and call get_history
+        return render_template("react-base.html")
+
     # DON'T PUT A SLASH, does not work
     @home_bp.route("/encode/<input_type>", methods=['POST'])
     def encode(input_type="json"):
@@ -332,14 +363,21 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             can_display_full = os.path.getsize(file_paths[2]) < 5000
             encoding_data_fname = "app/codec_files/" + \
                 "metadata_" + file_paths[0] + ".txt"
+            # only send 5000 chars of enc_string (as the preview)
+            preview = enc_string[:5000]
+            time_started_in_seconds = int(
+                time.mktime(time_started.timetuple())) * 1000
             with open(encoding_data_fname, 'w+') as f:
+                f.write(str(input_type) + '\n')
+                f.write(str(input_word) + '\n')
                 f.write(str(letter_dict) + '\n')
                 f.write(str(transitions) + '\n')
                 f.write(str(payload_trits) + '\n')
                 f.write(str(address_length) + '\n')
-                f.write(str(can_display_full) + '\n')
                 f.write(str(num_sequences) + '\n')
-                f.write(str(enc_string) + '\n')
+                f.write(str(time_started_in_seconds) + '\n')
+                f.write(str(can_display_full) + '\n')
+                f.write(str(preview) + '\n')
 
             response = make_response(
                 send_from_directory(
@@ -353,10 +391,9 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             response.headers['payload_trits'] = payload_trits
             response.headers['address_length'] = address_length
             response.headers['can_display_full'] = can_display_full
-            response.headers['enc_string'] = enc_string
+            response.headers['preview'] = preview
             response.headers['transitions'] = transitions
-            response.headers['date'] = int(
-                time.mktime(time_started.timetuple())) * 1000
+            response.headers['date'] = time_started_in_seconds
             response.headers['base_file_name'] = file_paths[0]
             response.headers['num_sequences'] = num_sequences
             response.headers['gc_content_fname'] = gc_content_fname
