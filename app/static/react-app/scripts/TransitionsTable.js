@@ -21,6 +21,22 @@ const TransitionsTable = (props) => {
                                     </tr>);
                             }
                             )}
+                    <tr key={"As"}>
+                        <td>GA + CA + TA</td>
+                        <td>{array["GA"] + array["CA"] + array["TA"]}</td>
+                    </tr>
+                    <tr key={"Cs"}>
+                        <td>GC + AC + TC</td>
+                        <td>{array["GC"] + array["AC"] + array["TC"]}</td>
+                    </tr>
+                    <tr key={"Gs"}>
+                        <td>AG + CG + TG</td>
+                        <td>{array["AG"] + array["CG"] + array["TG"]}</td>
+                    </tr>
+                    <tr key={"Ts"}>
+                        <td>GT + CT + AT</td>
+                        <td>{array["GT"] + array["CT"] + array["AT"]}</td>
+                    </tr>
                 </tbody>
             </table>
         </div>

@@ -111,7 +111,7 @@ const OutputElementTemplate = (props) => {
                                                     if (processJob["basicFileName"] == currProcessJob["basicFileName"]) return;
                                                     return (
                                                         <Dropdown.Item key={processJob["basicFileName"]} onClick={(e) => handleJobClick(e, [processJob, encode])}>
-                                                            {genProcessJobTitle(processJob["name"], processJob["date"], encode)}
+                                                            {genProcessJobTitle(processJob["name"], processJob["date"], processJob["encode"])}
                                                         </Dropdown.Item>
                                                     );
                                                 })}
