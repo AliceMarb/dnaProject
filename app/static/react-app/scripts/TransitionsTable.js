@@ -23,19 +23,19 @@ const TransitionsTable = (props) => {
                             )}
                     <tr key={"As"}>
                         <td>GA + CA + TA</td>
-                        <td>{array["GA"] + array["CA"] + array["TA"]}</td>
+                        <td>{props.transitions["GA"] + props.transitions["CA"] + props.transitions["TA"]}</td>
                     </tr>
                     <tr key={"Cs"}>
                         <td>GC + AC + TC</td>
-                        <td>{array["GC"] + array["AC"] + array["TC"]}</td>
+                        <td>{props.transitions["GC"] + props.transitions["AC"] + props.transitions["TC"]}</td>
                     </tr>
                     <tr key={"Gs"}>
                         <td>AG + CG + TG</td>
-                        <td>{array["AG"] + array["CG"] + array["TG"]}</td>
+                        <td>{props.transitions["AG"] + props.transitions["CG"] + props.transitions["TG"]}</td>
                     </tr>
                     <tr key={"Ts"}>
                         <td>GT + CT + AT</td>
-                        <td>{array["GT"] + array["CT"] + array["AT"]}</td>
+                        <td>{props.transitions["GT"] + props.transitions["CT"] + props.transitions["AT"]}</td>
                     </tr>
                 </tbody>
             </table>

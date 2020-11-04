@@ -13,9 +13,15 @@ import TransitionsTable from './TransitionsTable';
 import { type } from 'jquery';
 
 
-var areEqual = (prevProps, newProps) => {
+var areEqual = (prevProps, nextProps) => {
     for (var pair of Object.entries(prevProps.dependencies)) {
-        if (pair[1] != newProps.dependencies[pair[0]]) return false;
+        if (typeof(pair[1]) == "object") {
+            for (var i = 0; i < pair[1].length; i++) {
+                if (pair[1][i] != nextProps.dependencies[pair[0]][i]){ return false;}
+            }
+        } else {
+            if (pair[1] != nextProps.dependencies[pair[0]]) return false;
+        }
     }
     return true;
 }

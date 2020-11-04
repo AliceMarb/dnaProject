@@ -30,9 +30,9 @@ function useOutsideAlerter(ref, setOpenDict, openDict, openName) {
                     if (topRowClasses.includes(targetClass)) {
                         return;
                     }
-                    else {
-                        console.log(event.target.innerHTML);
-                    }
+                    // else {
+                    //     console.log(event.target.innerHTML);
+                    // }
                     setOpenDict({
                         ...openDict,
                         [openName]: false
