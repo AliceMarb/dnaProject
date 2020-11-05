@@ -128,6 +128,9 @@ const EncodeDecodeContainer = () => {
             setGCContent(data);
             setMode("encode");
             setLoading(false);
+            if (inputType === "json") {
+                setToEncode(inputName);
+            }
         })
         .catch((error) => {
             alert('Catch: An error has occurred returning the data. Check console for data log.');
@@ -174,10 +177,7 @@ const EncodeDecodeContainer = () => {
                         case "G":
                             display = "GC Content Plot";
                             break;
-                        case "D":
-                            display = "DNA Sequence";
-                            break;
-                        case "T":
+                        case "N":
                             display = "Nucleotide Content Plot";
                             break;
                     }
@@ -413,7 +413,7 @@ const EncodeDecodeContainer = () => {
                     encode = pair[1] === "True";
                     break;
                 case "input_type":
-                    inputType = pair[1] === "True";
+                    inputType = pair[1];
                     break;
                 case "input_name":
                     inputName = pair[1];

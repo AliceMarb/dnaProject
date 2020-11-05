@@ -68,6 +68,8 @@ def construct_blueprint(codec_location="./master/Codec/c"):
     import time
     from subprocess import Popen, PIPE
 
+    from collections import OrderedDict
+
     @home_bp.route("/", methods=['GET', 'POST'])
     def home():
         current_app.logger.info(
@@ -97,7 +99,6 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             ' '), cwd=codec_location, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         out, err = process.communicate()
         return process, out, err, root_in_path, root_out_path
-
 
     '''
     1-indexed 
@@ -140,7 +141,8 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 stderr=PIPE)
             out, err = count_process.communicate()
             if out:
-                (a, g, c, t, num_sequences) = out.decode('utf-8').strip().split(' ')
+                (a, g, c, t, num_sequences) = out.decode(
+                    'utf-8').strip().split(' ')
             elif err:
                 print(err)
 
@@ -297,7 +299,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         )
         return response
 
-    # Get a previous encoding or decoding from the 
+    # Get a previous encoding or decoding from the
     @home_bp.route("/show-history/<basic_file_name>/<encode>/<configuration>", methods=['GET'])
     def get_history(encode=True, basic_file_name="", configuration=""):
         if encode:
@@ -307,7 +309,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             # time_started, can_display_full, preview
             metadata = {}
             categories = ["input_type", "input_name", "letter_dict", "transitions", "payload_trits", "address_length", "num_sequences",
-                    "date", "can_display_full", "preview"]
+                          "date", "can_display_full", "preview"]
             with open(os.path.join("app", "codec_files", metadata_fname), 'r') as f:
                 for i, line in enumerate(f.readlines()):
                     metadata[categories[i]] = line.rstrip()
@@ -324,9 +326,9 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             response.headers["base_file_name"] = basic_file_name
             response.headers["gc_content_fname"] = gc_content_fname
             response.headers["configuration"] = configuration
-            response.headers['encode'] = encode
+            response.headers["encode"] = encode
             return response
-    
+
     @home_bp.route("/history/<basic_file_name>/<encode>/<configuration>", methods=['GET'])
     def show_history(basic_file_name="", encode=True, configuration=""):
         # render the React, then React should check for this pathname and call get_history
@@ -367,18 +369,17 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             preview = enc_string[:5000]
             time_started_in_seconds = int(
                 time.mktime(time_started.timetuple())) * 1000
-            with open(encoding_data_fname, 'w+') as f:
-                f.write(str(input_type) + '\n')
-                f.write(str(input_word) + '\n')
-                f.write(str(letter_dict) + '\n')
-                f.write(str(transitions) + '\n')
-                f.write(str(payload_trits) + '\n')
-                f.write(str(address_length) + '\n')
-                f.write(str(num_sequences) + '\n')
-                f.write(str(time_started_in_seconds) + '\n')
-                f.write(str(can_display_full) + '\n')
-                f.write(str(preview) + '\n')
-
+            info_dict = {
+                "letter_dict": letter_dict,
+                "transitions": transitions,
+                "payload_trits": payload_trits,
+                "address_length": address_length,
+                "num_sequences": num_sequences,
+                "date": time_started_in_seconds,
+                "can_display_full": can_display_full,
+                "preview": preview,
+            }
+            ordered_info_dict = OrderedDict(info_dict)
             response = make_response(
                 send_from_directory(
                     current_app.config['ENCODED_FILE_LOC'],
@@ -387,17 +388,14 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                     mimetype="text/plain"),
                 200
             )
-            response.headers['letter_dict'] = letter_dict
-            response.headers['payload_trits'] = payload_trits
-            response.headers['address_length'] = address_length
-            response.headers['can_display_full'] = can_display_full
-            response.headers['preview'] = preview
-            response.headers['transitions'] = transitions
-            response.headers['date'] = time_started_in_seconds
-            response.headers['base_file_name'] = file_paths[0]
-            response.headers['num_sequences'] = num_sequences
-            response.headers['gc_content_fname'] = gc_content_fname
-
+            with open(encoding_data_fname, 'w+') as f:
+                f.write(str(input_type) + '\n')
+                f.write(str(input_word) + '\n')
+                for key in ordered_info_dict:
+                    f.write(str(ordered_info_dict[key]) + '\n')
+                    response.headers[key]  = ordered_info_dict[key]
+            response.headers["base_file_name"] = file_paths[0]
+            response.headers["gc_content_fname"] = gc_content_fname
             save_session(True, input_type, input_word,
                          file_paths[0], time_started)
             return response
@@ -411,13 +409,13 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         #     if encoding[2] + "_encoded.fa" == file_name:
         #         return encoding[1].split(".")[-1]
         # no previous encoding found, use LINUX file utility
-    
+
         process = subprocess.Popen(
             ["file", "--mime-type", "-b", out_file_name],
             stdout=subprocess.PIPE,
             stderr=subprocess.PIPE
         )
-        out, err = process.communicate() 
+        out, err = process.communicate()
         try:
             print(out, err)
             mime_type = out.decode("utf-8").strip()
@@ -489,7 +487,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         response.headers['synthesis_length'] = synthesis_length
         response.headers['address_length'] = address_length
         response.headers['mimetype'] = mime_type
-        # can't have \n in header so can't include decoded_str 
+        # can't have \n in header so can't include decoded_str
         time_in_seconds = int(time.mktime(time_started.timetuple())) * 1000
         response.headers['date'] = time_in_seconds
         response.headers['base_file_name'] = file_paths[0]
@@ -500,7 +498,6 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         # return jsonify(status="success", word=decoded_str, synthesis_length=synthesis_length, address_length=address_length)
 
     return home_bp
-
 
 
 dev_bp = construct_blueprint("./dev/Codec/c")
