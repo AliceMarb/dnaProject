@@ -54,12 +54,10 @@ const EncodeDecodeContainer = () => {
         outputOpen3: ["Plots", "GC Content Plot"],
         outputOpen4: ["Plots", "Nucleotide Content Plot"],
     };
-    
+
     const [openDict, setOpenDict] = useState(startOpenDict);
     const [selectedDisplays, setSelectedDisplay] = useState(encodeInitialDisplay);
     const [processJobDisplays, setProcessJobDisplay] = useState({});
-    const [decodeFileType, setDecodeFileType] = useState("text/plain");
-    const [decodeDisplayInfo, setDecodeDisplayInfo] = useState("");
     // const [sendFileType, setSendFileType] = useState("json");
     // acts like a class member, e.g. props or state, but without
     // a class. So it is retained between renders.
@@ -79,66 +77,82 @@ const EncodeDecodeContainer = () => {
     }, [toEncode, toDecode]);
 
 
-    if (location.pathname.includes('history')) {
-        var fileName = "", date = "", canDisplayFull = "", preview = "", configuration = "", encode = "" , inputName = "" , inputType = "";
+    if (location.pathname.includes("history")) {
+        var fileName = "", date = "", canDisplayFull = "", preview = "", configuration = "", encode = "", inputName = "", inputType = "", synthesisLength = "", decodedFileType = "";
         var metadataDict = {};
         fetch(location.pathname.replace("history", "show-history")).then((data) => {
             if (data.ok) {
-                [metadataDict,
-                    preview,
-                    date,
-                    fileName,
-                    canDisplayFull,
-                    configuration,
-                    encode,
-                    inputType,
-                    inputName] = parseHeaders(data.headers, true);
-                return data.text();
-            } else {
-                alert('An error has occurred returning the data. Check console for data log.');
-                console.log("Error!");
-                console.log(data);
+                [metadataDict, preview, date, fileName, canDisplayFull,
+                    configuration, encode, inputType, inputName, synthesisLength,
+                    decodedFileType] = parseHeaders(data.headers, true);
+                if (encode) {
+                    return data.text();
+                } else {
+                    return data.blob();
+                } 
             }
+            
         }).then((data) => {
             // TO DO - enc_string will already be up to 5000 chars
-            // var preview = encoded.slice(0, 5000);
-            var item = {
-                "encode": true,
-                "inputType": inputType,
-                "name": name,
-                "basicFileName": fileName,
-                "date": date,
-                "preview": preview,
-                "canDisplayFull": canDisplayFull,
-                "metadataDict": metadataDict,
-                "gcContent": data,
+            if (encode) {
+                var item = constructEncodeItem(inputType, inputName, fileName, date, preview, canDisplayFull, metadataDict, data);
+            } else {
+                var url = URL.createObjectURL(data);
+                var item = constructDecodeItem(inputType, inputName, fileName, date, canDisplayFull, metadataDict, decodedFileType, url);
             }
-            setHistory((history) => [item, ...history]);
-            // if (Object.keys(processJobDisplays).length == 0) {
-            // only set the job displays for the very first encoding.
-            var specialSelectedDisplay = getSelectedDisplay(configuration);
+            // both encode and decode
+            var specialSelectedDisplay = getSelectedDisplay(configuration, encode);
             setSelectedDisplay(specialSelectedDisplay);
-            setProcessJobDisplay({
-                outputOpen1: item,
-                outputOpen2: item,
-                outputOpen3: item,
-                outputOpen4: item,
-            });
-            // }
-            setGCContent(data);
-            setMode("encode");
-            setLoading(false);
+            updateAllDisplaysWithItem(item);
+            if (encode) {
+                updateStatesForEncoding(data);
+            } else {
+                if (decodedFileType.includes("text")) {
+                    const reader = new FileReader();
+                    reader.onload = async (event) => {
+                        const text = (event.target.result);
+                        console.log(text.slice(0, 5000));
+                        // max file size = 5000, so cut off at 5000 chars.
+                        // preview = text.slice(0, 5000);
+                        item["preview"] = text.slice(0, 5000)
+                        updateStatesForDecoding(item);
+                    };
+                    reader.readAsText(data);
+                } else {
+                    item["preview"] = "";
+                    updateStatesForDecoding(item);
+                }
+            }
             if (inputType === "json") {
                 setToEncode(inputName);
             }
         })
-        .catch((error) => {
-            alert('Catch: An error has occurred returning the data. Check console for data log.');
-            console.log(error);
-        });
+            .catch((error) => {
+                alert('Catch: An error has occurred returning the data. Check console for data log.');
+                console.log(error);
+            });
     }
 
-    const getSelectedDisplay = (configuration) => {
+    const updateStatesForDecoding = (item) => {
+        setHistory((history) => [item, ...history]);
+        setMode("decode");
+        setLoading(false);
+    }
+    const updateStatesForEncoding = (data, item) => {
+        setHistory((history) => [item, ...history]);
+        setGCContent(data);
+        setMode("encode");
+        setLoading(false);
+    }
+    const updateAllDisplaysWithItem = (item) => {
+        setProcessJobDisplay({
+            outputOpen1: item,
+            outputOpen2: item,
+            outputOpen3: item,
+            outputOpen4: item,
+        });
+    }
+    const getSelectedDisplay = (configuration, encode) => {
         var config = {
             // job, encode/decode, type, plot
             outputOpen1: [],
@@ -160,7 +174,7 @@ const EncodeDecodeContainer = () => {
                 }
             } else {
                 var display;
-                if (type === "Analytics") {
+                if (encode && type === "Analytics") {
                     switch (letter) {
                         case "B":
                             display = "Basic Data";
@@ -172,7 +186,7 @@ const EncodeDecodeContainer = () => {
                             display = "Transitions Table";
                             break;
                     }
-                } else {
+                } else if (encode && type === "Plots") {
                     switch (letter) {
                         case "G":
                             display = "GC Content Plot";
@@ -181,12 +195,23 @@ const EncodeDecodeContainer = () => {
                             display = "Nucleotide Content Plot";
                             break;
                     }
-                }
+                } else if (!encode && type === "Analytics") {
+                    switch (letter) {
+                        case "D":
+                            display = "Decode Output";
+                            break;
+                    }
+                } 
                 config[output] = [type, display]
             }
         }
+        // put empty strings in the ones that aren't filled
+        for (var pair of Object.entries(config)) {
+            if (pair[1].length == 0) {
+                config[pair[0]] = ["", ""]
+            }
+        }
         return config;
-            
     }
     const putOutputInInput = (valueInOutput, canDisplayFull, putInToDecode) => {
         if (!canDisplayFull) {
@@ -197,14 +222,43 @@ const EncodeDecodeContainer = () => {
         if (putInToDecode) {
             setToDecode(valueInOutput);
             setOpenDict({ ...openDict, "decodeOpen": true });
-            
+
         } else {
             setToEncode(valueInOutput);
             setOpenDict({ ...openDict, "textStringOpen": true });
-            
+
         }
     }
 
+    const constructDecodeItem = (inputType, inputName, fileName, date, canDisplayFull, metadataDict, decodedFileType, url) => {
+        var item = {
+            "encode": false,
+            "inputType": inputType,
+            "inputName": inputName,
+            "basicFileName": fileName,
+            "date": date,
+            "canDisplayFull": canDisplayFull,
+            "metadataDict": metadataDict,
+            "decodedFileType": decodedFileType,
+            // has to be converted to blob and available at frontend
+            "decodedDisplayUrl": url,
+        }
+        return item;
+    }
+    const constructEncodeItem = (inputType, inputName, fileName, date, preview, canDisplayFull, metadataDict, data) => {
+        var item = {
+            "encode": true,
+            "inputType": inputType,
+            "inputName": inputName,
+            "basicFileName": fileName,
+            "date": date,
+            "preview": preview,
+            "canDisplayFull": canDisplayFull,
+            "metadataDict": metadataDict,
+            "gcContent": data,
+        }
+        return item;
+    }
     const getUrl = (codecFunction, inputType) => {
         if (location.pathname.includes('dev')) {
             // return "/dev/" + "encode/" + inputType;
@@ -284,9 +338,6 @@ const EncodeDecodeContainer = () => {
                 if (data.ok) {
                     for (var pair of data.headers.entries()) {
                         switch (pair[0]) {
-                            case "payload_trits":
-                                metadataDict["payloadData"] = pair[1];
-                                break;
                             case "address_length":
                                 metadataDict["addressLength"] = pair[1];
                                 break;
@@ -304,7 +355,6 @@ const EncodeDecodeContainer = () => {
                                 break;
                             case "mimetype":
                                 decodedFileType = pair[1];
-                                setDecodeFileType(decodedFileType);
                             // can't do dec_string because of \n
                         }
                     }
@@ -324,20 +374,8 @@ const EncodeDecodeContainer = () => {
                 });
                 // display the decoded file and make it downloadable
                 var url = URL.createObjectURL(data);
-                setDecodeDisplayInfo(url);
-                var item = {
-                    "encode": false,
-                    "inputType": inputType,
-                    "name": inputType === "file" ? fileToDecode.name : toDecode,
-                    "basicFileName": fileName,
-                    "date": date,
-                    "canDisplayFull": canDisplayFull,
-                    "metadataDict": metadataDict,
-                    "decodedFileType": decodedFileType,
-                    // has to be converted to blob and available at frontend
-                    "decodedDisplayUrl": url,
-                }
-
+                var inputName = inputType === "file" ? fileToDecode.name : toDecode;
+                var item = constructDecodeItem(inputType, inputName, fileName, date, canDisplayFull, metadataDict, decodedFileType, url);
                 if (decodedFileType.includes("text")) {
                     const reader = new FileReader();
                     reader.onload = async (event) => {
@@ -346,23 +384,14 @@ const EncodeDecodeContainer = () => {
                         // max file size = 5000, so cut off at 5000 chars.
                         // preview = text.slice(0, 5000);
                         item["preview"] = text.slice(0, 5000)
-                        setHistory((history) => [item, ...history]);
-                        setMode("decode");
-                        setLoading(false);
+                        updateStatesForDecoding(item);
                     };
                     reader.readAsText(data);
                 } else {
                     item["preview"] = "";
-                    setHistory((history) => [item, ...history]);
-                    setMode("decode");
-                    setLoading(false);
+                    updateStatesForDecoding(item);
                 }
-                setProcessJobDisplay({
-                    outputOpen1: item,
-                    outputOpen2: item,
-                    outputOpen3: item,
-                    outputOpen4: item,
-                });
+                updateAllDisplaysWithItem(item);
             })
             .catch((error) => {
                 alert('Catch: An error has occurred returning the data. Check console for data log.');
@@ -372,7 +401,10 @@ const EncodeDecodeContainer = () => {
     }
 
     const parseHeaders = (headers, callGetHistory) => {
-        var fileName = "", date = "", canDisplayFull = "", preview = "", configuration = "", encode = "", inputType = "" , inputName = "";
+        var fileName = "", date = "", canDisplayFull = "",
+            preview = "", configuration = "", encode = "",
+            inputType = "", inputName = "", synthesisLength = "",
+            decodedFileType = "";
         var metadataDict = {};
         for (var pair of headers.entries()) {
             switch (pair[0]) {
@@ -418,10 +450,19 @@ const EncodeDecodeContainer = () => {
                 case "input_name":
                     inputName = pair[1];
                     break;
+                case "synthesis_length":
+                    synthesisLength = pair[1];
+                    break;
+                case "mimetype":
+                    decodedFileType = pair[1];
             }
         }
         var arr = [metadataDict, preview, date, fileName, canDisplayFull];
-        if (callGetHistory) {arr.push(configuration); arr.push(encode); arr.push(inputType); arr.push(inputName);}
+        if (callGetHistory) {
+            for (var attribute of [configuration, encode, inputType, inputName, synthesisLength, decodedFileType]) {
+                arr.push(attribute);
+            }
+        }
         return arr;
     }
     // ENCODE FILES ONLY
@@ -465,31 +506,14 @@ const EncodeDecodeContainer = () => {
             .then((data) => {
                 // TO DO - enc_string will already be up to 5000 chars
                 // var preview = encoded.slice(0, 5000);
-                var item = {
-                    "encode": true,
-                    "inputType": inputType,
-                    "name": inputType === "file" ? fileToEncode.name : toEncode,
-                    "basicFileName": fileName,
-                    "date": date,
-                    "preview": preview,
-                    "canDisplayFull": canDisplayFull,
-                    "metadataDict": metadataDict,
-                    "gcContent": data,
-                }
-                setHistory((history) => [item, ...history]);
+                var inputName = inputType === "file" ? fileToEncode.name : toEncode;
+                var item = constructEncodeItem(inputType, inputName, fileName, date, preview, canDisplayFull, metadataDict, data);
                 // if (Object.keys(processJobDisplays).length == 0) {
                 // only set the job displays for the very first encoding.
                 setSelectedDisplay(encodeInitialDisplay);
-                setProcessJobDisplay({
-                    outputOpen1: item,
-                    outputOpen2: item,
-                    outputOpen3: item,
-                    outputOpen4: item,
-                });
+                updateAllDisplaysWithItem(item);
                 // }
-                setGCContent(data);
-                setMode("encode");
-                setLoading(false);
+                updateStatesForEncoding(data, item);
             })
             .catch((error) => {
                 alert('Catch: An error has occurred returning the data. Check console for data log.');
@@ -583,7 +607,7 @@ const EncodeDecodeContainer = () => {
         openDict={openDict}
         mode={mode}
         putOutputInInput={putOutputInInput}
-        />;
+    />;
 
     return (
         <div>
@@ -729,8 +753,8 @@ const EncodeOutputElements = (props) => {
                         currProcessJob={currProcessJob} />,
                 }}
                 dependencies={{
-                    "Analytics": [props.mode, currProcessJob["name"], props.selectedDisplays[openName][1]],
-                    "Plots": [props.mode, props.loading, currProcessJob["name"], props.selectedDisplays[openName][1]],
+                    "Analytics": [props.mode, currProcessJob["inputName"], props.selectedDisplays[openName][1]],
+                    "Plots": [props.mode, props.loading, currProcessJob["inputName"], props.selectedDisplays[openName][1]],
                 }}
                 loading={props.loading}
                 // Can't use this because if you choose from a dropdown, it won't reset 

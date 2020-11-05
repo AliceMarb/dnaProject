@@ -99,7 +99,7 @@ const OutputElementTemplate = (props) => {
                                 <div className="dd-header-title">{currHeader}</div>
                                 <img className="arrow-dropdown" src={arrow} width="16" height="16"></img>
                             </div>
-                            <div className="dd-header-title-job">{genProcessJobTitle(currProcessJob["name"], null, encode)}</div>
+                            <div className="dd-header-title-job">{genProcessJobTitle(currProcessJob["inputName"], null, encode)}</div>
                         </div>
                     </div>
                     <div className={"my-output-dropdown-menu" + (listOpen ? " " : "-closed")}>
@@ -112,7 +112,7 @@ const OutputElementTemplate = (props) => {
                                     <li key="output-selection" className="dd-list-item">
                                         <h3 className="accordion-label">Processing Job</h3>
                                         <Dropdown>
-                                            <DropdownButton variant="dropdown" title={genProcessJobTitle(currProcessJob["name"], currProcessJob["date"], encode)}>
+                                            <DropdownButton variant="dropdown" title={genProcessJobTitle(currProcessJob["inputName"], currProcessJob["date"], encode)}>
                                                 {props.history.map((processJob) => {
                                                     if (processJob["basicFileName"] == currProcessJob["basicFileName"]) return;
                                                     return (

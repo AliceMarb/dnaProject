@@ -271,7 +271,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
 
     def save_decode_typed_input(input_word, time_started):
         file_paths = get_file_names(
-            string=input_word, time_started=time_started, extension="fa", encode=False)
+            string=input_word.replace(",", ""), time_started=time_started, extension="fa", encode=False)
         root_in_path = file_paths[1]
         # write a fasta file
         try:
@@ -300,11 +300,11 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         return response
 
     # Get a previous encoding or decoding from the
-    @home_bp.route("/show-history/<basic_file_name>/<encode>/<configuration>", methods=['GET'])
-    def get_history(encode=True, basic_file_name="", configuration=""):
-        if encode:
+    @home_bp.route("/show-history/<basic_file_name>/<action>/<configuration>", methods=['GET'])
+    def get_history(basic_file_name="", action="encode", configuration=""):
+        metadata_fname = "metadata_" + basic_file_name + ".txt"
+        if action == "encode":
             gc_content_fname = "gc_content_" + basic_file_name + ".txt"
-            metadata_fname = "metadata_" + basic_file_name + ".txt"
             # input_type, letter_dict, transitions, payload_trits, address_length, num_sequences
             # time_started, can_display_full, preview
             metadata = {}
@@ -323,14 +323,45 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             )
             for category in categories:
                 response.headers[category] = metadata[category]
-            response.headers["base_file_name"] = basic_file_name
-            response.headers["gc_content_fname"] = gc_content_fname
-            response.headers["configuration"] = configuration
-            response.headers["encode"] = encode
-            return response
+            response.headers["gc_content_fname"] = gc_content_fname 
+        else:
+            ordered_info_dict = OrderedDict([
+                ("extension", ""),
+                ("mimetype", ""),
+                ("synthesis_length", ""),
+                ("address_length", ""),
+                ("date", ""),
+                ("can_display_full", ""),
+                ("input_type", ""),
+                ("input_name", ""),
+            ])
 
-    @home_bp.route("/history/<basic_file_name>/<encode>/<configuration>", methods=['GET'])
-    def show_history(basic_file_name="", encode=True, configuration=""):
+            with open(os.path.join("app", "codec_files", metadata_fname), "r") as f:
+                for pair in zip(ordered_info_dict, f.readlines()):
+                    ordered_info_dict[pair[0]] = pair[1].rstrip()
+                    if pair[0] == "extension":
+                        extension = pair[1].rstrip()
+                        continue
+                    elif pair[0] == "mimetype":
+                        response = make_response(
+                            send_from_directory(
+                                current_app.config['ENCODED_FILE_LOC'],
+                                filename=basic_file_name + "_decoded." + extension,
+                                as_attachment=True,
+                                mimetype=pair[1].rstrip()),
+                            200,
+                        ) 
+                    response.headers[pair[0]] = ordered_info_dict[pair[0]]
+            
+            
+        response.headers["base_file_name"] = basic_file_name
+        response.headers["configuration"] = configuration
+        response.headers["encode"] = action == "encode"
+        return response
+
+
+    @home_bp.route("/history/<basic_file_name>/<action>/<configuration>", methods=['GET'])
+    def show_history(basic_file_name="", action="encode", configuration=""):
         # render the React, then React should check for this pathname and call get_history
         return render_template("react-base.html")
 
@@ -367,19 +398,18 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 "metadata_" + file_paths[0] + ".txt"
             # only send 5000 chars of enc_string (as the preview)
             preview = enc_string[:5000]
-            time_started_in_seconds = int(
+            time_in_seconds = int(
                 time.mktime(time_started.timetuple())) * 1000
-            info_dict = {
-                "letter_dict": letter_dict,
-                "transitions": transitions,
-                "payload_trits": payload_trits,
-                "address_length": address_length,
-                "num_sequences": num_sequences,
-                "date": time_started_in_seconds,
-                "can_display_full": can_display_full,
-                "preview": preview,
-            }
-            ordered_info_dict = OrderedDict(info_dict)
+            ordered_info_dict = OrderedDict([
+                ("letter_dict", letter_dict),
+                ("transitions", transitions),
+                ("payload_trits", payload_trits),
+                ("address_length", address_length),
+                ("num_sequences", num_sequences),
+                ("date", time_in_seconds),
+                ("can_display_full", can_display_full),
+                ("preview", preview),
+            ])
             response = make_response(
                 send_from_directory(
                     current_app.config['ENCODED_FILE_LOC'],
@@ -393,7 +423,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 f.write(str(input_word) + '\n')
                 for key in ordered_info_dict:
                     f.write(str(ordered_info_dict[key]) + '\n')
-                    response.headers[key]  = ordered_info_dict[key]
+                    response.headers[key] = ordered_info_dict[key]
             response.headers["base_file_name"] = file_paths[0]
             response.headers["gc_content_fname"] = gc_content_fname
             save_session(True, input_type, input_word,
@@ -435,6 +465,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         if input_type == "json":
             jsonData = request.get_json(force=True)
             input_word = jsonData['input']
+            # can't have commas in a url
             file_paths = save_decode_typed_input(input_word, time_started)
         else:
             # type == file
@@ -467,14 +498,28 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         # input_type == json, assume it is .txt
         if input_type == "file":
             extension, mime_type = get_extension(input_word, out_path)
-            new_file = out_path.replace('.txt', '.' + extension)
+            new_file = out_path.replace(".txt", "." + extension)
             os.rename(out_path, new_file)
             out_path = new_file
         else:
             mime_type = "text/plain"
+            extension = "txt"
 
         current_app.logger.info(
             f"DECODING typed {in_path} {out_path} --- All good!")
+        time_in_seconds = int(time.mktime(time_started.timetuple())) * 1000
+        can_display_full = os.path.getsize(out_path) < 5000
+
+        ordered_info_dict = OrderedDict([
+            ("extension", extension),
+            ("mimetype", mime_type),
+            ("synthesis_length", synthesis_length),
+            ("address_length", address_length),
+            ("date", time_in_seconds),
+            ("can_display_full", can_display_full),
+        ])
+        decoding_data_fname = "app/codec_files/" + \
+            "metadata_" + file_paths[0] + ".txt"
 
         response = make_response(
             send_from_directory(
@@ -483,13 +528,15 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 as_attachment=True),
             200,
         )
-        can_display_full = os.path.getsize(out_path) < 5000
-        response.headers['synthesis_length'] = synthesis_length
-        response.headers['address_length'] = address_length
-        response.headers['mimetype'] = mime_type
+
+        with open(decoding_data_fname, 'w+') as f:
+            for key in ordered_info_dict:
+                f.write(str(ordered_info_dict[key]) + '\n')
+                response.headers[key] = ordered_info_dict[key]
+            f.write(str(input_type) + '\n')
+            f.write(str(input_word) + '\n')
+
         # can't have \n in header so can't include decoded_str
-        time_in_seconds = int(time.mktime(time_started.timetuple())) * 1000
-        response.headers['date'] = time_in_seconds
         response.headers['base_file_name'] = file_paths[0]
         response.headers['can_display_full'] = can_display_full
         save_session(False, input_type, input_word,
