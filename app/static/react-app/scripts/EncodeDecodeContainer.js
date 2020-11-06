@@ -105,7 +105,7 @@ const EncodeDecodeContainer = () => {
             setSelectedDisplay(specialSelectedDisplay);
             updateAllDisplaysWithItem(item);
             if (encode) {
-                updateStatesForEncoding(data);
+                updateStatesForEncoding(data, item);
             } else {
                 if (decodedFileType.includes("text")) {
                     const reader = new FileReader();
@@ -262,15 +262,9 @@ const EncodeDecodeContainer = () => {
     const getUrl = (codecFunction, inputType) => {
         if (location.pathname.includes('dev')) {
             // return "/dev/" + "encode/" + inputType;
-            if (codecFunction == "get_fasta") {
-                return "/dev/" + codecFunction;
-            }
-            return "/dev/" + codecFunction + "/" + inputType;
+            return "/dev/" + codecFunction + (inputType ? "/" + inputType : "");
         } else if (location.pathname.includes('master')) {
-            if (codecFunction == "get_fasta") {
-                return "/master/" + codecFunction;
-            }
-            return "/master/" + codecFunction + "/" + inputType;
+            return "/master/" + codecFunction + (inputType ? "/" + inputType : "");
         }
     }
     const getJsonOptions = (encode) => {
@@ -548,6 +542,27 @@ const EncodeDecodeContainer = () => {
         setUploadLoading2(false);
     }
 
+    const copyLinkToClipboard = (selectedDisplays, processJobDisplays) => {
+        var baseName = location.pathname
+        // var output = baseName + "/history/" 
+        var elementDetails = {}
+        for (var i = 1; i < 5; i++) {
+            const openName = "outputOpen" + String(i);
+            var display = selectedDisplays[openName];
+            var basicFileName = processJobDisplays[openName]["basicFileName"];
+            elementDetails[openName] = [display, basicFileName]
+        }
+        fetch (getUrl("gen_link", ""), {
+            method: "POST",
+            body: JSON.stringify(elementDetails),
+            headers: new Headers({
+                'content-type': 'application/json',
+                dataType: "json",
+            }),
+        }).then(response => {
+            console.log("returning");
+        })
+    }
     const getFasta = () => {
         // gets the most recently encoded file
         var fileName = "";
@@ -628,6 +643,7 @@ const EncodeDecodeContainer = () => {
                     </tbody>
                 </table>
             </div>
+            <h3 onClick={() => copyLinkToClipboard(selectedDisplays, processJobDisplays)}>Copy</h3>
             <div className="body-4">
                 <div>
                     <div className="section-heading-wrap">
@@ -684,10 +700,6 @@ const EncodeDecodeContainer = () => {
                                             <div className="w-col w-col-4">
                                             </div>
                                             <div className="w-col w-col-8">
-                                                {/* <div className="output-sub-block dna-seq-output-block">
-                                                    {mode === "decode" ? <button onClick={putOutputInInput} value="Copy to Input" className="submit-button copy-dna-seq-to-input-submit-button w-button">Copy DNA Sequence to Input</button> : null}
-                                                </div> */}
-
                                             </div>
                                         </div>
                                     </div>
@@ -876,37 +888,6 @@ const useChangeAlerter = (ref, setUploadLoading, readFile) => {
             div.removeEventListener("change", handleChange);
         };
     }, [ref]);
-}
-
-
-const OutputElements = (props) => {
-    const outputElements = [];
-    for (var i = 1; i < 5; i++) {
-        outputElements.push(
-            <OutputElement
-                key={"outputOpen" + String(i)}
-                openDict={props.openDict}
-                openName={"outputOpen" + String(i)}
-                setOpenDict={props.setOpenDict}
-                analytics={props.analytics} setAnalytics={props.setAnalytics}
-                plots={props.plots} setPlots={props.setPlots}
-                processJobDisplays={props.processJobDisplays} setProcessJobDisplay={props.setProcessJobDisplay}
-                // separate into things can't be changed by child elements (then we can
-                // put in a dictionary)
-                mode={props.mode}
-                loading={props.loading}
-                history={props.history}
-                putOutputInInput={props.putOutputInInput}
-                getFasta={props.getFasta}
-                gcContent={props.gcContent} inputWidth={props.width} inputHeight={props.height}
-
-            />
-        );
-    }
-    return (
-        <div className="w-layout-grid output-block-grid">
-            {outputElements}
-        </div>);
 }
 
 const errorCheckDNA = (input) => {

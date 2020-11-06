@@ -5,7 +5,7 @@ const TransitionsTable = (props) => {
     return (
         <div>
             {/* <h3>Hello I am the transitions table </h3> */}
-            <table>
+            <table className="">
                 <tbody>
                     <tr>
                         <th>Transition   </th>

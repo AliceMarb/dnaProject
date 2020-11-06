@@ -9,7 +9,6 @@ const DNABox = (props) => {
             <button onClick={props.getFasta} className="submit-button w-button">Download DNA Sequences</button>
         </>
     );
-    // }
     return (
         <>
 

@@ -14,8 +14,7 @@ def get_file_names(time_started, name="", extension="plain", encode=True, string
         name = '.'.join(name.split('.')[:-1])
     from_c_folder = '../../../app/codec_files/'
     from_root = 'app/codec_files/'
-    fname = '_'.join(str(time_started)[:19].replace(
-        ':', '-').split(' ')) + '_' + name
+    fname = format_time_for_file_name(time_started) + '_' + name
     if encode:
         in_path = fname + '_toencode.' + extension
         out_path = fname + '_encoded.txt'
@@ -24,6 +23,9 @@ def get_file_names(time_started, name="", extension="plain", encode=True, string
         out_path = fname + '_decoded.txt'
     return [fname, from_root + in_path, from_root + out_path, from_c_folder + in_path, from_c_folder + out_path]
 
+def format_time_for_file_name(time):
+    return '_'.join(str(time)[:19].replace(
+        ':', '-').split(' '))
 
 def get_num_bytes(input_file):
     input_file.seek(0, os.SEEK_END)
@@ -298,45 +300,62 @@ def construct_blueprint(codec_location="./master/Codec/c"):
             200,
         )
         return response
+    
+    @home_bp.route("/gen_link", methods=['POST'])
+    def gen_link():
+        import uuid
+        jsonData = request.get_json()
+        time_started = datetime.datetime.utcnow()
+        fname = format_time_for_file_name(time_started) + '_' + str(uuid.uuid4())
+        with open(fname, "w+") as f:
+            
+        response = make_response(
+            send_from_directory(
+                current_app.config['ENCODED_FILE_LOC'],
+                filename="hello_encoded.txt",
+                as_attachment=True,
+                mimetype="text/plain"),
+            200,
+        )
+        return response
 
     # Get a previous encoding or decoding from the
-    @home_bp.route("/show-history/<basic_file_name>/<action>/<configuration>", methods=['GET'])
-    def get_history(basic_file_name="", action="encode", configuration=""):
+    @home_bp.route("/show-history/<basic_file_name>/<configuration>", methods=['GET'])
+    def get_history(basic_file_name="", configuration=""):
         metadata_fname = "metadata_" + basic_file_name + ".txt"
-        if action == "encode":
-            gc_content_fname = "gc_content_" + basic_file_name + ".txt"
-            # input_type, letter_dict, transitions, payload_trits, address_length, num_sequences
-            # time_started, can_display_full, preview
-            metadata = {}
-            categories = ["input_type", "input_name", "letter_dict", "transitions", "payload_trits", "address_length", "num_sequences",
-                          "date", "can_display_full", "preview"]
-            with open(os.path.join("app", "codec_files", metadata_fname), 'r') as f:
+        with open(os.path.join("app", "codec_files", metadata_fname), "r") as f:
+            action = f.readline()
+            if "True" in action:
+                gc_content_fname = "gc_content_" + basic_file_name + ".txt"
+                # input_type, letter_dict, transitions, payload_trits, address_length, num_sequences
+                # time_started, can_display_full, preview
+                metadata = {}
+                categories = ["input_type", "input_name", "letter_dict", "transitions", "payload_trits", "address_length", "num_sequences",
+                            "date", "can_display_full", "preview"]
                 for i, line in enumerate(f.readlines()):
                     metadata[categories[i]] = line.rstrip()
-            response = make_response(
-                send_from_directory(
-                    current_app.config['ENCODED_FILE_LOC'],
-                    filename=gc_content_fname,
-                    as_attachment=True,
-                    mimetype="text/plain"),
-                200
-            )
-            for category in categories:
-                response.headers[category] = metadata[category]
-            response.headers["gc_content_fname"] = gc_content_fname 
-        else:
-            ordered_info_dict = OrderedDict([
-                ("extension", ""),
-                ("mimetype", ""),
-                ("synthesis_length", ""),
-                ("address_length", ""),
-                ("date", ""),
-                ("can_display_full", ""),
-                ("input_type", ""),
-                ("input_name", ""),
-            ])
-
-            with open(os.path.join("app", "codec_files", metadata_fname), "r") as f:
+                response = make_response(
+                    send_from_directory(
+                        current_app.config['ENCODED_FILE_LOC'],
+                        filename=gc_content_fname,
+                        as_attachment=True,
+                        mimetype="text/plain"),
+                    200
+                )
+                for category in categories:
+                    response.headers[category] = metadata[category]
+                response.headers["gc_content_fname"] = gc_content_fname 
+            else:
+                ordered_info_dict = OrderedDict([
+                    ("extension", ""),
+                    ("mimetype", ""),
+                    ("synthesis_length", ""),
+                    ("address_length", ""),
+                    ("date", ""),
+                    ("can_display_full", ""),
+                    ("input_type", ""),
+                    ("input_name", ""),
+                ])
                 for pair in zip(ordered_info_dict, f.readlines()):
                     ordered_info_dict[pair[0]] = pair[1].rstrip()
                     if pair[0] == "extension":
@@ -351,17 +370,15 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                                 mimetype=pair[1].rstrip()),
                             200,
                         ) 
-                    response.headers[pair[0]] = ordered_info_dict[pair[0]]
-            
-            
-        response.headers["base_file_name"] = basic_file_name
-        response.headers["configuration"] = configuration
-        response.headers["encode"] = action == "encode"
-        return response
+                    response.headers[pair[0]] = ordered_info_dict[pair[0]] 
+            response.headers["base_file_name"] = basic_file_name
+            response.headers["configuration"] = configuration
+            response.headers["encode"] = "True" in action 
+            return response
 
 
-    @home_bp.route("/history/<basic_file_name>/<action>/<configuration>", methods=['GET'])
-    def show_history(basic_file_name="", action="encode", configuration=""):
+    @home_bp.route("/history/<basic_file_name>/<configuration>", methods=['GET'])
+    def show_history(basic_file_name="", configuration=""):
         # render the React, then React should check for this pathname and call get_history
         return render_template("react-base.html")
 
@@ -419,6 +436,7 @@ def construct_blueprint(codec_location="./master/Codec/c"):
                 200
             )
             with open(encoding_data_fname, 'w+') as f:
+                f.write(str(True) + '\n')
                 f.write(str(input_type) + '\n')
                 f.write(str(input_word) + '\n')
                 for key in ordered_info_dict:
@@ -530,9 +548,11 @@ def construct_blueprint(codec_location="./master/Codec/c"):
         )
 
         with open(decoding_data_fname, 'w+') as f:
+            f.write(str(False) + '\n')
             for key in ordered_info_dict:
                 f.write(str(ordered_info_dict[key]) + '\n')
-                response.headers[key] = ordered_info_dict[key]
+                if key not in ["encode"]:
+                    response.headers[key] = ordered_info_dict[key]
             f.write(str(input_type) + '\n')
             f.write(str(input_word) + '\n')
 

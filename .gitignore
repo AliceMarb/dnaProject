@@ -25,3 +25,4 @@ instance/app.log
 app/static/react-app/public/frontend_textfiles/*
 *.log
 instance/app.log
+app/static/new-version/public/*
