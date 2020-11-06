@@ -1,43 +1,37 @@
-.App {
-  text-align: center;
+/* @import url('../node_modules/bootstrap/dist/css/bootstrap.min.css'); */
+
+/* import Karla and Source Sans Pro */
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+@import url('https://fonts.googleapis.com/css?family=Karla:regular,bold,italic&subset=latin,latin-ext');
+
+@media screen and (max-width: 991px) {}
+
+.dna-synth-body {
+  overflow: scroll;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.dna-synth-body {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  overflow: hidden;
+  height: 100vh;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+  /* would be in body */
+  margin-bottom: 0px;
+  padding: 0px;
+  font-family: 'Source Sans Pro', sans-serif;
+  color: #394459;
+  font-size: 16px;
+  line-height: 28px;
+  font-weight: 400;
+  margin: 0;
+  min-height: 100%;
+  background-color: #fff;
+  box-sizing: border-box;
 }
 
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-.sidebar {
+.side-bar {
   display: block;
   width: 70px;
   padding-top: 5px;
@@ -79,7 +73,9 @@
   align-items: flex-end;
 }
 
-.side-bar-toggle {
+/* anything that is used in a Button component 
+needs to have the prefix  "btn-" for the first variant */
+.btn-side-bar-toggle {
   -webkit-box-direction: normal;
   box-sizing: border-box;
   display: flex;
@@ -105,20 +101,27 @@
   border-color: rgb(57, 68, 89);
 }
 
-.my-side-bar-toggle-selected {
+.btn-side-bar-toggle:hover {
   border-color: rgb(151, 192, 219) !important;
   transform: translate3d(5px, 0px, 0px) scale3d(1, 1, 1) rotateX(0deg) rotateY(0deg) rotateZ(0deg) skew(0deg, 0deg) !important;
 }
-.encoder-toggle {
+
+/* changed this from encoder-toggle */
+.encoder-panel-toggle {
   background-color: rgb(209, 252, 209);
 }
+
 .decoder-panel-toggle {
   background-color: rgb(243, 239, 206);
 }
+
 .analyzer-panel-toggle {
   background-color: rgb(206, 221, 243);
 }
-/* not selected color rgb(113, 115, 127); */
+
+.my-toggle-not-selected {
+  background-color: rgb(113, 115, 127);
+}
 
 .top-bar-toggle-image-block {
   -webkit-box-direction: normal;
@@ -137,7 +140,9 @@
   text-decoration: none;
 }
 
-.panel-toggle-tooltip-3.side-bar-tooltip{
+/* changed so display is block
+(this element is only activated when tooltip is open) */
+.panel-toggle-tooltip-3.side-bar-tooltip {
   -webkit-box-direction: normal;
   cursor: pointer;
   box-sizing: border-box;
@@ -160,15 +165,12 @@
   top: 0px;
   background-color: #fff;
   color: #394459;
-  display: none;
-  opacity: 0;
-}
-.my-tooltip-open {
   display: block;
   opacity: 1;
 }
 
-.img {
+/* I added this one because img styles weren't included as a class */
+.icon {
   -webkit-box-direction: normal;
   color: #4d4d4d;
   cursor: pointer;
@@ -181,7 +183,7 @@
   object-fit: scale-down;
 }
 
-.panel-toggle-tooltip-text{
+.panel-toggle-tooltip-text {
   line-height: 28px;
   font-weight: 400;
   -webkit-box-direction: normal;
@@ -192,4 +194,181 @@
   box-sizing: border-box;
   font-family: Karla, sans-serif;
   font-size: 20px;
+}
+
+.side-panel {
+  box-sizing: border-box;
+  z-index: 700;
+  overflow: scroll;
+  height: 100%;
+  min-height: 90vh;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  flex-direction: row;
+  border-style: solid solid none;
+  border-width: 1px;
+  border-color: #727272;
+  max-height: none;
+  background-color: #d2d8db;
+  position: relative;
+  width: 350px;
+  display: block;
+  opacity: 1;
+}
+
+@media screen and (max-width: 991px) {
+  .side-panel-header {
+    position: relative;
+  }
+}
+
+.side-panel-header {
+  position: sticky;
+  top: 0px;
+  z-index: 801;
+  display: flex;
+  width: 100%;
+  margin-bottom: 10px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+}
+
+.side-panel-content {
+  position: relative;
+  display: flex;
+  overflow: scroll;
+  height: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  flex-direction: column;
+}
+
+.side-panel-footer-bar {
+  position: sticky;
+  bottom: 0px;
+  z-index: 999;
+  display: flex;
+  padding: 10px;
+  -webkit-box-pack: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  align-items: center;
+  border-top: 1px solid #acacac;
+  background-color: #d2d8db;
+}
+
+.panel-title-text {
+  position: sticky;
+  top: 0px;
+  z-index: 999;
+  display: flex;
+  height: 42px;
+  padding: 10px 5px 10px 10px;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  align-self: stretch;
+  border-bottom: 1px solid #adadad;
+  font-family: Karla, sans-serif;
+  color: #4d4d4d;
+  font-size: 26px;
+  line-height: 26px;
+}
+
+.encoder-panel-title-text {
+  background-color: rgb(209, 252, 209);
+}
+
+.decoder-panel-title-text {
+  background-color: rgb(243, 239, 206);
+}
+
+.analyzer-panel-title-text {
+  background-color: rgb(206, 221, 243);
+}
+
+.panel-collapse-button {
+  cursor: w-resize;
+}
+
+.move-in-arrow {
+  width: 20px;
+  opacity: 0.5;
+}
+
+.side-panel-top-buttons {
+  position: relative;
+  z-index: 50;
+  display: grid;
+  padding: 10px;
+  grid-auto-columns: 1fr;
+  grid-column-gap: 3px;
+  grid-row-gap: 3px;
+  grid-template-columns: 0.5fr 1fr;
+  grid-template-rows: auto auto;
+  background-color: #d2d8db;
+}
+
+/* change to btn- */
+.btn-top-panel-button {
+  padding: 3px !important;
+  border-radius: 4px !important;
+  background-color: #6b6b66;
+  font-size: 14px;
+}
+
+/* general name instead of encode-submit-buttion because same for 
+decoding and analyzer*/
+.btn-action-submit-button {
+  background-color: #405e41;
+}
+
+.btn-cancel-submit-button {
+  background-color: #634a4a;
+}
+
+.w-button {
+  display: inline-block;
+  padding: 9px 15px;
+  color: white;
+  border: 0;
+  line-height: 28px;
+  text-decoration: none;
+  cursor: pointer;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+.panel-block {
+  position: relative;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  padding-right: 0px;
+  padding-left: 0px;
+  border-radius: 6px;
+  background-color: hsla(0, 0%, 100%, 0.87);
+}
+
+.btn-panel-block-title {
+  position: relative;
+  display: flex;
+  padding-right: 10px;
+  padding-left: 10px;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  -webkit-box-align: center;
+  align-items: center;
+  border-radius: 4px;
+  background-color: hsla(0, 0%, 80.7%, 0.23);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+/* Renamed from text-block-7 */
+.panel-block-title-text {
+  font-size: 18px;
+  font-weight: 400;
 }
