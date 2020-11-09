@@ -83,12 +83,6 @@ const AdvancedParamsDropdown = (props) => {
 
 // defines the outside of the dropdown
 const PanelBlockDropdown = (props) => {
-    // var collapse;
-    // collapse = (
-    //     <Collapse in={props.open}>
-    //         {props.children}
-    //     </Collapse>
-    // );
     const activeToggleTracker = props.panelBlockOpenTracker[props.panelTitle];
     const panelBlockToggleOpen = { ...activeToggleTracker, [props.formattedTitle]: !props.open };
     return (
