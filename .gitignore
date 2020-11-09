@@ -12,8 +12,6 @@ virtual/*
 Codec/*
 /dev/*
 /master/*
-dev/*
-master/*
 *.csv
 /webflow*/
 app/static/react-app/dist/bundle.js
@@ -23,7 +21,6 @@ filesize_time.csv
 filesize_time.csv
 instance/app.log
 app/static/react-app/public/frontend_textfiles/*
-*.log
 instance/app.log
 app/static/new-version/public/*
 app/static/old-new-version/*
